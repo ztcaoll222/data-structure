@@ -1,2 +1,4 @@
 # Project exclude paths
 /c2/target/
+/.idea/
+*.iml
