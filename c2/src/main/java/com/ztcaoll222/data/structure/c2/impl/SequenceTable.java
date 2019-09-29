@@ -44,7 +44,10 @@ public class SequenceTable<T> implements LinearTable<T> {
 
     @Override
     public Optional<T> getElem(int i) {
-        return Optional.ofNullable(data[i]).map(datum -> (T) datum.getValue());
+        if (i >= size) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(data[i]).map(SequenceTableElem::getValue);
     }
 
     private void upgradeSize(int newMaxSize) {
@@ -249,5 +252,48 @@ public class SequenceTable<T> implements LinearTable<T> {
         size -= sum;
 
         return sum;
+    }
+
+    /**
+     * 将两个有序顺序表合并为一个新的有序顺序表
+     *
+     * @return 新的顺序表
+     */
+    public SequenceTable<T> t22327(SequenceTable<T> b) {
+        SequenceTable<T> newTable = new SequenceTable<>(maxSize + b.maxSize);
+
+        int ia = 0;
+        int ib = 0;
+        while (ia < size || ib < b.size) {
+            Optional<T> elemA = getElem(ia);
+            Optional<T> elemB = b.getElem(ib);
+            if (elemA.isEmpty() || elemB.isEmpty()) {
+                break;
+            }
+            Integer va = Integer.parseInt(getElem(ia).get().toString());
+            Integer vb = Integer.parseInt(b.getElem(ib).get().toString());
+            if (va < vb) {
+                newTable.listInsert((T) va);
+                ia++;
+            } else {
+                newTable.listInsert((T) vb);
+                ib++;
+            }
+        }
+
+        if (size - ia > 0) {
+            for (int i = ia; i < size; i++) {
+                Integer va = Integer.parseInt(getElem(i).get().toString());
+                newTable.listInsert((T) va);
+            }
+        }
+
+        if (b.size - ib > 0) {
+            for (int i = ib; i < size; i++) {
+                Integer vb = Integer.parseInt(b.getElem(i).get().toString());
+                newTable.listInsert((T) vb);
+            }
+        }
+        return newTable;
     }
 }

@@ -219,4 +219,49 @@ class SequenceTableTest {
         assertEquals(4, sum);
         assertEquals("0, 1, 2, 3, 4", table.printList());
     }
+
+    @Test
+    void listDeleteLast() {
+        SequenceTable<Integer> table = new SequenceTable<>(16);
+        table.listInsert(0);
+        table.listInsert(4);
+        table.listInsert(2);
+        table.listInsert(1);
+        table.listInsert(3);
+
+        Elem<Integer> elem = table.listDeleteLast();
+        assertEquals(3, elem.getValue());
+        assertEquals("0, 4, 2, 1", table.printList());
+    }
+
+    @Test
+    void t22327() {
+        SequenceTable<Integer> table0 = new SequenceTable<>(16);
+        table0.listInsert(0);
+        table0.listInsert(1);
+        table0.listInsert(2);
+        table0.listInsert(3);
+        table0.listInsert(4);
+
+        SequenceTable<Integer> table1 = new SequenceTable<>(16);
+        table1.listInsert(0);
+        table1.listInsert(2);
+        table1.listInsert(3);
+
+        SequenceTable<Integer> newTable = table0.t22327(table1);
+        assertEquals("0, 0, 1, 2, 2, 3, 3, 4", newTable.printList());
+    }
+
+    @Test
+    void getMaxSize() {
+        SequenceTable<Integer> table = new SequenceTable<>(1);
+
+        table.listInsert(0);
+
+        assertEquals(1, table.getMaxSize());
+
+        table.listInsert(4);
+
+        assertEquals(2, table.getMaxSize());
+    }
 }
