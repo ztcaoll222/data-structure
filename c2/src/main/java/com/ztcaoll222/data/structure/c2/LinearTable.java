@@ -36,10 +36,26 @@ public interface LinearTable<T> {
      * 插入
      *
      * @param i     位置
+     * @param datum 元素
+     * @return 插入成功则返回 true, 否则返回 false
+     */
+    boolean listInsert(int i, Elem<T> datum);
+
+    /**
+     * 插入
+     *
+     * @param i     位置
      * @param value 元素的值
      * @return 插入成功则返回 true, 否则返回 false
      */
     boolean listInsert(int i, T value);
+
+    /**
+     * 删除最后的元素
+     *
+     * @return 返回被删除的元素
+     */
+    Elem<String> listDeleteLast();
 
     /**
      * 删除

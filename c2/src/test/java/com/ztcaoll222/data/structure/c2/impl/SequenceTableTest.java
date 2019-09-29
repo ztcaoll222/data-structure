@@ -106,8 +106,41 @@ class SequenceTableTest {
         table.listInsert(1, "1");
         table.listInsert(2, "2");
         table.listInsert(3, "3");
+
         table.destroyList();
 
         assertTrue(table.empty());
+    }
+
+    @org.junit.jupiter.api.Test
+    void t22321() {
+        SequenceTable table1 = new SequenceTable(16);
+        table1.listInsert(0, "2");
+        table1.listInsert(1, "0");
+        table1.listInsert(2, "1");
+        table1.listInsert(3, "3");
+
+        Optional<String> s0 = table1.t22321();
+        assertTrue(s0.isPresent());
+        assertEquals("0", s0.get());
+        assertEquals("2, 3, 1", table1.printList());
+
+        SequenceTable table0 = new SequenceTable(16);
+        table0.listInsert(0, "2");
+        table0.listInsert(1, "1");
+        table0.listInsert(2, "0");
+        table0.listInsert(3, "3");
+
+        table0.t22321();
+        assertEquals("2, 1, 3", table0.printList());
+
+        SequenceTable table2 = new SequenceTable(16);
+        table2.listInsert(0, "0");
+        table2.listInsert(1, "2");
+        table2.listInsert(2, "1");
+        table2.listInsert(3, "3");
+
+        table2.t22321();
+        assertEquals("3, 2, 1", table2.printList());
     }
 }

@@ -63,7 +63,7 @@ public class SequenceTable implements LinearTable<String> {
     }
 
     @Override
-    public boolean listInsert(int i, String value) {
+    public boolean listInsert(int i, Elem<String> datum) {
         if (i < 0 || i > size + 1) {
             return false;
         }
@@ -72,14 +72,27 @@ public class SequenceTable implements LinearTable<String> {
             upgradeSize();
         }
 
-        SequenceTableElem datum = new SequenceTableElem(value);
         for (int j = i; j < size + 1; j++) {
             SequenceTableElem tElem = data[j];
-            data[j] = datum;
+            data[j] = (SequenceTableElem) datum;
             datum = tElem;
         }
         size++;
         return true;
+    }
+
+    @Override
+    public boolean listInsert(int i, String value) {
+        SequenceTableElem datum = new SequenceTableElem(value);
+        return listInsert(i, datum);
+    }
+
+    @Override
+    public Elem<String> listDeleteLast() {
+        SequenceTableElem lastDatum = data[size - 1];
+        data[size - 1] = null;
+        size--;
+        return lastDatum;
     }
 
     @Override
@@ -88,17 +101,19 @@ public class SequenceTable implements LinearTable<String> {
             return Optional.empty();
         }
 
-        SequenceTableElem elem = data[i];
-        for (int j = i; j < size; j++) {
-            data[i] = data[i + 1];
+        if (i == size - 1) {
+            return Optional.of(listDeleteLast());
         }
+
+        SequenceTableElem elem = data[i];
+        System.arraycopy(data, i + 1, data, i, size - i);
         size--;
         return Optional.ofNullable(elem);
     }
 
     @Override
     public String printList() {
-        return Arrays.stream(data).filter(Objects::nonNull).map(Elem::getValue).collect(Collectors.joining(", "));
+        return Arrays.stream(data).limit(size).map(Elem::getValue).collect(Collectors.joining(", "));
     }
 
     @Override
@@ -112,5 +127,29 @@ public class SequenceTable implements LinearTable<String> {
         data = new SequenceTableElem[newMaxSize];
         maxSize = newMaxSize;
         size = 0;
+    }
+
+    /**
+     * 删除具有最小值的元素, 并返回被删元素的值, 空出的位置由最后一个元素填补
+     * 若表为空则返回空
+     */
+    public Optional<String> t22321() {
+        if (empty()) {
+            return Optional.empty();
+        }
+
+        SequenceTableElem datum = data[0];
+        int minIndex = 0;
+        for (int i = 1; i < size; i++) {
+            if (Integer.parseInt(data[i].getValue()) < Integer.parseInt(datum.getValue())) {
+                datum = data[i];
+                minIndex = i;
+            }
+        }
+
+        data[minIndex] = data[size - 1];
+        listDeleteLast();
+
+        return Optional.of(datum.getValue());
     }
 }
