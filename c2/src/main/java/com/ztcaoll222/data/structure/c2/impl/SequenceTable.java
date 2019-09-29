@@ -152,4 +152,16 @@ public class SequenceTable implements LinearTable<String> {
 
         return Optional.of(datum.getValue());
     }
+
+    /**
+     * 逆置, 要求空间复杂度位 o(1)
+     */
+    public void t22322() {
+        SequenceTableElem tElem;
+        for (int i = 0; i < size / 2; i++) {
+            tElem = data[i];
+            data[i] = data[size - 1 - i];
+            data[size - 1 - i] = tElem;
+        }
+    }
 }

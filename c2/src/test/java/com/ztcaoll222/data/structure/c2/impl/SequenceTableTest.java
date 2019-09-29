@@ -2,6 +2,7 @@ package com.ztcaoll222.data.structure.c2.impl;
 
 import com.ztcaoll222.data.structure.c2.Elem;
 import lombok.extern.flogger.Flogger;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
@@ -142,5 +143,18 @@ class SequenceTableTest {
 
         table2.t22321();
         assertEquals("3, 2, 1", table2.printList());
+    }
+
+    @Test
+    void t22322() {
+        SequenceTable table = new SequenceTable(16);
+        table.listInsert(0, "0");
+        table.listInsert(1, "2");
+        table.listInsert(2, "1");
+        table.listInsert(3, "3");
+
+        table.t22322();
+
+        assertEquals("3, 1, 2, 0", table.printList());
     }
 }
