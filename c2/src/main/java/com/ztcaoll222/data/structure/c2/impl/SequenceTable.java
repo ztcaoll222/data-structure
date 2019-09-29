@@ -154,7 +154,7 @@ public class SequenceTable implements LinearTable<String> {
     }
 
     /**
-     * 逆置, 要求空间复杂度位 o(1)
+     * 逆置, 要求空间复杂度为 o(1)
      */
     public void t22322() {
         SequenceTableElem tElem;
@@ -163,5 +163,32 @@ public class SequenceTable implements LinearTable<String> {
             data[i] = data[size - 1 - i];
             data[size - 1 - i] = tElem;
         }
+    }
+
+    /**
+     * 删除所有值为 @param value 的元素
+     * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
+     */
+    public int t22323(SequenceTableElem elem) {
+        int sum = 0;
+        for (int i = 0; i < size; i++) {
+            SequenceTableElem tElem = data[i];
+
+            if (Objects.equals(elem, tElem)) {
+                sum++;
+            } else {
+                data[i - sum] = data[i];
+            }
+        }
+        size -= sum;
+        return sum;
+    }
+
+    /**
+     * 删除所有值为 @param value 的元素
+     * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
+     */
+    public int t22323(String value) {
+        return t22323(new SequenceTableElem(value));
     }
 }

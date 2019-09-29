@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Flogger
 class SequenceTableTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void length() {
         SequenceTable table = new SequenceTable(16);
         table.listInsert(0, "0");
@@ -22,7 +22,7 @@ class SequenceTableTest {
         assertEquals(4, table.length());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void locateElem() {
         SequenceTable table = new SequenceTable(16);
         table.listInsert(0, "0");
@@ -37,7 +37,7 @@ class SequenceTableTest {
         assertEquals("3", elem.get().getValue());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getElem() {
         SequenceTable table = new SequenceTable(16);
         table.listInsert(0, "0");
@@ -52,7 +52,7 @@ class SequenceTableTest {
         assertEquals("1", value.get());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void listInsert() {
         SequenceTable table = new SequenceTable(4);
         table.listInsert(0, "0");
@@ -67,7 +67,7 @@ class SequenceTableTest {
         assertEquals(8, table.getMaxSize());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void listDelete() {
         SequenceTable table = new SequenceTable(16);
         table.listInsert(0, "0");
@@ -83,7 +83,7 @@ class SequenceTableTest {
         assertTrue(table.getElem(4).isEmpty());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void printList() {
         SequenceTable table = new SequenceTable(16);
         table.listInsert(0, "0");
@@ -94,13 +94,13 @@ class SequenceTableTest {
         assertEquals("0, 1, 2, 3", table.printList());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void empty() {
         SequenceTable table = new SequenceTable(16);
         assertTrue(table.empty());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void destroyList() {
         SequenceTable table = new SequenceTable(16);
         table.listInsert(0, "0");
@@ -113,7 +113,7 @@ class SequenceTableTest {
         assertTrue(table.empty());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void t22321() {
         SequenceTable table1 = new SequenceTable(16);
         table1.listInsert(0, "2");
@@ -156,5 +156,21 @@ class SequenceTableTest {
         table.t22322();
 
         assertEquals("3, 1, 2, 0", table.printList());
+    }
+
+    @Test
+    void t22323() {
+        SequenceTable table = new SequenceTable(16);
+        table.listInsert(0, "0");
+        table.listInsert(1, "2");
+        table.listInsert(2, "2");
+        table.listInsert(3, "3");
+        table.listInsert(4, "2");
+        table.listInsert(5, "5");
+
+        int sum = table.t22323("2");
+
+        assertEquals(3, sum);
+        assertEquals("0, 3, 5", table.printList());
     }
 }
