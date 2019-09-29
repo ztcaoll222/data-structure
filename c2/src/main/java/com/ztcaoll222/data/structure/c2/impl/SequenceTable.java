@@ -222,4 +222,11 @@ public class SequenceTable<T> implements LinearTable<T> {
 
         return sum;
     }
+
+    /**
+     * 从顺序表中删除其值在给定值在 @param s 和 @param t 之间的所有元素
+     */
+    public int t22325(int s, int t) {
+        return t22324(s, t);
+    }
 }
