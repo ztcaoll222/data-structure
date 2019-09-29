@@ -22,7 +22,7 @@ public interface LinearTable<T> {
      * @param value 关键字
      * @return 返回查找具有给定关键字的元素
      */
-    Optional<Elem> locateElem(T value);
+    Optional<Elem<T>> locateElem(T value);
 
     /**
      * 按位查找
@@ -55,7 +55,7 @@ public interface LinearTable<T> {
      *
      * @return 返回被删除的元素
      */
-    Elem<String> listDeleteLast();
+    Elem<T> listDeleteLast();
 
     /**
      * 删除

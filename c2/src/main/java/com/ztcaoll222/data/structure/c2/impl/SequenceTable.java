@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
  * @author ztcaoll222
  * Create time: 2019/9/28 20:27
  */
-public class SequenceTable implements LinearTable<String> {
+public class SequenceTable<T> implements LinearTable<T> {
     @Getter
     private int maxSize;
-    private SequenceTableElem[] data;
+    private SequenceTableElem<T>[] data;
     private int size = 0;
 
     public SequenceTable(int maxSize) {
@@ -32,9 +32,9 @@ public class SequenceTable implements LinearTable<String> {
     }
 
     @Override
-    public Optional<Elem> locateElem(String value) {
+    public Optional<Elem<T>> locateElem(T value) {
         for (int i = 0; i < size; i++) {
-            SequenceTableElem datum = data[i];
+            SequenceTableElem<T> datum = data[i];
             if (Objects.equals(datum.getValue(), value)) {
                 return Optional.of(datum);
             }
@@ -43,13 +43,13 @@ public class SequenceTable implements LinearTable<String> {
     }
 
     @Override
-    public Optional<String> getElem(int i) {
-        return Optional.ofNullable(data[i]).map(SequenceTableElem::getValue);
+    public Optional<T> getElem(int i) {
+        return Optional.ofNullable(data[i]).map(datum -> (T)datum.getValue());
     }
 
     private void upgradeSize(int newMaxSize) {
         if (size >= maxSize) {
-            SequenceTableElem[] newData = new SequenceTableElem[newMaxSize];
+            SequenceTableElem<T>[] newData = new SequenceTableElem[newMaxSize];
 
             System.arraycopy(data, 0, newData, 0, size);
 
@@ -63,7 +63,7 @@ public class SequenceTable implements LinearTable<String> {
     }
 
     @Override
-    public boolean listInsert(int i, Elem<String> datum) {
+    public boolean listInsert(int i, Elem<T> datum) {
         if (i < 0 || i > size + 1) {
             return false;
         }
@@ -73,8 +73,8 @@ public class SequenceTable implements LinearTable<String> {
         }
 
         for (int j = i; j < size + 1; j++) {
-            SequenceTableElem tElem = data[j];
-            data[j] = (SequenceTableElem) datum;
+            Elem<T> tElem = data[j];
+            data[j] = (SequenceTableElem<T>) datum;
             datum = tElem;
         }
         size++;
@@ -82,21 +82,21 @@ public class SequenceTable implements LinearTable<String> {
     }
 
     @Override
-    public boolean listInsert(int i, String value) {
-        SequenceTableElem datum = new SequenceTableElem(value);
+    public boolean listInsert(int i, T value) {
+        Elem<T> datum = new SequenceTableElem<>(value);
         return listInsert(i, datum);
     }
 
     @Override
-    public Elem<String> listDeleteLast() {
-        SequenceTableElem lastDatum = data[size - 1];
+    public Elem<T> listDeleteLast() {
+        SequenceTableElem<T> lastDatum = data[size - 1];
         data[size - 1] = null;
         size--;
         return lastDatum;
     }
 
     @Override
-    public Optional<Elem<String>> listDelete(int i) {
+    public Optional<Elem<T>> listDelete(int i) {
         if (i < 0 || i > size) {
             return Optional.empty();
         }
@@ -105,7 +105,7 @@ public class SequenceTable implements LinearTable<String> {
             return Optional.of(listDeleteLast());
         }
 
-        SequenceTableElem elem = data[i];
+        SequenceTableElem<T> elem = data[i];
         System.arraycopy(data, i + 1, data, i, size - i);
         size--;
         return Optional.ofNullable(elem);
@@ -113,7 +113,7 @@ public class SequenceTable implements LinearTable<String> {
 
     @Override
     public String printList() {
-        return Arrays.stream(data).limit(size).map(Elem::getValue).collect(Collectors.joining(", "));
+        return Arrays.stream(data).limit(size).map(elem -> elem.getValue().toString()).collect(Collectors.joining(", "));
     }
 
     @Override
@@ -133,15 +133,15 @@ public class SequenceTable implements LinearTable<String> {
      * 删除具有最小值的元素, 并返回被删元素的值, 空出的位置由最后一个元素填补
      * 若表为空则返回空
      */
-    public Optional<String> t22321() {
+    public Optional<T> t22321() {
         if (empty()) {
             return Optional.empty();
         }
 
-        SequenceTableElem datum = data[0];
+        SequenceTableElem<T> datum = data[0];
         int minIndex = 0;
         for (int i = 1; i < size; i++) {
-            if (Integer.parseInt(data[i].getValue()) < Integer.parseInt(datum.getValue())) {
+            if (Integer.parseInt(data[i].getValue().toString()) < Integer.parseInt(datum.getValue().toString())) {
                 datum = data[i];
                 minIndex = i;
             }
@@ -157,7 +157,7 @@ public class SequenceTable implements LinearTable<String> {
      * 逆置, 要求空间复杂度为 o(1)
      */
     public void t22322() {
-        SequenceTableElem tElem;
+        SequenceTableElem<T> tElem;
         for (int i = 0; i < size / 2; i++) {
             tElem = data[i];
             data[i] = data[size - 1 - i];
@@ -169,7 +169,7 @@ public class SequenceTable implements LinearTable<String> {
      * 删除所有值为 @param value 的元素
      * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
      */
-    public int t22323(SequenceTableElem elem) {
+    public int t22323(SequenceTableElem<T> elem) {
         int sum = 0;
         for (int i = 0; i < size; i++) {
             SequenceTableElem tElem = data[i];
@@ -188,7 +188,7 @@ public class SequenceTable implements LinearTable<String> {
      * 删除所有值为 @param value 的元素
      * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
      */
-    public int t22323(String value) {
-        return t22323(new SequenceTableElem(value));
+    public int t22323(T value) {
+        return t22323(new SequenceTableElem<>(value));
     }
 }

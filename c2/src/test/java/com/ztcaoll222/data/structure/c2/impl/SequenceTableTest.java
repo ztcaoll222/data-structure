@@ -13,7 +13,7 @@ class SequenceTableTest {
 
     @Test
     void length() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -24,7 +24,7 @@ class SequenceTableTest {
 
     @Test
     void locateElem() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -32,14 +32,14 @@ class SequenceTableTest {
 
         assertTrue(table.locateElem("5").isEmpty());
 
-        Optional<Elem> elem = table.locateElem("3");
+        Optional<Elem<String>> elem = table.locateElem("3");
         assertTrue(elem.isPresent());
         assertEquals("3", elem.get().getValue());
     }
 
     @Test
     void getElem() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -54,7 +54,7 @@ class SequenceTableTest {
 
     @Test
     void listInsert() {
-        SequenceTable table = new SequenceTable(4);
+        SequenceTable<String> table = new SequenceTable<>(4);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -69,7 +69,7 @@ class SequenceTableTest {
 
     @Test
     void listDelete() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -85,7 +85,7 @@ class SequenceTableTest {
 
     @Test
     void printList() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -96,13 +96,13 @@ class SequenceTableTest {
 
     @Test
     void empty() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         assertTrue(table.empty());
     }
 
     @Test
     void destroyList() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "1");
         table.listInsert(2, "2");
@@ -115,7 +115,7 @@ class SequenceTableTest {
 
     @Test
     void t22321() {
-        SequenceTable table1 = new SequenceTable(16);
+        SequenceTable<String> table1 = new SequenceTable<>(16);
         table1.listInsert(0, "2");
         table1.listInsert(1, "0");
         table1.listInsert(2, "1");
@@ -126,7 +126,7 @@ class SequenceTableTest {
         assertEquals("0", s0.get());
         assertEquals("2, 3, 1", table1.printList());
 
-        SequenceTable table0 = new SequenceTable(16);
+        SequenceTable<String> table0 = new SequenceTable<>(16);
         table0.listInsert(0, "2");
         table0.listInsert(1, "1");
         table0.listInsert(2, "0");
@@ -135,7 +135,7 @@ class SequenceTableTest {
         table0.t22321();
         assertEquals("2, 1, 3", table0.printList());
 
-        SequenceTable table2 = new SequenceTable(16);
+        SequenceTable<String> table2 = new SequenceTable<>(16);
         table2.listInsert(0, "0");
         table2.listInsert(1, "2");
         table2.listInsert(2, "1");
@@ -147,7 +147,7 @@ class SequenceTableTest {
 
     @Test
     void t22322() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "2");
         table.listInsert(2, "1");
@@ -160,7 +160,7 @@ class SequenceTableTest {
 
     @Test
     void t22323() {
-        SequenceTable table = new SequenceTable(16);
+        SequenceTable<String> table = new SequenceTable<>(16);
         table.listInsert(0, "0");
         table.listInsert(1, "2");
         table.listInsert(2, "2");
