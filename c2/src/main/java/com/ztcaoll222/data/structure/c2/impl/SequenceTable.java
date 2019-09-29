@@ -44,7 +44,7 @@ public class SequenceTable<T> implements LinearTable<T> {
 
     @Override
     public Optional<T> getElem(int i) {
-        return Optional.ofNullable(data[i]).map(datum -> (T)datum.getValue());
+        return Optional.ofNullable(data[i]).map(datum -> (T) datum.getValue());
     }
 
     private void upgradeSize(int newMaxSize) {
@@ -85,6 +85,12 @@ public class SequenceTable<T> implements LinearTable<T> {
     public boolean listInsert(int i, T value) {
         Elem<T> datum = new SequenceTableElem<>(value);
         return listInsert(i, datum);
+    }
+
+    @Override
+    public boolean listInsert(T value) {
+        Elem<T> datum = new SequenceTableElem<>(value);
+        return listInsert(size, datum);
     }
 
     @Override
@@ -172,7 +178,7 @@ public class SequenceTable<T> implements LinearTable<T> {
     public int t22323(SequenceTableElem<T> elem) {
         int sum = 0;
         for (int i = 0; i < size; i++) {
-            SequenceTableElem tElem = data[i];
+            SequenceTableElem<T> tElem = data[i];
 
             if (Objects.equals(elem, tElem)) {
                 sum++;
@@ -190,5 +196,30 @@ public class SequenceTable<T> implements LinearTable<T> {
      */
     public int t22323(T value) {
         return t22323(new SequenceTableElem<>(value));
+    }
+
+    /**
+     * 从有序表中删除其值在给定值在 @param s 和 @param t 之间的所有元素
+     */
+    public int t22324(int s, int t) {
+        int sum = 0;
+
+        if (s > t) {
+            return 0;
+        }
+
+        for (int i = 0; i < size; i++) {
+            SequenceTableElem<T> tElem = data[i];
+            int tValue = Integer.parseInt(tElem.getValue().toString());
+            if (tValue >= s && tValue <= t) {
+                sum++;
+            } else {
+                data[i - sum] = data[i];
+            }
+        }
+
+        size -= sum;
+
+        return sum;
     }
 }

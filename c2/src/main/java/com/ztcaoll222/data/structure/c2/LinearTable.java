@@ -51,6 +51,14 @@ public interface LinearTable<T> {
     boolean listInsert(int i, T value);
 
     /**
+     * 插入
+     *
+     * @param value 元素的值
+     * @return 插入成功则返回 true, 否则返回 false
+     */
+    boolean listInsert(T value);
+
+    /**
      * 删除最后的元素
      *
      * @return 返回被删除的元素

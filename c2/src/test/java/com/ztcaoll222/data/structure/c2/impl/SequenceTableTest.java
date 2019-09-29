@@ -173,4 +173,18 @@ class SequenceTableTest {
         assertEquals(3, sum);
         assertEquals("0, 3, 5", table.printList());
     }
+
+    @Test
+    void t22324() {
+        SequenceTable<Integer> table = new SequenceTable<>(16);
+        table.listInsert(0);
+        table.listInsert(1);
+        table.listInsert(2);
+        table.listInsert(3);
+        table.listInsert(4);
+
+        int sum = table.t22324(1, 3);
+        assertEquals(3, sum);
+        assertEquals("0, 4", table.printList());
+    }
 }
