@@ -296,4 +296,31 @@ public class SequenceTable<T> implements LinearTable<T> {
         }
         return newTable;
     }
+
+    /**
+     * 把 @param i 后的元素移动到最前面
+     *
+     * @param i 位置
+     */
+    public boolean t22328(int i) {
+        if (i < 0 || i >= size) {
+            return false;
+        }
+
+        if (size + i > maxSize) {
+            upgradeSize(size + i);
+        }
+
+        for (int j = 0; j < i; j++) {
+            data[size] = data[j];
+            size++;
+        }
+
+        for (int k = i, g = 0; k < size; k++, g++) {
+            data[g] = data[k];
+        }
+        size -= i;
+
+        return true;
+    }
 }

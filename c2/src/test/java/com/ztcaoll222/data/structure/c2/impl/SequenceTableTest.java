@@ -264,4 +264,21 @@ class SequenceTableTest {
 
         assertEquals(2, table.getMaxSize());
     }
+
+    @Test
+    void t22328() {
+        SequenceTable<Integer> table = new SequenceTable<>(16);
+        table.listInsert(0);
+        table.listInsert(1);
+        table.listInsert(1);
+        table.listInsert(1);
+        table.listInsert(2);
+        table.listInsert(2);
+        table.listInsert(3);
+        table.listInsert(4);
+        table.listInsert(4);
+
+        table.t22328(6);
+        assertEquals("3, 4, 4, 0, 1, 1, 1, 2, 2", table.printList());
+    }
 }
