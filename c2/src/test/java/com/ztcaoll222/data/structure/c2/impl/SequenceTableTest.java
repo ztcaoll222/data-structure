@@ -278,7 +278,30 @@ class SequenceTableTest {
         table.listInsert(4);
         table.listInsert(4);
 
-        table.t22328(6);
+        assertTrue(table.t22328(6));
         assertEquals("3, 4, 4, 0, 1, 1, 1, 2, 2", table.printList());
+    }
+
+    @Test
+    void t22329() {
+        SequenceTable<Integer> table0 = new SequenceTable<>(16);
+        table0.listInsert(0);
+        table0.listInsert(1);
+        table0.listInsert(3);
+        table0.listInsert(4);
+
+        table0.t22329(3);
+
+        assertEquals("0, 1, 4, 3", table0.printList());
+
+        SequenceTable<Integer> table1 = new SequenceTable<>(16);
+        table1.listInsert(0);
+        table1.listInsert(1);
+        table1.listInsert(3);
+        table1.listInsert(4);
+
+        table1.t22329(2);
+
+        assertEquals("0, 1, 2, 3, 4", table1.printList());
     }
 }

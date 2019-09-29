@@ -323,4 +323,50 @@ public class SequenceTable<T> implements LinearTable<T> {
 
         return true;
     }
+
+    /**
+     * 通过二分法查找数值为 @param x 的元素
+     *
+     * @param x 数值
+     * @return 如果找到则返回具体位置, 否则返回 -1
+     */
+    private int findElem(int x) {
+        for (int i = 0; i < size / 2; i++) {
+            var a = Integer.parseInt(data[i].getValue().toString());
+            var b = Integer.parseInt(data[size / 2 + i].getValue().toString());
+            if (a == x) {
+                return i;
+            }
+            if (b == x) {
+                return size / 2 + i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * 用最少时间在表中查找数值为 @param x 的元素, 如果找到则与后继元素交换
+     * 若找不到则插入, 但仍使表有序
+     *
+     * @param x 数值
+     */
+    public void t22329(Integer x) {
+        int at = findElem(x);
+        if (at != -1) {
+            SequenceTableElem<T> tDatum = data[at];
+            if (at != size - 1) {
+                data[at] = data[at+1];
+                data[at+1] = tDatum;
+            }
+        } else {
+            for (at = 0; at < size; at++) {
+                if (x < Integer.parseInt(data[at].getValue().toString())) {
+                    break;
+                }
+            }
+
+            listInsert(at, (T) x);
+        }
+    }
 }
