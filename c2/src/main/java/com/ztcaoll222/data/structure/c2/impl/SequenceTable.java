@@ -229,4 +229,25 @@ public class SequenceTable<T> implements LinearTable<T> {
     public int t22325(int s, int t) {
         return t22324(s, t);
     }
+
+    /**
+     * 从有序顺序表中删除所有其值重复的元素, 使表中所有的元素的值均不同
+     */
+    public int t22326() {
+        int sum = 0;
+
+        SequenceTableElem<T> tElem = data[0];
+        for (int i = 1; i < size; i++) {
+            if (Objects.equals(data[i], tElem)) {
+                sum++;
+            } else {
+                data[i - sum] = data[i];
+                tElem = data[i];
+            }
+        }
+
+        size -= sum;
+
+        return sum;
+    }
 }
