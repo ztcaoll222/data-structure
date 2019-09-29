@@ -369,4 +369,20 @@ public class SequenceTable<T> implements LinearTable<T> {
             listInsert(at, (T) x);
         }
     }
+
+    /**
+     * 向左移 @param p 位
+     */
+    public boolean t223210(int p) {
+        if (p < 0 || p >= size) {
+            return false;
+        }
+
+        for (int i = p, j = 0; i < size; i++, j++) {
+            data[j] = data[i];
+        }
+        size -= p;
+
+        return true;
+    }
 }
