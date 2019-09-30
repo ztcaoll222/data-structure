@@ -134,7 +134,23 @@ class T2232Test {
         table1.listInsert(3);
 
         SequenceTable<Integer> newTable = T2232.t7(table0, table1);
+
         assertEquals("0, 0, 1, 2, 2, 3, 3, 4", newTable.printList());
+
+        table0 = new SequenceTable<>(16);
+        table0.listInsert(0);
+        table0.listInsert(1);
+        table0.listInsert(2);
+        table0.listInsert(3);
+
+        table1 = new SequenceTable<>(16);
+        table1.listInsert(0);
+        table1.listInsert(2);
+        table1.listInsert(3);
+
+        newTable = T2232.t7(table0, table1);
+
+        assertEquals("0, 0, 1, 2, 2, 3, 3", newTable.printList());
     }
 
     @Test
@@ -192,5 +208,37 @@ class T2232Test {
 
         assertTrue(T2232.t10(table, 6));
         assertEquals("3, 4, 4", table.printList());
+    }
+
+    @Test
+    void t11() {
+        SequenceTable<Integer> table0 = new SequenceTable<>(16);
+        table0.listInsert(0);
+        table0.listInsert(2);
+        table0.listInsert(4);
+        table0.listInsert(6);
+        table0.listInsert(7);
+
+        SequenceTable<Integer> table1 = new SequenceTable<>(16);
+        table1.listInsert(1);
+        table1.listInsert(3);
+        table1.listInsert(5);
+
+        double value = T2232.t11(table0, table1);
+        assertEquals(3.5, value);
+
+        table0 = new SequenceTable<>(16);
+        table0.listInsert(0);
+        table0.listInsert(2);
+        table0.listInsert(4);
+        table0.listInsert(6);
+
+        table1 = new SequenceTable<>(16);
+        table1.listInsert(1);
+        table1.listInsert(3);
+        table1.listInsert(5);
+
+        value = T2232.t11(table0, table1);
+        assertEquals(3.0, value);
     }
 }

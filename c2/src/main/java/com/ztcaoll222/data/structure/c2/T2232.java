@@ -136,23 +136,23 @@ public class T2232 {
     }
 
     /**
-     * 将两个有序顺序表合并为一个新的有序顺序表
-     *
-     * @return 新的顺序表
+     * 合并两个有序表
      */
-    public static SequenceTable<Integer> t7(SequenceTable<Integer> a, SequenceTable<Integer> b) {
-        SequenceTable<Integer> newTable = new SequenceTable<>(a.maxSize + b.maxSize);
+    private static SequenceTable<Integer> merge(SequenceTable<Integer> a, SequenceTable<Integer> b) {
+        SequenceTable<Integer> newTable = new SequenceTable<>(a.size + b.size);
 
         int ia = 0;
         int ib = 0;
-        while (ia < a.size || ib < b.size) {
-            Optional<Integer> elemA = a.getElem(ia);
-            Optional<Integer> elemB = b.getElem(ib);
-            if (elemA.isEmpty() || elemB.isEmpty()) {
+
+        while (true) {
+            var da = a.data[ia];
+            var db = b.data[ib];
+            if (da == null || db == null) {
                 break;
             }
-            Integer va = a.getElem(ia).get();
-            Integer vb = b.getElem(ib).get();
+
+            var va = da.getValue();
+            var vb = db.getValue();
             if (va < vb) {
                 newTable.listInsert(va);
                 ia++;
@@ -162,20 +162,29 @@ public class T2232 {
             }
         }
 
-        if (a.size - ia > 0) {
-            for (int i = ia; i < a.size; i++) {
-                Integer va = a.getElem(i).get();
-                newTable.listInsert(va);
+        if (a.size - ia> 0) {
+            while (ia < a.size) {
+                newTable.listInsert(a.data[ia].getValue());
+                ia++;
+            }
+        }
+        if (b.size - ib> 0) {
+            while (ib < b.size) {
+                newTable.listInsert(b.data[ib].getValue());
+                ib++;
             }
         }
 
-        if (b.size - ib > 0) {
-            for (int i = ib; i < b.size; i++) {
-                Integer vb = b.getElem(i).get();
-                newTable.listInsert(vb);
-            }
-        }
         return newTable;
+    }
+
+    /**
+     * 将两个有序顺序表合并为一个新的有序顺序表
+     *
+     * @return 新的顺序表
+     */
+    public static SequenceTable<Integer> t7(SequenceTable<Integer> a, SequenceTable<Integer> b) {
+        return merge(a, b);
     }
 
     /**
@@ -245,5 +254,17 @@ public class T2232 {
         table.size -= p;
 
         return true;
+    }
+
+    /**
+     * 获得两个有序表的中位数
+     */
+    public static double t11(SequenceTable<Integer> a, SequenceTable<Integer> b) {
+        SequenceTable<Integer> table = merge(a, b);
+        if (table.size % 2 != 0) {
+            return table.data[table.size / 2].getValue();
+        } else {
+            return (table.data[table.size / 2].getValue() + table.data[table.size / 2 - 1].getValue()) / 2.0;
+        }
     }
 }
