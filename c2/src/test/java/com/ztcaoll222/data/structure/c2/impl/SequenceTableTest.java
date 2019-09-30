@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Flogger
 class SequenceTableTest {
@@ -64,7 +65,7 @@ class SequenceTableTest {
 
         table.listInsert(1, "5");
         assertEquals("0, 5, 1, 2, 3", table.printList());
-        assertEquals(8, table.getMaxSize());
+        assertEquals(8, table.maxSize);
     }
 
     @Test
@@ -114,113 +115,6 @@ class SequenceTableTest {
     }
 
     @Test
-    void t22321() {
-        SequenceTable<String> table1 = new SequenceTable<>(16);
-        table1.listInsert(0, "2");
-        table1.listInsert(1, "0");
-        table1.listInsert(2, "1");
-        table1.listInsert(3, "3");
-
-        Optional<String> s0 = table1.t22321();
-        assertTrue(s0.isPresent());
-        assertEquals("0", s0.get());
-        assertEquals("2, 3, 1", table1.printList());
-
-        SequenceTable<String> table0 = new SequenceTable<>(16);
-        table0.listInsert(0, "2");
-        table0.listInsert(1, "1");
-        table0.listInsert(2, "0");
-        table0.listInsert(3, "3");
-
-        table0.t22321();
-        assertEquals("2, 1, 3", table0.printList());
-
-        SequenceTable<String> table2 = new SequenceTable<>(16);
-        table2.listInsert(0, "0");
-        table2.listInsert(1, "2");
-        table2.listInsert(2, "1");
-        table2.listInsert(3, "3");
-
-        table2.t22321();
-        assertEquals("3, 2, 1", table2.printList());
-    }
-
-    @Test
-    void t22322() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "2");
-        table.listInsert(2, "1");
-        table.listInsert(3, "3");
-
-        table.t22322();
-
-        assertEquals("3, 1, 2, 0", table.printList());
-    }
-
-    @Test
-    void t22323() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "2");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-        table.listInsert(4, "2");
-        table.listInsert(5, "5");
-
-        int sum = table.t22323("2");
-
-        assertEquals(3, sum);
-        assertEquals("0, 3, 5", table.printList());
-    }
-
-    @Test
-    void t22324() {
-        SequenceTable<Integer> table = new SequenceTable<>(16);
-        table.listInsert(0);
-        table.listInsert(1);
-        table.listInsert(2);
-        table.listInsert(3);
-        table.listInsert(4);
-
-        int sum = table.t22324(1, 3);
-        assertEquals(3, sum);
-        assertEquals("0, 4", table.printList());
-    }
-
-    @Test
-    void t22325() {
-        SequenceTable<Integer> table = new SequenceTable<>(16);
-        table.listInsert(0);
-        table.listInsert(4);
-        table.listInsert(2);
-        table.listInsert(1);
-        table.listInsert(3);
-
-        int sum = table.t22324(1, 3);
-        assertEquals(3, sum);
-        assertEquals("0, 4", table.printList());
-    }
-
-    @Test
-    void t22326() {
-        SequenceTable<Integer> table = new SequenceTable<>(16);
-        table.listInsert(0);
-        table.listInsert(1);
-        table.listInsert(1);
-        table.listInsert(1);
-        table.listInsert(2);
-        table.listInsert(2);
-        table.listInsert(3);
-        table.listInsert(4);
-        table.listInsert(4);
-
-        int sum = table.t22326();
-        assertEquals(4, sum);
-        assertEquals("0, 1, 2, 3, 4", table.printList());
-    }
-
-    @Test
     void listDeleteLast() {
         SequenceTable<Integer> table = new SequenceTable<>(16);
         table.listInsert(0);
@@ -232,94 +126,5 @@ class SequenceTableTest {
         Elem<Integer> elem = table.listDeleteLast();
         assertEquals(3, elem.getValue());
         assertEquals("0, 4, 2, 1", table.printList());
-    }
-
-    @Test
-    void t22327() {
-        SequenceTable<Integer> table0 = new SequenceTable<>(16);
-        table0.listInsert(0);
-        table0.listInsert(1);
-        table0.listInsert(2);
-        table0.listInsert(3);
-        table0.listInsert(4);
-
-        SequenceTable<Integer> table1 = new SequenceTable<>(16);
-        table1.listInsert(0);
-        table1.listInsert(2);
-        table1.listInsert(3);
-
-        SequenceTable<Integer> newTable = table0.t22327(table1);
-        assertEquals("0, 0, 1, 2, 2, 3, 3, 4", newTable.printList());
-    }
-
-    @Test
-    void getMaxSize() {
-        SequenceTable<Integer> table = new SequenceTable<>(1);
-
-        table.listInsert(0);
-
-        assertEquals(1, table.getMaxSize());
-
-        table.listInsert(4);
-
-        assertEquals(2, table.getMaxSize());
-    }
-
-    @Test
-    void t22328() {
-        SequenceTable<Integer> table = new SequenceTable<>(16);
-        table.listInsert(0);
-        table.listInsert(1);
-        table.listInsert(1);
-        table.listInsert(1);
-        table.listInsert(2);
-        table.listInsert(2);
-        table.listInsert(3);
-        table.listInsert(4);
-        table.listInsert(4);
-
-        assertTrue(table.t22328(6));
-        assertEquals("3, 4, 4, 0, 1, 1, 1, 2, 2", table.printList());
-    }
-
-    @Test
-    void t22329() {
-        SequenceTable<Integer> table0 = new SequenceTable<>(16);
-        table0.listInsert(0);
-        table0.listInsert(1);
-        table0.listInsert(3);
-        table0.listInsert(4);
-
-        table0.t22329(3);
-
-        assertEquals("0, 1, 4, 3", table0.printList());
-
-        SequenceTable<Integer> table1 = new SequenceTable<>(16);
-        table1.listInsert(0);
-        table1.listInsert(1);
-        table1.listInsert(3);
-        table1.listInsert(4);
-
-        table1.t22329(2);
-
-        assertEquals("0, 1, 2, 3, 4", table1.printList());
-    }
-
-    @Test
-    void t223210() {
-        SequenceTable<Integer> table = new SequenceTable<>(16);
-        table.listInsert(0);
-        table.listInsert(1);
-        table.listInsert(1);
-        table.listInsert(1);
-        table.listInsert(2);
-        table.listInsert(2);
-        table.listInsert(3);
-        table.listInsert(4);
-        table.listInsert(4);
-
-        table.t223210(6);
-
-        assertEquals("3, 4, 4", table.printList());
     }
 }

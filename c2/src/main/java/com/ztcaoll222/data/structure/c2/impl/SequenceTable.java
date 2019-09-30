@@ -2,7 +2,6 @@ package com.ztcaoll222.data.structure.c2.impl;
 
 import com.ztcaoll222.data.structure.c2.Elem;
 import com.ztcaoll222.data.structure.c2.LinearTable;
-import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -16,10 +15,9 @@ import java.util.stream.Collectors;
  * Create time: 2019/9/28 20:27
  */
 public class SequenceTable<T> implements LinearTable<T> {
-    @Getter
-    private int maxSize;
-    private SequenceTableElem<T>[] data;
-    private int size = 0;
+    public int maxSize;
+    public SequenceTableElem<T>[] data;
+    public int size = 0;
 
     public SequenceTable(int maxSize) {
         this.maxSize = maxSize;
@@ -50,7 +48,12 @@ public class SequenceTable<T> implements LinearTable<T> {
         return Optional.ofNullable(data[i]).map(SequenceTableElem::getValue);
     }
 
-    private void upgradeSize(int newMaxSize) {
+    /**
+     * 扩展存储空间, 时间复杂度是 o(n)
+     *
+     * @param newMaxSize 新的空间大小
+     */
+    public void upgradeSize(int newMaxSize) {
         if (size >= maxSize) {
             SequenceTableElem<T>[] newData = new SequenceTableElem[newMaxSize];
 
@@ -61,6 +64,10 @@ public class SequenceTable<T> implements LinearTable<T> {
         }
     }
 
+    /**
+     * 扩展存储空间, 时间复杂度是 o(n)
+     * 扩展的空间为当前空间的两倍
+     */
     private void upgradeSize() {
         upgradeSize(maxSize * 2);
     }
@@ -139,201 +146,15 @@ public class SequenceTable<T> implements LinearTable<T> {
     }
 
     /**
-     * 删除具有最小值的元素, 并返回被删元素的值, 空出的位置由最后一个元素填补
-     * 若表为空则返回空
-     */
-    public Optional<T> t22321() {
-        if (empty()) {
-            return Optional.empty();
-        }
-
-        SequenceTableElem<T> datum = data[0];
-        int minIndex = 0;
-        for (int i = 1; i < size; i++) {
-            if (Integer.parseInt(data[i].getValue().toString()) < Integer.parseInt(datum.getValue().toString())) {
-                datum = data[i];
-                minIndex = i;
-            }
-        }
-
-        data[minIndex] = data[size - 1];
-        listDeleteLast();
-
-        return Optional.of(datum.getValue());
-    }
-
-    /**
-     * 逆置, 要求空间复杂度为 o(1)
-     */
-    public void t22322() {
-        SequenceTableElem<T> tElem;
-        for (int i = 0; i < size / 2; i++) {
-            tElem = data[i];
-            data[i] = data[size - 1 - i];
-            data[size - 1 - i] = tElem;
-        }
-    }
-
-    /**
-     * 删除所有值为 @param value 的元素
-     * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
-     */
-    public int t22323(SequenceTableElem<T> elem) {
-        int sum = 0;
-        for (int i = 0; i < size; i++) {
-            SequenceTableElem<T> tElem = data[i];
-
-            if (Objects.equals(elem, tElem)) {
-                sum++;
-            } else {
-                data[i - sum] = data[i];
-            }
-        }
-        size -= sum;
-        return sum;
-    }
-
-    /**
-     * 删除所有值为 @param value 的元素
-     * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
-     */
-    public int t22323(T value) {
-        return t22323(new SequenceTableElem<>(value));
-    }
-
-    /**
-     * 从有序表中删除其值在给定值在 @param s 和 @param t 之间的所有元素
-     */
-    public int t22324(int s, int t) {
-        int sum = 0;
-
-        if (s > t) {
-            return 0;
-        }
-
-        for (int i = 0; i < size; i++) {
-            SequenceTableElem<T> tElem = data[i];
-            int tValue = Integer.parseInt(tElem.getValue().toString());
-            if (tValue >= s && tValue <= t) {
-                sum++;
-            } else {
-                data[i - sum] = data[i];
-            }
-        }
-
-        size -= sum;
-
-        return sum;
-    }
-
-    /**
-     * 从顺序表中删除其值在给定值在 @param s 和 @param t 之间的所有元素
-     */
-    public int t22325(int s, int t) {
-        return t22324(s, t);
-    }
-
-    /**
-     * 从有序顺序表中删除所有其值重复的元素, 使表中所有的元素的值均不同
-     */
-    public int t22326() {
-        int sum = 0;
-
-        SequenceTableElem<T> tElem = data[0];
-        for (int i = 1; i < size; i++) {
-            if (Objects.equals(data[i], tElem)) {
-                sum++;
-            } else {
-                data[i - sum] = data[i];
-                tElem = data[i];
-            }
-        }
-
-        size -= sum;
-
-        return sum;
-    }
-
-    /**
-     * 将两个有序顺序表合并为一个新的有序顺序表
-     *
-     * @return 新的顺序表
-     */
-    public SequenceTable<T> t22327(SequenceTable<T> b) {
-        SequenceTable<T> newTable = new SequenceTable<>(maxSize + b.maxSize);
-
-        int ia = 0;
-        int ib = 0;
-        while (ia < size || ib < b.size) {
-            Optional<T> elemA = getElem(ia);
-            Optional<T> elemB = b.getElem(ib);
-            if (elemA.isEmpty() || elemB.isEmpty()) {
-                break;
-            }
-            Integer va = Integer.parseInt(getElem(ia).get().toString());
-            Integer vb = Integer.parseInt(b.getElem(ib).get().toString());
-            if (va < vb) {
-                newTable.listInsert((T) va);
-                ia++;
-            } else {
-                newTable.listInsert((T) vb);
-                ib++;
-            }
-        }
-
-        if (size - ia > 0) {
-            for (int i = ia; i < size; i++) {
-                Integer va = Integer.parseInt(getElem(i).get().toString());
-                newTable.listInsert((T) va);
-            }
-        }
-
-        if (b.size - ib > 0) {
-            for (int i = ib; i < size; i++) {
-                Integer vb = Integer.parseInt(b.getElem(i).get().toString());
-                newTable.listInsert((T) vb);
-            }
-        }
-        return newTable;
-    }
-
-    /**
-     * 把 @param i 后的元素移动到最前面
-     *
-     * @param i 位置
-     */
-    public boolean t22328(int i) {
-        if (i < 0 || i >= size) {
-            return false;
-        }
-
-        if (size + i > maxSize) {
-            upgradeSize(size + i);
-        }
-
-        for (int j = 0; j < i; j++) {
-            data[size] = data[j];
-            size++;
-        }
-
-        for (int k = i, g = 0; k < size; k++, g++) {
-            data[g] = data[k];
-        }
-        size -= i;
-
-        return true;
-    }
-
-    /**
      * 通过二分法查找数值为 @param x 的元素
      *
      * @param x 数值
      * @return 如果找到则返回具体位置, 否则返回 -1
      */
-    private int findElem(int x) {
+    public int findElem(T x) {
         for (int i = 0; i < size / 2; i++) {
-            var a = Integer.parseInt(data[i].getValue().toString());
-            var b = Integer.parseInt(data[size / 2 + i].getValue().toString());
+            var a = data[i].getValue();
+            var b = data[size / 2 + i].getValue();
             if (a == x) {
                 return i;
             }
@@ -343,46 +164,5 @@ public class SequenceTable<T> implements LinearTable<T> {
         }
 
         return -1;
-    }
-
-    /**
-     * 用最少时间在表中查找数值为 @param x 的元素, 如果找到则与后继元素交换
-     * 若找不到则插入, 但仍使表有序
-     *
-     * @param x 数值
-     */
-    public void t22329(Integer x) {
-        int at = findElem(x);
-        if (at != -1) {
-            SequenceTableElem<T> tDatum = data[at];
-            if (at != size - 1) {
-                data[at] = data[at+1];
-                data[at+1] = tDatum;
-            }
-        } else {
-            for (at = 0; at < size; at++) {
-                if (x < Integer.parseInt(data[at].getValue().toString())) {
-                    break;
-                }
-            }
-
-            listInsert(at, (T) x);
-        }
-    }
-
-    /**
-     * 向左移 @param p 位
-     */
-    public boolean t223210(int p) {
-        if (p < 0 || p >= size) {
-            return false;
-        }
-
-        for (int i = p, j = 0; i < size; i++, j++) {
-            data[j] = data[i];
-        }
-        size -= p;
-
-        return true;
     }
 }
