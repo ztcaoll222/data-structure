@@ -149,4 +149,15 @@ class T2232Test {
         main = T2232.t12(table1);
         assertTrue(main.isEmpty());
     }
+
+    @Test
+    void t13() {
+        SequenceTable<Integer> table0 = SequenceTable.of(-5, 3, 2, 3);
+        int i = T2232.t13(table0);
+        assertEquals(1, i);
+
+        SequenceTable<Integer> table1 = SequenceTable.of(1, 2, 3);
+        i = T2232.t13(table1);
+        assertEquals(4, i);
+    }
 }

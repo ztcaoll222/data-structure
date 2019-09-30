@@ -293,4 +293,27 @@ public class T2232 {
         }
         return Optional.empty();
     }
+
+    /**
+     * 找到顺序表中未出现的最小正整数
+     */
+    public static int t13(SequenceTable<Integer> table) {
+        for (int i = 0; i < table.size; i++) {
+            var tDatum = table.data[i];
+            if (tDatum.getValue() > 0
+                    && tDatum.getValue() < table.size
+                    && !tDatum.getValue().equals(table.data[tDatum.getValue() - 1].getValue())) {
+                table.data[i] = table.data[tDatum.getValue() - 1];
+                table.data[tDatum.getValue() - 1] = tDatum;
+            }
+        }
+
+        for (int i = 0; i < table.size; i++) {
+            if (table.data[i].getValue() != i + 1) {
+                return i + 1;
+            }
+        }
+
+        return table.size + 1;
+    }
 }
