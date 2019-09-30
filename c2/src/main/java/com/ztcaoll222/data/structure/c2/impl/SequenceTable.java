@@ -165,4 +165,14 @@ public class SequenceTable<T> implements LinearTable<T> {
 
         return -1;
     }
+
+    /**
+     * 创建顺序表
+     */
+    @SafeVarargs
+    public static <T> SequenceTable<T> of(T ...objs) {
+        SequenceTable<T> table = new SequenceTable<>(objs.length);
+        Arrays.stream(objs).forEach(table::listInsert);
+        return table;
+    }
 }

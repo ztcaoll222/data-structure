@@ -162,13 +162,13 @@ public class T2232 {
             }
         }
 
-        if (a.size - ia> 0) {
+        if (a.size - ia > 0) {
             while (ia < a.size) {
                 newTable.listInsert(a.data[ia].getValue());
                 ia++;
             }
         }
-        if (b.size - ib> 0) {
+        if (b.size - ib > 0) {
             while (ib < b.size) {
                 newTable.listInsert(b.data[ib].getValue());
                 ib++;
@@ -266,5 +266,33 @@ public class T2232 {
         } else {
             return (table.data[table.size / 2].getValue() + table.data[table.size / 2 - 1].getValue()) / 2.0;
         }
+    }
+
+    public static <T> Optional<T> t12(SequenceTable<T> table) {
+        if (table.empty()) {
+            return Optional.empty();
+        }
+
+        int count = 0;
+        SequenceTableElem<T> tDatum = table.data[0];
+        for (int i = 1; i < table.size; i++) {
+            if (count > table.size / 2) {
+                return Optional.of(tDatum.getValue());
+            }
+            if (Objects.equals(table.data[i], tDatum)) {
+                count++;
+            } else {
+                count--;
+                if (count < 0) {
+                    count = 0;
+                    tDatum = table.data[i];
+                }
+            }
+        }
+
+        if (count > 0) {
+            return Optional.of(tDatum.getValue());
+        }
+        return Optional.empty();
     }
 }

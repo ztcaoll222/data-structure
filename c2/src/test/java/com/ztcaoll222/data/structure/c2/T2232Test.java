@@ -241,4 +241,16 @@ class T2232Test {
         value = T2232.t11(table0, table1);
         assertEquals(3.0, value);
     }
+
+    @Test
+    void t12() {
+        SequenceTable<Integer> table0 = SequenceTable.of(0, 5, 5, 3, 5, 7, 5, 5);
+        Optional<Integer> main = T2232.t12(table0);
+        assertTrue(main.isPresent());
+        assertEquals(5, main.get());
+
+        SequenceTable<Integer> table1 = SequenceTable.of(0, 5, 5, 3, 5, 1, 5, 7);
+        main = T2232.t12(table1);
+        assertTrue(main.isEmpty());
+    }
 }
