@@ -14,25 +14,14 @@ class SequenceTableTest {
 
     @Test
     void length() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         assertEquals(4, table.length());
     }
 
     @Test
     void locateElem() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         assertTrue(table.locateElem("5").isEmpty());
-
         Optional<Elem<String>> elem = table.locateElem("3");
         assertTrue(elem.isPresent());
         assertEquals("3", elem.get().getValue());
@@ -40,14 +29,8 @@ class SequenceTableTest {
 
     @Test
     void getElem() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         assertTrue(table.getElem(5).isEmpty());
-
         Optional<String> value = table.getElem(1);
         assertTrue(value.isPresent());
         assertEquals("1", value.get());
@@ -55,14 +38,8 @@ class SequenceTableTest {
 
     @Test
     void listInsert() {
-        SequenceTable<String> table = new SequenceTable<>(4);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         assertEquals(4, table.length());
-
         table.listInsert(1, "5");
         assertEquals("0, 5, 1, 2, 3", table.printList());
         assertEquals(8, table.maxSize);
@@ -70,28 +47,17 @@ class SequenceTableTest {
 
     @Test
     void listDelete() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         Optional<Elem<String>> elem = table.listDelete(1);
         assertTrue(elem.isPresent());
         assertEquals("1", elem.get().getValue());
         assertEquals(3, table.length());
-
         assertTrue(table.getElem(4).isEmpty());
     }
 
     @Test
     void printList() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         assertEquals("0, 1, 2, 3", table.printList());
     }
 
@@ -103,26 +69,14 @@ class SequenceTableTest {
 
     @Test
     void destroyList() {
-        SequenceTable<String> table = new SequenceTable<>(16);
-        table.listInsert(0, "0");
-        table.listInsert(1, "1");
-        table.listInsert(2, "2");
-        table.listInsert(3, "3");
-
+        SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         table.destroyList();
-
         assertTrue(table.empty());
     }
 
     @Test
     void listDeleteLast() {
-        SequenceTable<Integer> table = new SequenceTable<>(16);
-        table.listInsert(0);
-        table.listInsert(4);
-        table.listInsert(2);
-        table.listInsert(1);
-        table.listInsert(3);
-
+        SequenceTable<Integer> table =  SequenceTable.of(0, 4, 2, 1, 3);
         Elem<Integer> elem = table.listDeleteLast();
         assertEquals(3, elem.getValue());
         assertEquals("0, 4, 2, 1", table.printList());

@@ -143,14 +143,9 @@ public class T2232 {
 
         int ia = 0;
         int ib = 0;
-
-        while (true) {
+        while (ia < a.size && ib < b.size) {
             var da = a.data[ia];
             var db = b.data[ib];
-            if (da == null || db == null) {
-                break;
-            }
-
             var va = da.getValue();
             var vb = db.getValue();
             if (va < vb) {
@@ -268,6 +263,9 @@ public class T2232 {
         }
     }
 
+    /**
+     * 获得顺序表的主元素
+     */
     public static <T> Optional<T> t12(SequenceTable<T> table) {
         if (table.empty()) {
             return Optional.empty();

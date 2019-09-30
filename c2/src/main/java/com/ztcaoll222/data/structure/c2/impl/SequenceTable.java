@@ -54,14 +54,12 @@ public class SequenceTable<T> implements LinearTable<T> {
      * @param newMaxSize 新的空间大小
      */
     public void upgradeSize(int newMaxSize) {
-        if (size >= maxSize) {
-            SequenceTableElem<T>[] newData = new SequenceTableElem[newMaxSize];
+        SequenceTableElem<T>[] newData = new SequenceTableElem[newMaxSize];
 
-            System.arraycopy(data, 0, newData, 0, size);
+        System.arraycopy(data, 0, newData, 0, size);
 
-            data = newData;
-            maxSize = newMaxSize;
-        }
+        data = newData;
+        maxSize = newMaxSize;
     }
 
     /**
@@ -122,7 +120,7 @@ public class SequenceTable<T> implements LinearTable<T> {
         }
 
         SequenceTableElem<T> elem = data[i];
-        System.arraycopy(data, i + 1, data, i, size - i);
+        System.arraycopy(data, i + 1, data, i, size - i - 1);
         size--;
         return Optional.ofNullable(elem);
     }
@@ -170,7 +168,7 @@ public class SequenceTable<T> implements LinearTable<T> {
      * 创建顺序表
      */
     @SafeVarargs
-    public static <T> SequenceTable<T> of(T ...objs) {
+    public static <T> SequenceTable<T> of(T... objs) {
         SequenceTable<T> table = new SequenceTable<>(objs.length);
         Arrays.stream(objs).forEach(table::listInsert);
         return table;
