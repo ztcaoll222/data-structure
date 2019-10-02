@@ -22,7 +22,7 @@ public interface LinearTable<T> {
      * @param value 关键字
      * @return 返回查找具有给定关键字的元素
      */
-    Optional<Elem<T>> locateElem(T value);
+    Optional<? extends Elem<T>> locateElem(T value);
 
     /**
      * 按位查找
@@ -31,15 +31,6 @@ public interface LinearTable<T> {
      * @return 返回第 i 个位置的元素的值
      */
     Optional<T> getElem(int i);
-
-    /**
-     * 插入
-     *
-     * @param i     位置
-     * @param datum 元素
-     * @return 插入成功则返回 true, 否则返回 false
-     */
-    boolean listInsert(int i, Elem<T> datum);
 
     /**
      * 插入
@@ -63,7 +54,7 @@ public interface LinearTable<T> {
      *
      * @return 返回被删除的元素
      */
-    Elem<T> listDeleteLast();
+    Optional<? extends Elem<T>> listDeleteLast();
 
     /**
      * 删除
@@ -71,7 +62,7 @@ public interface LinearTable<T> {
      * @param i 位置
      * @return 返回被删除的元素
      */
-    Optional<Elem<T>> listDelete(int i);
+    Optional<? extends Elem<T>> listDelete(int i);
 
     /**
      * 输出

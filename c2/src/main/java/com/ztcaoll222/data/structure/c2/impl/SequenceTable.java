@@ -42,10 +42,10 @@ public class SequenceTable<T> implements LinearTable<T> {
 
     @Override
     public Optional<T> getElem(int i) {
-        if (i >= size) {
+        if (i > size || i < 0) {
             return Optional.empty();
         }
-        return Optional.ofNullable(data[i]).map(SequenceTableElem::getValue);
+        return Optional.ofNullable(data[i - 1]).map(SequenceTableElem::getValue);
     }
 
     /**
@@ -70,8 +70,14 @@ public class SequenceTable<T> implements LinearTable<T> {
         upgradeSize(maxSize * 2);
     }
 
-    @Override
-    public boolean listInsert(int i, Elem<T> datum) {
+    /**
+     * 插入
+     *
+     * @param i     位置
+     * @param datum 元素
+     * @return 插入成功则返回 true, 否则返回 false
+     */
+    private boolean listInsert(int i, SequenceTableElem<T> datum) {
         if (i < 0 || i > size + 1) {
             return false;
         }
@@ -81,8 +87,8 @@ public class SequenceTable<T> implements LinearTable<T> {
         }
 
         for (int j = i; j < size + 1; j++) {
-            Elem<T> tElem = data[j];
-            data[j] = (SequenceTableElem<T>) datum;
+            SequenceTableElem<T> tElem = data[j];
+            data[j] = datum;
             datum = tElem;
         }
         size++;
@@ -91,36 +97,41 @@ public class SequenceTable<T> implements LinearTable<T> {
 
     @Override
     public boolean listInsert(int i, T value) {
-        Elem<T> datum = new SequenceTableElem<>(value);
+        SequenceTableElem<T> datum = new SequenceTableElem<>(value);
         return listInsert(i, datum);
     }
 
     @Override
     public boolean listInsert(T value) {
-        Elem<T> datum = new SequenceTableElem<>(value);
+        SequenceTableElem<T> datum = new SequenceTableElem<>(value);
         return listInsert(size, datum);
     }
 
     @Override
-    public Elem<T> listDeleteLast() {
+    public Optional<SequenceTableElem<T>> listDeleteLast() {
+        if (size == 0) {
+            return Optional.empty();
+        }
         SequenceTableElem<T> lastDatum = data[size - 1];
         data[size - 1] = null;
         size--;
-        return lastDatum;
+        return Optional.ofNullable(lastDatum);
     }
 
     @Override
-    public Optional<Elem<T>> listDelete(int i) {
+    public Optional<SequenceTableElem<T>> listDelete(int i) {
         if (i < 0 || i > size) {
             return Optional.empty();
         }
 
         if (i == size - 1) {
-            return Optional.of(listDeleteLast());
+            return listDeleteLast();
         }
 
-        SequenceTableElem<T> elem = data[i];
-        System.arraycopy(data, i + 1, data, i, size - i - 1);
+        SequenceTableElem<T> elem = data[i - 1];
+        for (int j = i - 1; j < size - 1; j++) {
+            data[j] = data[j + 1];
+        }
         size--;
         return Optional.ofNullable(elem);
     }

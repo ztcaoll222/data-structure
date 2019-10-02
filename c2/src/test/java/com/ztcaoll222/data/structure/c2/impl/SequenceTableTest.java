@@ -33,7 +33,7 @@ class SequenceTableTest {
         assertTrue(table.getElem(5).isEmpty());
         Optional<String> value = table.getElem(1);
         assertTrue(value.isPresent());
-        assertEquals("1", value.get());
+        assertEquals("0", value.get());
     }
 
     @Test
@@ -48,11 +48,10 @@ class SequenceTableTest {
     @Test
     void listDelete() {
         SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
-        Optional<Elem<String>> elem = table.listDelete(1);
+        var elem = table.listDelete(1);
         assertTrue(elem.isPresent());
-        assertEquals("1", elem.get().getValue());
-        assertEquals(3, table.length());
-        assertTrue(table.getElem(4).isEmpty());
+        assertEquals("0", elem.get().getValue());
+        assertEquals("1, 2, 3", table.printList());
     }
 
     @Test
@@ -77,8 +76,9 @@ class SequenceTableTest {
     @Test
     void listDeleteLast() {
         SequenceTable<Integer> table =  SequenceTable.of(0, 4, 2, 1, 3);
-        Elem<Integer> elem = table.listDeleteLast();
-        assertEquals(3, elem.getValue());
+        var elem = table.listDeleteLast();
+        assertTrue(elem.isPresent());
+        assertEquals(3, elem.get().getValue());
         assertEquals("0, 4, 2, 1", table.printList());
     }
 }
