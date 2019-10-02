@@ -210,27 +210,57 @@ public class T2232 {
     }
 
     /**
-     * 用最少时间在表中查找数值为 @param x 的元素, 如果找到则与后继元素交换
+     * 二分查找法
+     */
+    private static Optional<Integer> binarySearch(SequenceTable<Integer> table, Integer target) {
+        if (table.empty()) {
+            return Optional.empty();
+        }
+
+        if (table.data[table.size - 1].getValue() < target) {
+            return Optional.empty();
+        }
+
+        int left = 0;
+        int right = table.size - 1;
+        while (left < right) {
+            // ">>>" 无符号右移, 即使相加溢出, 变为负数, 转为无符号之后会变为正数
+            int mid = (left + right) >>> 1;
+            if (table.data[mid].getValue() < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        if (table.data[left].getValue().equals(target)) {
+            return Optional.of(left);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * 用最少时间在有序表中查找数值为 @param x 的元素, 如果找到则与后继元素交换
      * 若找不到则插入, 但仍使表有序
      *
      * @param x 数值
      */
     public static void t9(SequenceTable<Integer> table, Integer x) {
-        int at = table.findElem(x);
-        if (at != -1) {
-            SequenceTableElem<Integer> tDatum = table.data[at];
-            if (at != table.size - 1) {
-                table.data[at] = table.data[at + 1];
-                table.data[at + 1] = tDatum;
+        var at = binarySearch(table, x);
+        if (at.isPresent()) {
+            SequenceTableElem<Integer> tDatum = table.data[at.get()];
+            if (at.get() != table.size - 1) {
+                table.data[at.get()] = table.data[at.get() + 1];
+                table.data[at.get() + 1] = tDatum;
             }
         } else {
-            for (at = 0; at < table.size; at++) {
-                if (x < table.data[at].getValue()) {
+            int i;
+            for (i = 0; i < table.size; i++) {
+                if (x < table.data[i].getValue()) {
                     break;
                 }
             }
-
-            table.listInsert(at, x);
+            table.listInsert(i, x);
         }
     }
 
@@ -252,14 +282,77 @@ public class T2232 {
     }
 
     /**
+     * 在数组中获取中位数
+     */
+    private static double getMedian(SequenceTableElem<Integer>[] data, int size) {
+        if (size <= 0) {
+            return -1.0;
+        }
+
+        if (size % 2 != 0) {
+            return data[size / 2].getValue();
+        } else {
+            return (data[size / 2].getValue() + data[size / 2 - 1].getValue()) / 2.0;
+        }
+    }
+
+    /**
+     * 获得有序表的中位数
+     */
+    private static double getMedian(SequenceTable<Integer> table) {
+        return getMedian(table.data, table.size);
+    }
+
+    /**
      * 获得两个有序表的中位数
      */
-    public static double t11(SequenceTable<Integer> a, SequenceTable<Integer> b) {
-        SequenceTable<Integer> table = merge(a, b);
-        if (table.size % 2 != 0) {
-            return table.data[table.size / 2].getValue();
+    public static Optional<Double> t11(SequenceTable<Integer> a, SequenceTable<Integer> b) {
+        // 如果 a 为空, 那么中位数就在 b 中
+        if (a.empty()) {
+            return Optional.of(getMedian(b));
+        }
+
+        // 如果 a 是长度大于 b, 那么互换
+        if (a.size > b.size) {
+            return t11(b, a);
+        }
+
+        int left = 0;
+        int total = a.size + b.size;
+        // 因为在 a[max] < b[min] 时不好去做什么处理, 所以不减 1
+        int right = a.size;
+        while (left < right) {
+            int midA = (right + left) >>> 1;
+            // 左半边 left_part_size = (total + 1) / 2 = midA + midB
+            //                    ==> midB = (m + n + 1) / 2 - midA
+            int midB = ((total + 1) >>> 1) - midA;
+
+            if (a.data[midA].getValue() < b.data[midB - 1].getValue()) {
+                left = midA + 1;
+            } else {
+                right = midA;
+            }
+        }
+
+        int i = left;
+        int j = ((total + 1) >>> 1) - i;
+
+        // 当 i == 0 时, 即切在 a 的最左边, 说明中位数在 b 上, 而且此时切线也不可能在 b 的最左边, 所以返回 b[切线]
+        int leftMaxA = (i == 0 ? Integer.MIN_VALUE : a.data[i - 1].getValue());
+        // 当 j == 0 时, 即切在 b 的最左边, 说明中位数在 a 上, 而且此时切线也不可能在 a 的最左边, 所以返回 a[切线]
+        int leftMaxB = (j == 0 ? Integer.MIN_VALUE : b.data[j - 1].getValue());
+        // 当 total 是偶数的时候, 需要考虑右半边的大小了
+        // 当 i == a.size 时, 即切在 a 的最右边, 说明中位数在 b 上, 而且此时切线也不可能在 b 的最右边, 所以返回 b[切线]
+        int rightMinA = (i == a.size ? Integer.MAX_VALUE : a.data[i].getValue());
+        // 当 i == b.size 时, 即切在 b 的最右边, 说明中位数在 a 上, 而且此时切线也不可能在 a 的最右边, 所以返回 a[切线]
+        int rightMinB = (j == b.size ? Integer.MAX_VALUE : b.data[j].getValue());
+
+        if (((a.size + b.size) & 1) == 1) {
+            // 奇数, 只要左边最大的
+            return Optional.of((double) Math.max(leftMaxA, leftMaxB));
         } else {
-            return (table.data[table.size / 2].getValue() + table.data[table.size / 2 - 1].getValue()) / 2.0;
+            // 偶数, 左边最大的和右边最大的相加除 2
+            return Optional.of((Math.max(leftMaxA, leftMaxB) + Math.min(rightMinA, rightMinB)) / 2.0);
         }
     }
 

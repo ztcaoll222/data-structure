@@ -144,27 +144,6 @@ public class SequenceTable<T> implements LinearTable<T> {
     }
 
     /**
-     * 通过二分法查找数值为 @param x 的元素
-     *
-     * @param x 数值
-     * @return 如果找到则返回具体位置, 否则返回 -1
-     */
-    public int findElem(T x) {
-        for (int i = 0; i < size / 2; i++) {
-            var a = data[i].getValue();
-            var b = data[size / 2 + i].getValue();
-            if (a == x) {
-                return i;
-            }
-            if (b == x) {
-                return size / 2 + i;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
      * 创建顺序表
      */
     @SafeVarargs

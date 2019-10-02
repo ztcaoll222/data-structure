@@ -108,34 +108,17 @@ class T2232Test {
 
     @Test
     void t11() {
-        SequenceTable<Integer> table0 = new SequenceTable<>(16);
-        table0.listInsert(0);
-        table0.listInsert(2);
-        table0.listInsert(4);
-        table0.listInsert(6);
-        table0.listInsert(7);
+        SequenceTable<Integer> table0 = SequenceTable.of(0, 2, 4, 6, 8);
+        SequenceTable<Integer> table1 = SequenceTable.of(1, 3, 5, 7, 9);
+        Optional<Double> value = T2232.t11(table0, table1);
+        assertTrue(value.isPresent());
+        assertEquals(4.5, value.get());
 
-        SequenceTable<Integer> table1 = new SequenceTable<>(16);
-        table1.listInsert(1);
-        table1.listInsert(3);
-        table1.listInsert(5);
-
-        double value = T2232.t11(table0, table1);
-        assertEquals(3.5, value);
-
-        table0 = new SequenceTable<>(16);
-        table0.listInsert(0);
-        table0.listInsert(2);
-        table0.listInsert(4);
-        table0.listInsert(6);
-
-        table1 = new SequenceTable<>(16);
-        table1.listInsert(1);
-        table1.listInsert(3);
-        table1.listInsert(5);
-
+        table0 = SequenceTable.of(11, 13, 15, 17, 19);
+        table1 = SequenceTable.of(2, 4, 6, 8, 20);
         value = T2232.t11(table0, table1);
-        assertEquals(3.0, value);
+        assertTrue(value.isPresent());
+        assertEquals(12, value.get());
     }
 
     @Test
