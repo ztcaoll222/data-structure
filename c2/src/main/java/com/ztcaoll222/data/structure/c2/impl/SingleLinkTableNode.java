@@ -20,4 +20,7 @@ public class SingleLinkTableNode<T> implements Elem<T> {
     public SingleLinkTableNode(T value) {
         this.value = value;
     }
+
+    public SingleLinkTableNode() {
+    }
 }

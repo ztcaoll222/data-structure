@@ -1,6 +1,5 @@
 package com.ztcaoll222.data.structure.c2.impl;
 
-import com.ztcaoll222.data.structure.c2.Elem;
 import com.ztcaoll222.data.structure.c2.LinearTable;
 
 import java.util.Arrays;

@@ -2,3 +2,4 @@
 /c2/target/
 /.idea/
 *.iml
+.coveralls.yml
