@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 第二章综合题
+ * 第二章顺序表综合题
  *
  * @author ztcaoll222
  * Create time: 2019/9/30 10:48

@@ -13,12 +13,20 @@ import java.util.Optional;
  * Create time: 2019/10/2 16:39
  */
 public class SingleLinkTable<T> implements LinearTable<T> {
-    public int size = 0;
     public SingleLinkTableNode<T> node;
 
     @Override
     public int length() {
-        return size;
+        if (node == null) {
+            return 0;
+        }
+        var tNode = node;
+        int count = 0;
+        while (tNode != null) {
+            count++;
+            tNode = tNode.getNext();
+        }
+        return count;
     }
 
     @Override
@@ -35,19 +43,19 @@ public class SingleLinkTable<T> implements LinearTable<T> {
 
     @Override
     public Optional<SingleLinkTableNode<T>> findElem(int i) {
-        if (size == 0) {
-            return Optional.empty();
-        }
-
-        if (i < 0 || i > size - 1) {
+        if (node == null || i < 0) {
             return Optional.empty();
         }
 
         var tNode = node;
-        for (int j = 1; j <= i; j++) {
-            tNode = tNode.getNext();
+        try {
+            for (int j = 1; j <= i; j++) {
+                tNode = tNode.getNext();
+            }
+            return Optional.of(tNode);
+        } catch (NullPointerException ignore) {
+            return Optional.empty();
         }
-        return Optional.of(tNode);
     }
 
     @Override
@@ -63,13 +71,12 @@ public class SingleLinkTable<T> implements LinearTable<T> {
      * @return 插入成功则返回 true, 否则返回 false
      */
     private boolean listInsert(int i, SingleLinkTableNode<T> datum) {
-        if (i < 0 || i > size) {
+        if (i < 0) {
             return false;
         }
 
-        if (size == 0) {
+        if (node == null) {
             node = datum;
-            size++;
             return true;
         }
 
@@ -86,8 +93,6 @@ public class SingleLinkTable<T> implements LinearTable<T> {
             tNode.setNext(datum);
         }
 
-        size++;
-
         return true;
     }
 
@@ -98,17 +103,36 @@ public class SingleLinkTable<T> implements LinearTable<T> {
 
     @Override
     public boolean listInsert(T value) {
-        return listInsert(size, value);
+        var datum = new SingleLinkTableNode<>(value);
+
+        if (node == null) {
+            node = datum;
+            return true;
+        }
+
+        var tNode = node;
+        while (tNode.getNext() != null) {
+            tNode = tNode.getNext();
+        }
+        tNode.setNext(datum);
+
+        return true;
     }
 
     @Override
     public Optional<SingleLinkTableNode<T>> listDeleteLast() {
-        return findElem(size - 2).map(pre -> {
-            var tNode = pre.getNext();
-            pre.setNext(null);
-            size--;
-            return tNode;
-        });
+        if (node == null) {
+            return Optional.empty();
+        }
+
+        var tNode = node;
+        while (tNode.getNext().getNext() != null) {
+            tNode = tNode.getNext();
+        }
+
+        var next = tNode.getNext();
+        tNode.setNext(null);
+        return Optional.of(next);
     }
 
     @Override
@@ -120,37 +144,35 @@ public class SingleLinkTable<T> implements LinearTable<T> {
             } else {
                 pre.setNext(tNode.getNext());
             }
-            size--;
             return tNode;
         });
     }
 
     @Override
     public String printList() {
-        if (size == 0) {
+        if (node == null) {
             return "";
         }
 
         StringBuilder stringBuilder = new StringBuilder();
         var tNode = node;
-        for (int i = 1; i < size + 1; i++) {
+        while (tNode != null) {
             stringBuilder.append(tNode.getValue());
-            if (i < size) {
+            tNode = tNode.getNext();
+            if (tNode != null) {
                 stringBuilder.append(", ");
             }
-            tNode = tNode.getNext();
         }
         return stringBuilder.toString();
     }
 
     @Override
     public boolean empty() {
-        return size == 0;
+        return node == null;
     }
 
     @Override
     public void destroyList() {
-        size = 0;
         node = null;
     }
 

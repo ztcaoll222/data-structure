@@ -9,6 +9,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * 第二章顺序表综合题单元测试
+ */
 @Flogger
 class T2232Test {
 

@@ -3,9 +3,8 @@ package com.ztcaoll222.data.structure.c2.impl;
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 单链表单元测试
@@ -16,7 +15,7 @@ class SingleLinkTableTest {
     @Test
     void length() {
         var table = SingleLinkTable.of(1, 2, 3);
-        assertEquals(3, table.size);
+        assertEquals(3, table.length());
     }
 
     @Test
