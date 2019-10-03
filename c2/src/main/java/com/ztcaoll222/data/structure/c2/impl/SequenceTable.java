@@ -30,7 +30,7 @@ public class SequenceTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public Optional<Elem<T>> locateElem(T value) {
+    public Optional<SequenceTableElem<T>> locateElem(T value) {
         for (int i = 0; i < size; i++) {
             SequenceTableElem<T> datum = data[i];
             if (Objects.equals(datum.getValue(), value)) {
@@ -41,11 +41,16 @@ public class SequenceTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public Optional<T> getElem(int i) {
+    public Optional<SequenceTableElem<T>> findElem(int i) {
         if (i > size || i < 0) {
             return Optional.empty();
         }
-        return Optional.ofNullable(data[i - 1]).map(SequenceTableElem::getValue);
+        return Optional.ofNullable(data[i - 1]);
+    }
+
+    @Override
+    public Optional<T> getElem(int i) {
+        return findElem(i).map(SequenceTableElem::getValue);
     }
 
     /**

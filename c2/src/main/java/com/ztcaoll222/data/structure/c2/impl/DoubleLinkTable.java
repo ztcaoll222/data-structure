@@ -7,14 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 单链表
+ * 双链表
  *
  * @author ztcaoll222
- * Create time: 2019/10/2 16:39
+ * Create time: 2019/10/2 22:29
  */
-public class SingleLinkTable<T> implements LinearTable<T> {
+public class DoubleLinkTable<T> implements LinearTable<T> {
     public int size = 0;
-    public SingleLinkTableNode<T> node;
+    public DoubleLinkTableNode<T> node;
 
     @Override
     public int length() {
@@ -22,7 +22,11 @@ public class SingleLinkTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public Optional<SingleLinkTableNode<T>> locateElem(T value) {
+    public Optional<DoubleLinkTableNode<T>> locateElem(T value) {
+        if (empty()) {
+            return Optional.empty();
+        }
+
         var tNode = node;
         while (tNode != null) {
             if (Objects.equals(value, tNode.getValue())) {
@@ -34,25 +38,26 @@ public class SingleLinkTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public Optional<SingleLinkTableNode<T>> findElem(int i) {
-        if (size == 0) {
+    public Optional<DoubleLinkTableNode<T>> findElem(int i) {
+        if (empty()) {
             return Optional.empty();
         }
 
-        if (i < 0 || i > size - 1) {
+        if (i < 0 || i > size) {
             return Optional.empty();
         }
 
         var tNode = node;
-        for (int j = 1; j <= i; j++) {
+        for (int j = 1; j < i; j++) {
             tNode = tNode.getNext();
         }
+
         return Optional.of(tNode);
     }
 
     @Override
     public Optional<T> getElem(int i) {
-        return findElem(i - 1).map(SingleLinkTableNode::getValue);
+        return findElem(i).map(DoubleLinkTableNode::getValue);
     }
 
     /**
@@ -62,7 +67,7 @@ public class SingleLinkTable<T> implements LinearTable<T> {
      * @param datum 元素
      * @return 插入成功则返回 true, 否则返回 false
      */
-    private boolean listInsert(int i, SingleLinkTableNode<T> datum) {
+    private boolean listInsert(int i, DoubleLinkTableNode<T> datum) {
         if (i < 0 || i > size) {
             return false;
         }
@@ -74,26 +79,25 @@ public class SingleLinkTable<T> implements LinearTable<T> {
         }
 
         var tNode = node;
-        for (int j = 0; j < i - 1; j++) {
+        for (int j = 1; j < i; j++) {
             tNode = tNode.getNext();
         }
 
         var next = tNode.getNext();
+        tNode.setNext(datum);
+        datum.setPre(tNode);
         if (next != null) {
-            tNode.setNext(datum);
             datum.setNext(next);
-        } else {
-            tNode.setNext(datum);
+            next.setPre(datum);
         }
 
         size++;
-
         return true;
     }
 
     @Override
     public boolean listInsert(int i, T value) {
-        return listInsert(i, new SingleLinkTableNode<>(value));
+        return listInsert(i, new DoubleLinkTableNode<>(value));
     }
 
     @Override
@@ -102,38 +106,40 @@ public class SingleLinkTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public Optional<SingleLinkTableNode<T>> listDeleteLast() {
-        return findElem(size - 2).map(pre -> {
-            var tNode = pre.getNext();
+    public Optional<DoubleLinkTableNode<T>> listDeleteLast() {
+        return findElem(size).map(last -> {
+            var pre = last.getPre();
             pre.setNext(null);
             size--;
-            return tNode;
+            return last;
         });
     }
 
     @Override
-    public Optional<SingleLinkTableNode<T>> listDelete(int i) {
-        return findElem(i - 2).map(pre -> {
-            var tNode = pre.getNext();
-            if (tNode.getNext() == null) {
+    public Optional<DoubleLinkTableNode<T>> listDelete(int i) {
+        return findElem(i).map(at -> {
+            var pre = at.getPre();
+            var next = at.getNext();
+            if (next == null) {
                 pre.setNext(null);
             } else {
-                pre.setNext(tNode.getNext());
+                pre.setNext(next);
+                next.setPre(pre);
             }
             size--;
-            return tNode;
+            return at;
         });
     }
 
     @Override
     public String printList() {
-        if (size == 0) {
+        if (empty()) {
             return "";
         }
 
         StringBuilder stringBuilder = new StringBuilder();
         var tNode = node;
-        for (int i = 1; i < size + 1; i++) {
+        for (int i = 1; i <= size; i++) {
             stringBuilder.append(tNode.getValue());
             if (i < size) {
                 stringBuilder.append(", ");
@@ -150,16 +156,16 @@ public class SingleLinkTable<T> implements LinearTable<T> {
 
     @Override
     public void destroyList() {
-        size = 0;
         node = null;
+        size = 0;
     }
 
     /**
-     * 创建单链表
+     * 创建双链表
      */
     @SafeVarargs
-    public static <T> SingleLinkTable<T> of(T... objs) {
-        var table = new SingleLinkTable<T>();
+    public static <T> DoubleLinkTable<T> of(T... objs) {
+        var table = new DoubleLinkTable<T>();
         Arrays.stream(objs).forEach(table::listInsert);
         return table;
     }

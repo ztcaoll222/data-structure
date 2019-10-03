@@ -22,7 +22,7 @@ class SequenceTableTest {
     void locateElem() {
         SequenceTable<String> table = SequenceTable.of("0", "1", "2", "3");
         assertTrue(table.locateElem("5").isEmpty());
-        Optional<Elem<String>> elem = table.locateElem("3");
+        Optional<SequenceTableElem<String>> elem = table.locateElem("3");
         assertTrue(elem.isPresent());
         assertEquals("3", elem.get().getValue());
     }

@@ -28,6 +28,14 @@ public interface LinearTable<T> {
      * 按位查找
      *
      * @param i 位置
+     * @return 返回第 i 个位置的元素
+     */
+    Optional<? extends Elem<T>> findElem(int i);
+
+    /**
+     * 按位查找
+     *
+     * @param i 位置
      * @return 返回第 i 个位置的元素的值
      */
     Optional<T> getElem(int i);
