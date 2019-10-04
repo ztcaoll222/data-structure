@@ -5,6 +5,7 @@ import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableNode;
 import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableWithHead;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 第二章链表综合题
@@ -83,5 +84,36 @@ public class T2372 {
         reversePrint(table.head, stringBuilder);
         stringBuilder.setLength(stringBuilder.length() - 2);
         return stringBuilder.toString();
+    }
+
+    /**
+     * 删除带头结点的单链表的最小节点, 假设最小节点只有 1 个
+     *
+     * @param table 表
+     */
+    public static Optional<Integer> t4(SingleLinkTableWithHead<Integer> table) {
+        if (table.empty()) {
+            return Optional.empty();
+        }
+
+        var current = table.head.getNext();
+        var minPre = table.head;
+        var min = current;
+        while (current != null) {
+            if (current.getValue() < min.getValue()) {
+                min = current;
+                minPre = minPre.getNext();
+            }
+            current = current.getNext();
+        }
+
+        var minNext = min.getNext();
+        if (minNext == null) {
+            minPre.setNext(null);
+        } else {
+            minPre.setNext(minNext);
+        }
+
+        return Optional.of(min.getValue());
     }
 }
