@@ -2,6 +2,7 @@ package com.ztcaoll222.data.structure.c2;
 
 import com.ztcaoll222.data.structure.c2.impl.SingleLinkTable;
 import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableNode;
+import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableWithHead;
 
 import java.util.Objects;
 
@@ -21,12 +22,12 @@ public class T2372 {
      * @param node 结点
      * @param x    值
      */
-    private static <T> SingleLinkTableNode<T> t1(SingleLinkTableNode<T> node, T x) {
+    private static <T> SingleLinkTableNode<T> deleteAllX(SingleLinkTableNode<T> node, T x) {
         if (node == null) {
             return null;
         }
 
-        var next = t1(node.getNext(), x);
+        var next = deleteAllX(node.getNext(), x);
         if (Objects.equals(x, node.getValue())) {
             return next;
         } else {
@@ -42,6 +43,16 @@ public class T2372 {
      * @param x     值
      */
     public static <T> void t1(SingleLinkTable<T> table, T x) {
-        t1(table.node, x);
+        deleteAllX(table.node, x);
+    }
+
+    /**
+     * 删除带头结点的单链表中所有值为 @param x 的节点
+     *
+     * @param table 表
+     * @param x     值
+     */
+    public static <T> void t2(SingleLinkTableWithHead<T> table, T x) {
+        deleteAllX(table.head.getNext(), x);
     }
 }
