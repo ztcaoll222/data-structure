@@ -11,8 +11,7 @@ import java.util.Arrays;
 public class SingleLinkTableWithHead<T> extends SingleLinkTable<T> {
     public SingleLinkTableNode<T> head = new SingleLinkTableNode<>();
 
-    public SingleLinkTableWithHead() {
-        head.setNext(node);
+    private SingleLinkTableWithHead() {
     }
 
     /**
@@ -22,6 +21,7 @@ public class SingleLinkTableWithHead<T> extends SingleLinkTable<T> {
     public static <T> SingleLinkTableWithHead<T> of(T... objs) {
         var table = new SingleLinkTableWithHead<T>();
         Arrays.stream(objs).forEach(table::listInsert);
+        table.head.setNext(table.node);
         return table;
     }
 }

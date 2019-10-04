@@ -55,4 +55,33 @@ public class T2372 {
     public static <T> void t2(SingleLinkTableWithHead<T> table, T x) {
         deleteAllX(table.head.getNext(), x);
     }
+
+    /**
+     * 逆置输出获得带头结点的单链表
+     */
+    private static <T> SingleLinkTableNode<T> reversePrint(SingleLinkTableNode<T> node, StringBuilder stringBuilder) {
+        if (node == null) {
+            return null;
+        }
+
+        var next = reversePrint(node.getNext(), stringBuilder);
+        if (next != null) {
+            stringBuilder.append(next.getValue());
+            stringBuilder.append(", ");
+        }
+
+        return node;
+    }
+
+    /**
+     * 逆置输出获得带头结点的单链表
+     *
+     * @param table 带头结点的单链表
+     */
+    public static <T> String t3(SingleLinkTableWithHead<T> table) {
+        StringBuilder stringBuilder = new StringBuilder();
+        reversePrint(table.head, stringBuilder);
+        stringBuilder.setLength(stringBuilder.length() - 2);
+        return stringBuilder.toString();
+    }
 }

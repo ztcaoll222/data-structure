@@ -23,7 +23,13 @@ class T2372Test {
     @Test
     void t2() {
         var table = SingleLinkTableWithHead.of(1, 2, 3, 3, 3, 5, 6, 6, 7);
-        T2372.t1(table, 3);
+        T2372.t2(table, 3);
         assertEquals("1, 2, 5, 6, 6, 7", table.printList());
+    }
+
+    @Test
+    void t3() {
+        var table = SingleLinkTableWithHead.of(1, 2, 3, 3, 3, 5, 6, 6, 7);
+        assertEquals("7, 6, 6, 5, 3, 3, 3, 2, 1", T2372.t3(table));
     }
 }
