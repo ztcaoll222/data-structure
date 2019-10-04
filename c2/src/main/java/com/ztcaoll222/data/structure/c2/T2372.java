@@ -116,4 +116,36 @@ public class T2372 {
 
         return Optional.of(min.getValue());
     }
+
+    /**
+     * 原地逆置带头结点的单链表
+     *
+     * @param node 头结点
+     */
+    private static <T> SingleLinkTableNode<T> reverse(SingleLinkTableNode<T> node) {
+        if (node == null) {
+            return null;
+        }
+
+        var next = reverse(node.getNext());
+        if (next == null) {
+            return node;
+        } else {
+            var tail = node.getNext();
+            tail.setNext(node);
+            node.setNext(null);
+            return next;
+        }
+    }
+
+    /**
+     * 原地逆置带头结点的单链表
+     *
+     * @param table 表
+     */
+    public static <T> void t5(SingleLinkTableWithHead<T> table) {
+        var node = reverse(table.head.getNext());
+        table.head.setNext(node);
+        table.node = node;
+    }
 }

@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * 第二章链表综合题单元测试
@@ -41,5 +42,12 @@ class T2372Test {
         Optional<Integer> min = T2372.t4(table);
         assertTrue(min.isPresent());
         assertEquals(1, min.get());
+    }
+
+    @Test
+    void t5() {
+        var table = SingleLinkTableWithHead.of(1, 2, 3, 4, 5);
+        T2372.t5(table);
+        assertEquals("5, 4, 3, 2, 1", table.printList());
     }
 }
