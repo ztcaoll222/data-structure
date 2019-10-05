@@ -57,4 +57,12 @@ class T2372Test {
         T2372.t6(table);
         assertEquals("1, 1, 3, 5, 6, 6, 8, 9", table.printList());
     }
+
+    @Test
+    void t7() {
+        var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
+        int sum = T2372.t7(table, 4, 7);
+        assertEquals(3, sum);
+        assertEquals("5, 1, 3, 9, 8, 1", table.printList());
+    }
 }

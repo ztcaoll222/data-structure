@@ -222,4 +222,27 @@ public class T2372 {
         table.head.setNext(node);
         table.node = node;
     }
+
+    /**
+     * 带头结点的单链表删除大于 @param a 并且小于 @param b 的节点
+     *
+     * @return 被删掉的个数
+     */
+    public static int t7(SingleLinkTableWithHead<Integer> table, int a, int b) {
+        int count = 0;
+        var pre = table.head;
+        var current = table.head.getNext();
+        while (current != null) {
+            var currentValue = current.getValue();
+            if (currentValue > a && currentValue < b) {
+                pre.setNext(current.getNext());
+                current = current.getNext();
+                count++;
+            } else {
+                pre = current;
+                current = current.getNext();
+            }
+        }
+        return count;
+    }
 }
