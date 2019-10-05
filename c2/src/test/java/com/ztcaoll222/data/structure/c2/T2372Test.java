@@ -50,4 +50,11 @@ class T2372Test {
         T2372.t5(table);
         assertEquals("5, 4, 3, 2, 1", table.printList());
     }
+
+    @Test
+    void t6() {
+        var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
+        T2372.t6(table);
+        assertEquals("1, 1, 3, 5, 6, 6, 8, 9", table.printList());
+    }
 }

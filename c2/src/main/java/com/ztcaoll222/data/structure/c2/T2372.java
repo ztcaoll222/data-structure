@@ -148,4 +148,78 @@ public class T2372 {
         table.head.setNext(node);
         table.node = node;
     }
+
+    /**
+     * 合并两个节点
+     *
+     * @param left  左节点
+     * @param right 右节点
+     */
+    private static SingleLinkTableNode<Integer> merge(SingleLinkTableNode<Integer> left, SingleLinkTableNode<Integer> right) {
+        if (left == null && right == null) {
+            return null;
+        }
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+
+        var res = new SingleLinkTableNode<Integer>();
+        var tNode = res;
+        while (left != null && right != null) {
+            if (left.getValue() < right.getValue()) {
+                tNode.setNext(left);
+                left = left.getNext();
+            } else {
+                tNode.setNext(right);
+                right = right.getNext();
+            }
+            tNode = tNode.getNext();
+        }
+
+        if (left != null) {
+            tNode.setNext(left);
+        }
+        if (right != null) {
+            tNode.setNext(right);
+        }
+        return res.getNext();
+    }
+
+    /**
+     * 归并排序
+     *
+     * @param node 节点
+     */
+    private static SingleLinkTableNode<Integer> sort(SingleLinkTableNode<Integer> node) {
+        if (node == null || node.getNext() == null) {
+            return node;
+        }
+
+        SingleLinkTableNode<Integer> walker = node, walkerPre = node, runner = node;
+        while (runner != null && runner.getNext() != null) {
+            runner = runner.getNext().getNext();
+            walkerPre = walker;
+            walker = walker.getNext();
+        }
+        walkerPre.setNext(null);
+
+        var left = sort(node);
+        var right = sort(walker);
+
+        return merge(left, right);
+    }
+
+    /**
+     * 使带头结点的单链表单调递增
+     *
+     * @param table 表
+     */
+    public static void t6(SingleLinkTableWithHead<Integer> table) {
+        var node = sort(table.head.getNext());
+        table.head.setNext(node);
+        table.node = node;
+    }
 }
