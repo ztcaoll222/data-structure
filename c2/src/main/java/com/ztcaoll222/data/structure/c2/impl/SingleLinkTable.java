@@ -1,6 +1,6 @@
 package com.ztcaoll222.data.structure.c2.impl;
 
-import com.ztcaoll222.data.structure.c2.LinearTable;
+import com.ztcaoll222.data.structure.c2.abs.AbstractLinkTable;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -12,12 +12,12 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/2 16:39
  */
-public class SingleLinkTable<T> implements LinearTable<T> {
+public class SingleLinkTable<T> extends AbstractLinkTable<T> {
     public SingleLinkTableNode<T> node;
 
     @Override
     public int length() {
-        if (node == null) {
+        if (empty()) {
             return 0;
         }
         var tNode = node;
@@ -31,19 +31,25 @@ public class SingleLinkTable<T> implements LinearTable<T> {
 
     @Override
     public Optional<SingleLinkTableNode<T>> locateElem(T value) {
+        if (empty()) {
+            return Optional.empty();
+        }
+
         var tNode = node;
         while (tNode != null) {
             if (Objects.equals(value, tNode.getValue())) {
-                return Optional.of(tNode);
+                break;
             }
+
             tNode = tNode.getNext();
         }
-        return Optional.empty();
+
+        return Optional.ofNullable(tNode);
     }
 
     @Override
     public Optional<SingleLinkTableNode<T>> findElem(int i) {
-        if (node == null || i < 0) {
+        if (empty() || i < 0) {
             return Optional.empty();
         }
 
@@ -75,25 +81,13 @@ public class SingleLinkTable<T> implements LinearTable<T> {
             return false;
         }
 
-        if (node == null) {
+        if (empty()) {
             node = datum;
             return true;
         }
 
         var tNode = node;
-        for (int j = 0; j < i - 1; j++) {
-            tNode = tNode.getNext();
-        }
-
-        var next = tNode.getNext();
-        if (next != null) {
-            tNode.setNext(datum);
-            datum.setNext(next);
-        } else {
-            tNode.setNext(datum);
-        }
-
-        return true;
+        return listInsert(tNode, datum, i - 1);
     }
 
     @Override
@@ -101,11 +95,8 @@ public class SingleLinkTable<T> implements LinearTable<T> {
         return listInsert(i, new SingleLinkTableNode<>(value));
     }
 
-    @Override
-    public boolean listInsert(T value) {
-        var datum = new SingleLinkTableNode<>(value);
-
-        if (node == null) {
+    public boolean listInsert(SingleLinkTableNode<T> datum) {
+        if (empty()) {
             node = datum;
             return true;
         }
@@ -120,8 +111,13 @@ public class SingleLinkTable<T> implements LinearTable<T> {
     }
 
     @Override
+    public boolean listInsert(T value) {
+        return listInsert(new SingleLinkTableNode<>(value));
+    }
+
+    @Override
     public Optional<SingleLinkTableNode<T>> listDeleteLast() {
-        if (node == null) {
+        if (empty()) {
             return Optional.empty();
         }
 
@@ -136,34 +132,8 @@ public class SingleLinkTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public Optional<SingleLinkTableNode<T>> listDelete(int i) {
-        return findElem(i - 2).map(pre -> {
-            var tNode = pre.getNext();
-            if (tNode.getNext() == null) {
-                pre.setNext(null);
-            } else {
-                pre.setNext(tNode.getNext());
-            }
-            return tNode;
-        });
-    }
-
-    @Override
     public String printList() {
-        if (node == null) {
-            return "";
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        var tNode = node;
-        while (tNode != null) {
-            stringBuilder.append(tNode.getValue());
-            tNode = tNode.getNext();
-            if (tNode != null) {
-                stringBuilder.append(", ");
-            }
-        }
-        return stringBuilder.toString();
+        return printList(node);
     }
 
     @Override

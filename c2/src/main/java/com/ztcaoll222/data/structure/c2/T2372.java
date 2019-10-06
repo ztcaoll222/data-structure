@@ -146,7 +146,6 @@ public class T2372 {
     public static <T> void t5(SingleLinkTableWithHead<T> table) {
         var node = reverse(table.head.getNext());
         table.head.setNext(node);
-        table.node = node;
     }
 
     /**
@@ -220,7 +219,6 @@ public class T2372 {
     public static void t6(SingleLinkTableWithHead<Integer> table) {
         var node = sort(table.head.getNext());
         table.head.setNext(node);
-        table.node = node;
     }
 
     /**
@@ -231,7 +229,7 @@ public class T2372 {
     public static int t7(SingleLinkTableWithHead<Integer> table, int a, int b) {
         int count = 0;
         var pre = table.head;
-        var current = table.head.getNext();
+        var current = pre.getNext();
         while (current != null) {
             var currentValue = current.getValue();
             if (currentValue > a && currentValue < b) {
@@ -244,5 +242,53 @@ public class T2372 {
             }
         }
         return count;
+    }
+
+    /**
+     * 找到两个单链表的公共节点
+     *
+     * @param a          a 链表的第一个节点, 短的那条
+     * @param b          b 链表的第一个节点, 长的那条
+     * @param difference 两条链表长度的差数
+     */
+    private static <T> Optional<SingleLinkTableNode<T>> findCommonNode(SingleLinkTableNode<T> a,
+                                                                       SingleLinkTableNode<T> b,
+                                                                       int difference) {
+        SingleLinkTableNode<T> res = null;
+        var aCurrent = a;
+        var bCurrent = b;
+        int count = 0;
+        while (count < difference) {
+            bCurrent = bCurrent.getNext();
+            count++;
+        }
+
+        while (aCurrent != null) {
+            if (Objects.equals(aCurrent, bCurrent)) {
+                res = aCurrent;
+                break;
+            }
+            aCurrent = aCurrent.getNext();
+            bCurrent = bCurrent.getNext();
+        }
+
+        return Optional.ofNullable(res);
+    }
+
+    /**
+     * 找到两个单链表的公共节点
+     *
+     * @param a a 链表
+     * @param b b 链表
+     */
+    public static <T> Optional<SingleLinkTableNode<T>> t8(SingleLinkTable<T> a, SingleLinkTable<T> b) {
+        int aLen = a.length();
+        int bLen = b.length();
+        int difference = Math.abs(aLen - bLen);
+        if (aLen > bLen) {
+            return findCommonNode(b.node, a.node, difference);
+        } else {
+            return findCommonNode(a.node, b.node, difference);
+        }
     }
 }

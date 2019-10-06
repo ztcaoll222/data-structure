@@ -63,6 +63,25 @@ class T2372Test {
         var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
         int sum = T2372.t7(table, 4, 7);
         assertEquals(3, sum);
-        assertEquals("5, 1, 3, 9, 8, 1", table.printList());
+        assertEquals("1, 3, 9, 8, 1", table.printList());
+    }
+
+    @Test
+    void t8() {
+        var table0 = SingleLinkTable.of(1);
+        var table1 = SingleLinkTable.of(4, 5);
+        var table3 = SingleLinkTable.of(7, 8, 9);
+        table0.listInsert(table3.node);
+        table1.listInsert(table3.node);
+        var res = T2372.t8(table0, table1);
+        var table4 = new SingleLinkTable<Integer>();
+        assertTrue(res.isPresent());
+        table4.node = res.get();
+        assertEquals("7, 8, 9", table4.printList());
+
+        table0 = SingleLinkTable.of(1);
+        table1 = SingleLinkTable.of(4, 5);
+        res = T2372.t8(table0, table1);
+        assertTrue(res.isEmpty());
     }
 }
