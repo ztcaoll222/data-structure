@@ -22,6 +22,28 @@ public abstract class AbstractLinkTable<T> implements LinearTable<T> {
     public abstract Optional<SingleLinkTableNode<T>> findElem(int i);
 
     /**
+     * 按位查找
+     *
+     * @param i    位置
+     * @param node 单链表的第一个节点
+     * @return 返回第 i 个位置的元素
+     */
+    protected Optional<SingleLinkTableNode<T>> findElem(int i, SingleLinkTableNode<T> node) {
+        if (empty() || i < 0) {
+            return Optional.empty();
+        }
+
+        try {
+            for (int j = 1; j <= i; j++) {
+                node = node.getNext();
+            }
+            return Optional.of(node);
+        } catch (NullPointerException ignore) {
+            return Optional.empty();
+        }
+    }
+
+    /**
      * 在单链表中的某一位插入一个节点
      *
      * @param node  单链表的第一个节点

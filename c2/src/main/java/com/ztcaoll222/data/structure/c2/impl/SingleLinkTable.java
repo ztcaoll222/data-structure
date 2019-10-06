@@ -49,19 +49,7 @@ public class SingleLinkTable<T> extends AbstractLinkTable<T> {
 
     @Override
     public Optional<SingleLinkTableNode<T>> findElem(int i) {
-        if (empty() || i < 0) {
-            return Optional.empty();
-        }
-
-        var tNode = node;
-        try {
-            for (int j = 1; j <= i; j++) {
-                tNode = tNode.getNext();
-            }
-            return Optional.of(tNode);
-        } catch (NullPointerException ignore) {
-            return Optional.empty();
-        }
+        return findElem(i, node);
     }
 
     @Override
