@@ -43,18 +43,19 @@ public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> imp
         return count;
     }
 
-    @Override
-    public Optional<B> locateElem(T value) {
+    /**
+     * 根据某个条件获得某个节点
+     *
+     * @param func 条件
+     * @return 某一个节点
+     */
+    protected Optional<B> find(FunctionOneOne<B, Boolean> func) {
         if (empty()) {
             return Optional.empty();
         }
 
-        B tNode = getFirst();
-        while (tNode != null) {
-            if (Objects.equals(value, tNode.getValue())) {
-                break;
-            }
-
+        var tNode = getFirst();
+        while (tNode != null && !func.execute(tNode)) {
             tNode = tNode.getNext();
         }
 
@@ -62,8 +63,8 @@ public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> imp
     }
 
     @Override
-    public Optional<T> getElem(int i) {
-        return findElem(i - 1).map(B::getValue);
+    public Optional<B> locateElem(T value) {
+        return find(datum -> Objects.equals(value, datum.getValue()));
     }
 
     @Override
@@ -81,6 +82,11 @@ public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> imp
         } catch (NullPointerException ignore) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<T> getElem(int i) {
+        return findElem(i - 1).map(B::getValue);
     }
 
     /**
@@ -131,25 +137,6 @@ public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> imp
         }
 
         return true;
-    }
-
-    /**
-     * 根据某个条件获得某个节点
-     *
-     * @param func 条件
-     * @return 某一个节点
-     */
-    protected Optional<B> find(FunctionOneOne<B, Boolean> func) {
-        if (empty()) {
-            return Optional.empty();
-        }
-
-        var tNode = getFirst();
-        while (tNode != null && !func.execute(tNode)) {
-            tNode = tNode.getNext();
-        }
-
-        return Optional.ofNullable(tNode);
     }
 
     /**
