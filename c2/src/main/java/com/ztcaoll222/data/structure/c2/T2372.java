@@ -390,4 +390,36 @@ public class T2372 {
 
         return Pair.of(a,b);
     }
+
+
+    /**
+     * 分解带头结点的单链表
+     * 使得 a 表获得序号为奇数的节点, b 表获得序号为偶数的节点
+     * 要求原地
+     *
+     * @param table 被分解的带头结点的单链表
+     * @return <序号为奇数的带头结点的单链表, 序号为偶数的带头结点的单链表>
+     */
+    public static <T> Pair<SingleLinkTable<T>, SingleLinkTable<T>> t11(SingleLinkTableWithHead<T> table) {
+        var a = new SingleLinkTable<T>();
+        var b = new SingleLinkTable<T>();
+
+        var tNode = table.getFirst();
+        while (tNode != null && tNode.getNext() != null) {
+            var pre0 = tNode;
+            var pre1 = tNode.getNext();
+            tNode = tNode.getNext().getNext();
+            pre0.setNext(null);
+            pre1.setNext(null);
+
+            a.listInsertLast(pre0);
+            b.listInsertLast(pre1);
+        }
+
+        if (tNode != null) {
+            a.listInsertLast(tNode);
+        }
+
+        return Pair.of(a, b);
+    }
 }
