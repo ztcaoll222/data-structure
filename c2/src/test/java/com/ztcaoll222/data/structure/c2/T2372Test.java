@@ -103,7 +103,7 @@ class T2372Test {
     @Test
     void t11() {
         var table = SingleLinkTableWithHead.of(1, 2, 3, 4, 5);
-        var res = T2372.t10(table);
+        var res = T2372.t11(table);
         assertEquals("1, 3, 5", res.getK().printList());
         assertEquals("2, 4", res.getV().printList());
     }
