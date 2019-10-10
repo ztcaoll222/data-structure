@@ -188,11 +188,59 @@ public class T2372 {
     }
 
     /**
+     * 原地合并
+     *
+     * @param left  左节点
+     * @param right 右节点
+     */
+    private static SingleLinkTableNode<Integer> mergeInSitu(SingleLinkTableNode<Integer> left, SingleLinkTableNode<Integer> right) {
+        if (left == null && right == null) {
+            return null;
+        }
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+
+        SingleLinkTableNode<Integer> res = null, tNode = null;
+        while (left != null && right != null) {
+            if (left.getValue() < right.getValue()) {
+                if (res == null) {
+                    tNode = res = left;
+                } else {
+                    tNode.setNext(left);
+                    tNode = tNode.getNext();
+                }
+                left = left.getNext();
+            } else {
+                if (res == null) {
+                    tNode = res = right;
+                } else {
+                    tNode.setNext(right);
+                    tNode = tNode.getNext();
+                }
+                right = right.getNext();
+            }
+        }
+
+        if (left != null) {
+            tNode.setNext(left);
+        }
+        if (right != null) {
+            tNode.setNext(right);
+        }
+
+        return res;
+    }
+
+    /**
      * 归并排序
      *
      * @param node 节点
      */
-    private static SingleLinkTableNode<Integer> sort(SingleLinkTableNode<Integer> node) {
+    private static SingleLinkTableNode<Integer> sort(SingleLinkTableNode<Integer> node, FunctionTwoOne<SingleLinkTableNode<Integer>, SingleLinkTableNode<Integer>, SingleLinkTableNode<Integer>> func) {
         if (node == null || node.getNext() == null) {
             return node;
         }
@@ -205,10 +253,10 @@ public class T2372 {
         }
         walkerPre.setNext(null);
 
-        var left = sort(node);
-        var right = sort(walker);
+        var left = sort(node, func);
+        var right = sort(walker, func);
 
-        return merge(left, right);
+        return func.execute(left, right);
     }
 
     /**
@@ -217,7 +265,7 @@ public class T2372 {
      * @param table 表
      */
     public static void t6(SingleLinkTableWithHead<Integer> table) {
-        var node = sort(table.head.getNext());
+        var node = sort(table.head.getNext(), T2372::merge);
         table.head.setNext(node);
     }
 
@@ -290,5 +338,20 @@ public class T2372 {
         } else {
             return findCommonNode(a.node, b.node, difference);
         }
+    }
+
+    /**
+     * 顺序输出抬带头节点的单链表, 要求空间复杂度的 o(1)
+     *
+     * @param table 单链表
+     */
+    public static String t9(SingleLinkTableWithHead<Integer> table) {
+        if (table.empty()) {
+            return "";
+        }
+
+        var node = sort(table.head.getNext(), T2372::mergeInSitu);
+        table.head.setNext(node);
+        return table.printList();
     }
 }

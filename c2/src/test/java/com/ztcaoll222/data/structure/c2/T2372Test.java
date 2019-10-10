@@ -84,4 +84,11 @@ class T2372Test {
         res = T2372.t8(table0, table1);
         assertTrue(res.isEmpty());
     }
+
+    @Test
+    void t9() {
+        var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
+        String res = T2372.t9(table);
+        assertEquals("1, 1, 3, 5, 6, 6, 8, 9", res);
+    }
 }
