@@ -361,4 +361,33 @@ public class T2372 {
         table.head.setNext(node);
         return table.printList();
     }
+
+    /**
+     * 分解带头结点的单链表
+     * 使得 a 表获得序号为奇数的节点, b 表获得序号为偶数的节点
+     *
+     * @param table 被分解的带头结点的单链表
+     * @return <序号为奇数的带头结点的单链表, 序号为偶数的带头结点的单链表>
+     */
+    public static <T> Pair<SingleLinkTableWithHead<T>, SingleLinkTableWithHead<T>> t10(SingleLinkTableWithHead<T> table) {
+        var a = new SingleLinkTableWithHead<T>();
+        var b = new SingleLinkTableWithHead<T>();
+
+        int count = 1;
+        var tNode = table.getFirst();
+        while (tNode != null) {
+            var pre = tNode;
+            tNode = tNode.getNext();
+            pre.setNext(null);
+
+            if ((count & 1) == 1) {
+                a.listInsertLast(pre);
+            } else {
+                b.listInsertLast(pre);
+            }
+            count++;
+        }
+
+        return Pair.of(a,b);
+    }
 }

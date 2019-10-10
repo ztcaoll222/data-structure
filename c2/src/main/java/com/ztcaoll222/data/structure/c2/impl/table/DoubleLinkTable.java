@@ -13,12 +13,12 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleLinkTableNodeImp
     private DoubleLinkTableNodeImpl<T> node;
 
     @Override
-    protected void setFirst(DoubleLinkTableNodeImpl<T> datum) {
+    public void setFirst(DoubleLinkTableNodeImpl<T> datum) {
         node = datum;
     }
 
     @Override
-    protected DoubleLinkTableNodeImpl<T> getFirst() {
+    public DoubleLinkTableNodeImpl<T> getFirst() {
         return node;
     }
 

@@ -12,16 +12,13 @@ import com.ztcaoll222.data.structure.c2.impl.node.SingleLinkTableNodeImpl;
 public class SingleLinkTableWithHead<T> extends AbstractLinkTable<SingleLinkTableNodeImpl<T>, T> {
     public SingleLinkTableNodeImpl<T> head = new SingleLinkTableNodeImpl<>();
 
-    private SingleLinkTableWithHead() {
-    }
-
     @Override
-    protected void setFirst(SingleLinkTableNodeImpl<T> datum) {
+    public void setFirst(SingleLinkTableNodeImpl<T> datum) {
         head.setNext(datum);
     }
 
     @Override
-    protected SingleLinkTableNodeImpl<T> getFirst() {
+    public SingleLinkTableNodeImpl<T> getFirst() {
         return head.getNext();
     }
 

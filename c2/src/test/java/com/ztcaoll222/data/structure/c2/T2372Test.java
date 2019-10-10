@@ -91,4 +91,12 @@ class T2372Test {
         String res = T2372.t9(table);
         assertEquals("1, 1, 3, 5, 6, 6, 8, 9", res);
     }
+
+    @Test
+    void t10() {
+        var table = SingleLinkTableWithHead.of(1, 2, 3, 4, 5);
+        var res = T2372.t10(table);
+        assertEquals("1, 3, 5", res.getK().printList());
+        assertEquals("2, 4", res.getV().printList());
+    }
 }

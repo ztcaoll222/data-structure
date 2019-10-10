@@ -20,14 +20,14 @@ public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> imp
      *
      * @param datum 节点
      */
-    protected abstract void setFirst(B datum);
+    public abstract void setFirst(B datum);
 
     /**
      * 获得第一个节点
      *
      * @return 第一个节点
      */
-    protected abstract B getFirst();
+    public abstract B getFirst();
 
     @Override
     public int length() {
