@@ -1,6 +1,7 @@
-package com.ztcaoll222.data.structure.c2.impl;
+package com.ztcaoll222.data.structure.c2.impl.table;
 
-import com.ztcaoll222.data.structure.c2.LinearTable;
+import com.ztcaoll222.data.structure.c2.impl.node.SequenceTableElem;
+import com.ztcaoll222.data.structure.c2.interfaces.table.LinearTable;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * @author ztcaoll222
  * Create time: 2019/9/28 20:27
  */
-public class SequenceTable<T> implements LinearTable<T> {
+public class SequenceTable<T> implements LinearTable<SequenceTableElem<T>, T> {
     public int maxSize;
     public SequenceTableElem<T>[] data;
     public int size = 0;
@@ -106,7 +107,7 @@ public class SequenceTable<T> implements LinearTable<T> {
     }
 
     @Override
-    public boolean listInsert(T value) {
+    public boolean listInsertLast(T value) {
         SequenceTableElem<T> datum = new SequenceTableElem<>(value);
         return listInsert(size, datum);
     }
@@ -142,7 +143,9 @@ public class SequenceTable<T> implements LinearTable<T> {
 
     @Override
     public String printList() {
-        return Arrays.stream(data).limit(size).map(elem -> elem.getValue().toString()).collect(Collectors.joining(", "));
+        return Arrays.stream(data).limit(size)
+                .map(elem -> elem.getValue().toString())
+                .collect(Collectors.joining(", "));
     }
 
     @Override
@@ -164,7 +167,7 @@ public class SequenceTable<T> implements LinearTable<T> {
     @SafeVarargs
     public static <T> SequenceTable<T> of(T... objs) {
         SequenceTable<T> table = new SequenceTable<>(objs.length);
-        Arrays.stream(objs).forEach(table::listInsert);
+        Arrays.stream(objs).forEach(table::listInsertLast);
         return table;
     }
 }

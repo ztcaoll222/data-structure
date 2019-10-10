@@ -1,8 +1,11 @@
 package com.ztcaoll222.data.structure.c2.abs;
 
-import com.ztcaoll222.data.structure.c2.LinearTable;
-import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableNode;
+import com.ztcaoll222.data.structure.c2.func.FunctionOneOne;
+import com.ztcaoll222.data.structure.c2.interfaces.node.SingleLinkTableNode;
+import com.ztcaoll222.data.structure.c2.interfaces.table.LinearTable;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -11,65 +14,166 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/6 21:25
  */
-public abstract class AbstractLinkTable<T> implements LinearTable<T> {
+public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> implements LinearTable<B, T> {
     /**
-     * 按位查找
+     * 设置第一个节点
      *
-     * @param i 位置
-     * @return 返回第 i 个位置的元素
+     * @param datum 节点
      */
-    @Override
-    public abstract Optional<SingleLinkTableNode<T>> findElem(int i);
+    protected abstract void setFirst(B datum);
 
     /**
-     * 按位查找
+     * 获得第一个节点
      *
-     * @param i    位置
-     * @param node 单链表的第一个节点
-     * @return 返回第 i 个位置的元素
+     * @return 第一个节点
      */
-    protected Optional<SingleLinkTableNode<T>> findElem(int i, SingleLinkTableNode<T> node) {
+    protected abstract B getFirst();
+
+    @Override
+    public int length() {
+        if (empty()) {
+            return 0;
+        }
+        B tNode = getFirst();
+        int count = 0;
+        while (tNode != null) {
+            count++;
+            tNode = tNode.getNext();
+        }
+        return count;
+    }
+
+    @Override
+    public Optional<B> locateElem(T value) {
+        if (empty()) {
+            return Optional.empty();
+        }
+
+        B tNode = getFirst();
+        while (tNode != null) {
+            if (Objects.equals(value, tNode.getValue())) {
+                break;
+            }
+
+            tNode = tNode.getNext();
+        }
+
+        return Optional.ofNullable(tNode);
+    }
+
+    @Override
+    public Optional<T> getElem(int i) {
+        return findElem(i - 1).map(B::getValue);
+    }
+
+    @Override
+    public Optional<B> findElem(int i) {
         if (empty() || i < 0) {
             return Optional.empty();
         }
 
         try {
+            var tNode = getFirst();
             for (int j = 1; j <= i; j++) {
-                node = node.getNext();
+                tNode = tNode.getNext();
             }
-            return Optional.of(node);
+            return Optional.of(tNode);
         } catch (NullPointerException ignore) {
             return Optional.empty();
         }
     }
 
     /**
-     * 在单链表中的某一位插入一个节点
+     * 在末尾插入元素
      *
-     * @param node  单链表的第一个节点
-     * @param datum 待插入的某一个节点
-     * @param limit 位置
+     * @param datum 元素
+     * @return 插入成功则返回 true, 否则返回 false
      */
-    protected boolean listInsert(SingleLinkTableNode<T> node, SingleLinkTableNode<T> datum, int limit) {
-        for (int j = 0; j < limit; j++) {
-            node = node.getNext();
+    public boolean listInsertLast(B datum) {
+        if (empty()) {
+            setFirst(datum);
+            return true;
         }
 
-        var next = node.getNext();
+        return finLast().map(last -> {
+            last.setNext(datum);
+            return true;
+        }).orElse(false);
+    }
+
+    /**
+     * 在链表中的某一位插入一个节点
+     *
+     * @param limit 位置
+     * @param datum 待插入的某一个节点
+     */
+    protected boolean listInsert(int limit, B datum) {
+        if (limit < 0) {
+            return false;
+        }
+
+        if (empty()) {
+            setFirst(datum);
+            return true;
+        }
+
+        var tNode = getFirst();
+        for (int j = 0; j < limit - 1; j++) {
+            tNode = tNode.getNext();
+        }
+
+        var next = tNode.getNext();
         if (next != null) {
-            node.setNext(datum);
+            tNode.setNext(datum);
             datum.setNext(next);
         } else {
-            node.setNext(datum);
+            tNode.setNext(datum);
         }
 
         return true;
     }
 
+    /**
+     * 根据某个条件获得某个节点
+     *
+     * @param func 条件
+     * @return 某一个节点
+     */
+    protected Optional<B> find(FunctionOneOne<B, Boolean> func) {
+        if (empty()) {
+            return Optional.empty();
+        }
+
+        var tNode = getFirst();
+        while (tNode != null && !func.execute(tNode)) {
+            tNode = tNode.getNext();
+        }
+
+        return Optional.ofNullable(tNode);
+    }
+
+    /**
+     * 找到最后一个节点
+     *
+     * @return 最后一个节点
+     */
+    protected Optional<B> finLast() {
+        return find(datum -> datum.getNext() == null);
+    }
+
     @Override
-    public Optional<SingleLinkTableNode<T>> listDelete(int i) {
+    public Optional<B> listDeleteLast() {
+        return find(datum -> datum.getNext().getNext() == null).map(pre -> {
+            B last = pre.getNext();
+            pre.setNext(null);
+            return last;
+        });
+    }
+
+    @Override
+    public Optional<B> listDelete(int i) {
         return findElem(i - 2).map(pre -> {
-            var tNode = pre.getNext();
+            B tNode = pre.getNext();
             if (tNode.getNext() == null) {
                 pre.setNext(null);
             } else {
@@ -79,18 +183,14 @@ public abstract class AbstractLinkTable<T> implements LinearTable<T> {
         });
     }
 
-    /**
-     * 输出
-     *
-     * @param node 单链表的第一个节点
-     */
-    protected String printList(SingleLinkTableNode<T> node) {
+    @Override
+    public String printList() {
         if (empty()) {
             return "";
         }
 
         StringBuilder stringBuilder = new StringBuilder();
-        var tNode = node;
+        var tNode = getFirst();
         while (tNode != null) {
             stringBuilder.append(tNode.getValue());
             tNode = tNode.getNext();
@@ -99,5 +199,24 @@ public abstract class AbstractLinkTable<T> implements LinearTable<T> {
             }
         }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean empty() {
+        return getFirst() == null;
+    }
+
+    @Override
+    public void destroyList() {
+        setFirst(null);
+    }
+
+    /**
+     * 创建链表
+     */
+    @SafeVarargs
+    protected static <C extends AbstractLinkTable<B, T>, B extends SingleLinkTableNode<T>, T> C of(C table, T... objs) {
+        Arrays.stream(objs).forEach(table::listInsertLast);
+        return table;
     }
 }

@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.c2.impl;
+package com.ztcaoll222.data.structure.c2.impl.table;
 
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
@@ -7,20 +7,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * 单链表单元测试
+ * 双链表单元测试
  */
 @Flogger
-class SingleLinkTableTest {
+class DoubleLinkTableTest {
 
     @Test
     void length() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         assertEquals(3, table.length());
     }
 
     @Test
     void locateElem() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         var elem = table.locateElem(3);
         assertTrue(elem.isPresent());
         assertEquals(3, elem.get().getValue());
@@ -31,7 +31,7 @@ class SingleLinkTableTest {
 
     @Test
     void getElem() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         var value = table.getElem(3);
         assertTrue(value.isPresent());
         assertEquals(3, value.get());
@@ -39,14 +39,14 @@ class SingleLinkTableTest {
 
     @Test
     void listInsert() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         assertTrue(table.listInsert(1, 0));
         assertEquals("1, 0, 2, 3", table.printList());
     }
 
     @Test
     void listDeleteLast() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         var elem = table.listDeleteLast();
         assertTrue(elem.isPresent());
         assertEquals(3, elem.get().getValue());
@@ -55,7 +55,7 @@ class SingleLinkTableTest {
 
     @Test
     void listDelete() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         var elem = table.listDelete(2);
         assertTrue(elem.isPresent());
         assertEquals(2, elem.get().getValue());
@@ -64,19 +64,19 @@ class SingleLinkTableTest {
 
     @Test
     void printList() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
     }
 
     @Test
     void empty() {
-        var table = new SingleLinkTable<Integer>();
+        var table = new DoubleLinkTable<Integer>();
         assertTrue(table.empty());
     }
 
     @Test
     void destroyList() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
         table.destroyList();
         assertTrue(table.empty());
@@ -84,7 +84,7 @@ class SingleLinkTableTest {
 
     @Test
     void of() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTable.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
     }
 }

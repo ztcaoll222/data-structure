@@ -1,4 +1,6 @@
-package com.ztcaoll222.data.structure.c2;
+package com.ztcaoll222.data.structure.c2.interfaces.table;
+
+import com.ztcaoll222.data.structure.c2.interfaces.node.Elem;
 
 import java.util.Optional;
 
@@ -8,7 +10,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/9/28 20:26
  */
-public interface LinearTable<T> {
+public interface LinearTable<B extends Elem<T>, T> {
     /**
      * 求表长
      *
@@ -22,7 +24,7 @@ public interface LinearTable<T> {
      * @param value 关键字
      * @return 返回查找具有给定关键字的元素
      */
-    Optional<? extends Elem<T>> locateElem(T value);
+    Optional<B> locateElem(T value);
 
     /**
      * 按位查找
@@ -30,7 +32,7 @@ public interface LinearTable<T> {
      * @param i 位置
      * @return 返回第 i 个位置的元素
      */
-    Optional<? extends Elem<T>> findElem(int i);
+    Optional<B> findElem(int i);
 
     /**
      * 按位查找
@@ -50,19 +52,19 @@ public interface LinearTable<T> {
     boolean listInsert(int i, T value);
 
     /**
-     * 插入
+     * 在末尾插入元素
      *
      * @param value 元素的值
      * @return 插入成功则返回 true, 否则返回 false
      */
-    boolean listInsert(T value);
+    boolean listInsertLast(T value);
 
     /**
      * 删除最后的元素
      *
      * @return 返回被删除的元素
      */
-    Optional<? extends Elem<T>> listDeleteLast();
+    Optional<B> listDeleteLast();
 
     /**
      * 删除
@@ -70,7 +72,7 @@ public interface LinearTable<T> {
      * @param i 位置
      * @return 返回被删除的元素
      */
-    Optional<? extends Elem<T>> listDelete(int i);
+    Optional<B> listDelete(int i);
 
     /**
      * 输出

@@ -1,7 +1,7 @@
 package com.ztcaoll222.data.structure.c2;
 
-import com.ztcaoll222.data.structure.c2.impl.SingleLinkTable;
-import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableWithHead;
+import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
+import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 
@@ -71,8 +71,8 @@ class T2372Test {
         var table0 = SingleLinkTable.of(1);
         var table1 = SingleLinkTable.of(4, 5);
         var table3 = SingleLinkTable.of(7, 8, 9);
-        table0.listInsert(table3.node);
-        table1.listInsert(table3.node);
+        table0.listInsertLast(table3.node);
+        table1.listInsertLast(table3.node);
         var res = T2372.t8(table0, table1);
         var table4 = new SingleLinkTable<Integer>();
         assertTrue(res.isPresent());

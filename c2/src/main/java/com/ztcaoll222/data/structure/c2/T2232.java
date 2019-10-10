@@ -1,7 +1,7 @@
 package com.ztcaoll222.data.structure.c2;
 
-import com.ztcaoll222.data.structure.c2.impl.SequenceTable;
-import com.ztcaoll222.data.structure.c2.impl.SequenceTableElem;
+import com.ztcaoll222.data.structure.c2.impl.table.SequenceTable;
+import com.ztcaoll222.data.structure.c2.impl.node.SequenceTableElem;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -149,23 +149,23 @@ public class T2232 {
             var va = da.getValue();
             var vb = db.getValue();
             if (va < vb) {
-                newTable.listInsert(va);
+                newTable.listInsertLast(va);
                 ia++;
             } else {
-                newTable.listInsert(vb);
+                newTable.listInsertLast(vb);
                 ib++;
             }
         }
 
         if (a.size - ia > 0) {
             while (ia < a.size) {
-                newTable.listInsert(a.data[ia].getValue());
+                newTable.listInsertLast(a.data[ia].getValue());
                 ia++;
             }
         }
         if (b.size - ib > 0) {
             while (ib < b.size) {
-                newTable.listInsert(b.data[ib].getValue());
+                newTable.listInsertLast(b.data[ib].getValue());
                 ib++;
             }
         }

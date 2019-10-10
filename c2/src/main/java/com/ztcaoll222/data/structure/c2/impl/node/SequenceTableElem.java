@@ -1,6 +1,6 @@
-package com.ztcaoll222.data.structure.c2.impl;
+package com.ztcaoll222.data.structure.c2.impl.node;
 
-import com.ztcaoll222.data.structure.c2.Elem;
+import com.ztcaoll222.data.structure.c2.interfaces.node.Elem;
 import lombok.Data;
 
 /**

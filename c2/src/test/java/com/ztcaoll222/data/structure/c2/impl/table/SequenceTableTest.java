@@ -1,6 +1,7 @@
-package com.ztcaoll222.data.structure.c2.impl;
+package com.ztcaoll222.data.structure.c2.impl.table;
 
-import com.ztcaoll222.data.structure.c2.Elem;
+import com.ztcaoll222.data.structure.c2.impl.node.SequenceTableElem;
+import com.ztcaoll222.data.structure.c2.impl.table.SequenceTable;
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 

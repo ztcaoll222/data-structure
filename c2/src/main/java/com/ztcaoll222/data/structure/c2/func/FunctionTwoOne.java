@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.c2;
+package com.ztcaoll222.data.structure.c2.func;
 
 /**
  * 函数接口

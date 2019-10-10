@@ -1,8 +1,9 @@
 package com.ztcaoll222.data.structure.c2;
 
-import com.ztcaoll222.data.structure.c2.impl.SingleLinkTable;
-import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableNode;
-import com.ztcaoll222.data.structure.c2.impl.SingleLinkTableWithHead;
+import com.ztcaoll222.data.structure.c2.func.FunctionTwoOne;
+import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
+import com.ztcaoll222.data.structure.c2.impl.node.SingleLinkTableNodeImpl;
+import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class T2372 {
      * @param node 结点
      * @param x    值
      */
-    private static <T> SingleLinkTableNode<T> deleteAllX(SingleLinkTableNode<T> node, T x) {
+    private static <T> SingleLinkTableNodeImpl<T> deleteAllX(SingleLinkTableNodeImpl<T> node, T x) {
         if (node == null) {
             return null;
         }
@@ -60,7 +61,8 @@ public class T2372 {
     /**
      * 逆置输出获得带头结点的单链表
      */
-    private static <T> SingleLinkTableNode<T> reversePrint(SingleLinkTableNode<T> node, StringBuilder stringBuilder) {
+    private static <T> SingleLinkTableNodeImpl<T> reversePrint(SingleLinkTableNodeImpl<T> node,
+                                                               StringBuilder stringBuilder) {
         if (node == null) {
             return null;
         }
@@ -122,7 +124,7 @@ public class T2372 {
      *
      * @param node 头结点
      */
-    private static <T> SingleLinkTableNode<T> reverse(SingleLinkTableNode<T> node) {
+    private static <T> SingleLinkTableNodeImpl<T> reverse(SingleLinkTableNodeImpl<T> node) {
         if (node == null) {
             return null;
         }
@@ -154,7 +156,8 @@ public class T2372 {
      * @param left  左节点
      * @param right 右节点
      */
-    private static SingleLinkTableNode<Integer> merge(SingleLinkTableNode<Integer> left, SingleLinkTableNode<Integer> right) {
+    private static SingleLinkTableNodeImpl<Integer> merge(SingleLinkTableNodeImpl<Integer> left,
+                                                          SingleLinkTableNodeImpl<Integer> right) {
         if (left == null && right == null) {
             return null;
         }
@@ -165,7 +168,7 @@ public class T2372 {
             return left;
         }
 
-        var res = new SingleLinkTableNode<Integer>();
+        var res = new SingleLinkTableNodeImpl<Integer>();
         var tNode = res;
         while (left != null && right != null) {
             if (left.getValue() < right.getValue()) {
@@ -193,7 +196,8 @@ public class T2372 {
      * @param left  左节点
      * @param right 右节点
      */
-    private static SingleLinkTableNode<Integer> mergeInSitu(SingleLinkTableNode<Integer> left, SingleLinkTableNode<Integer> right) {
+    private static SingleLinkTableNodeImpl<Integer> mergeInSitu(SingleLinkTableNodeImpl<Integer> left,
+                                                                SingleLinkTableNodeImpl<Integer> right) {
         if (left == null && right == null) {
             return null;
         }
@@ -204,7 +208,7 @@ public class T2372 {
             return left;
         }
 
-        SingleLinkTableNode<Integer> res = null, tNode = null;
+        SingleLinkTableNodeImpl<Integer> res = null, tNode = null;
         while (left != null && right != null) {
             if (left.getValue() < right.getValue()) {
                 if (res == null) {
@@ -240,12 +244,15 @@ public class T2372 {
      *
      * @param node 节点
      */
-    private static SingleLinkTableNode<Integer> sort(SingleLinkTableNode<Integer> node, FunctionTwoOne<SingleLinkTableNode<Integer>, SingleLinkTableNode<Integer>, SingleLinkTableNode<Integer>> func) {
+    private static SingleLinkTableNodeImpl<Integer> sort(SingleLinkTableNodeImpl<Integer> node,
+                                                         FunctionTwoOne<SingleLinkTableNodeImpl<Integer>,
+                                                                 SingleLinkTableNodeImpl<Integer>,
+                                                                 SingleLinkTableNodeImpl<Integer>> func) {
         if (node == null || node.getNext() == null) {
             return node;
         }
 
-        SingleLinkTableNode<Integer> walker = node, walkerPre = node, runner = node;
+        SingleLinkTableNodeImpl<Integer> walker = node, walkerPre = node, runner = node;
         while (runner != null && runner.getNext() != null) {
             runner = runner.getNext().getNext();
             walkerPre = walker;
@@ -299,10 +306,10 @@ public class T2372 {
      * @param b          b 链表的第一个节点, 长的那条
      * @param difference 两条链表长度的差数
      */
-    private static <T> Optional<SingleLinkTableNode<T>> findCommonNode(SingleLinkTableNode<T> a,
-                                                                       SingleLinkTableNode<T> b,
-                                                                       int difference) {
-        SingleLinkTableNode<T> res = null;
+    private static <T> Optional<SingleLinkTableNodeImpl<T>> findCommonNode(SingleLinkTableNodeImpl<T> a,
+                                                                           SingleLinkTableNodeImpl<T> b,
+                                                                           int difference) {
+        SingleLinkTableNodeImpl<T> res = null;
         var aCurrent = a;
         var bCurrent = b;
         int count = 0;
@@ -329,7 +336,7 @@ public class T2372 {
      * @param a a 链表
      * @param b b 链表
      */
-    public static <T> Optional<SingleLinkTableNode<T>> t8(SingleLinkTable<T> a, SingleLinkTable<T> b) {
+    public static <T> Optional<SingleLinkTableNodeImpl<T>> t8(SingleLinkTable<T> a, SingleLinkTable<T> b) {
         int aLen = a.length();
         int bLen = b.length();
         int difference = Math.abs(aLen - bLen);
