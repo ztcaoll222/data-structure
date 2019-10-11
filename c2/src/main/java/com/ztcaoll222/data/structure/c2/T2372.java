@@ -494,4 +494,35 @@ public class T2372 {
         }
         return new SingleLinkTable<Integer>().setFirst(res);
     }
+
+    /**
+     * 获得两个带头结点的单链表的重复部分, 且不破坏原链表的顺序
+     *
+     * @param a 带头结点的单链表
+     * @param b 带头结点的单链表
+     * @return a 和 b 从重复节点组成的带头结点的单链表
+     */
+    public static SingleLinkTableWithHead<Integer> t14(SingleLinkTableWithHead<Integer> a, SingleLinkTableWithHead<Integer> b) {
+        var aNode = a.getFirst();
+        var bNode = b.getFirst();
+
+        SingleLinkTableWithHead<Integer> res = new SingleLinkTableWithHead<>();
+        var tNode = res.getFirst();
+        while (aNode != null && bNode != null) {
+            if (Objects.equals(aNode.getValue(), bNode.getValue())) {
+                if (tNode == null) {
+                    res.setFirst(new SingleLinkTableNodeImpl<>(aNode.getValue()));
+                    tNode = res.getFirst();
+                } else {
+                    tNode.setNext(new SingleLinkTableNodeImpl<>(aNode.getValue()));
+                    tNode = tNode.getNext();
+                }
+            }
+
+            aNode = aNode.getNext();
+            bNode = bNode.getNext();
+        }
+
+        return res;
+    }
 }
