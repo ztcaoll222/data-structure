@@ -107,4 +107,11 @@ class T2372Test {
         assertEquals("1, 3, 5", res.getK().printList());
         assertEquals("2, 4", res.getV().printList());
     }
+
+    @Test
+    void t12() {
+        var table = SingleLinkTable.of(1, 2, 2, 3, 4, 4, 4, 5);
+        T2372.t12(table);
+        assertEquals("1, 2, 3, 4, 5", table.printList());
+    }
 }

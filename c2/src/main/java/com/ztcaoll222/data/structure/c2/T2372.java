@@ -422,4 +422,27 @@ public class T2372 {
 
         return Pair.of(a, b);
     }
+
+    /**
+     * 去重有序单链表中的重复数据
+     *
+     * @param table 有序单链表
+     */
+    public static void t12(SingleLinkTable<Integer> table) {
+        if (table.empty()) {
+            return;
+        }
+
+        var pre = table.getFirst();
+        var current = pre.getNext();
+        while (pre != null && current != null) {
+            if (Objects.equals(pre.getValue(), current.getValue())) {
+                current = current.getNext();
+                pre.setNext(current);
+            } else {
+                pre = pre.getNext();
+                current = current.getNext();
+            }
+        }
+    }
 }
