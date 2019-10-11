@@ -525,4 +525,34 @@ public class T2372 {
 
         return res;
     }
+
+    /**
+     * 求两个集合(元素不重复)的并集, 存放在 a 集合中
+     *
+     * @param a 集合
+     * @param b 集合
+     */
+    public static void t15(SingleLinkTableWithHead<Integer> a, SingleLinkTableWithHead<Integer> b) {
+        var aPre = a.head;
+        var aNode = aPre.getNext();
+        var bPre = b.head;
+        var bNode = bPre.getNext();
+
+        while (aNode != null && bNode != null) {
+            if (aNode.getValue() < bNode.getValue()) {
+                aPre.setNext(aNode.getNext());
+                aNode = aNode.getNext();
+            } else if (aNode.getValue() > bNode.getValue()) {
+                bPre.setNext(bNode.getNext());
+                bNode = bNode.getNext();
+            } else {
+                aPre = aPre.getNext();
+                aNode = aNode.getNext();
+            }
+        }
+
+        if (aNode != null) {
+            aPre.setNext(null);
+        }
+    }
 }
