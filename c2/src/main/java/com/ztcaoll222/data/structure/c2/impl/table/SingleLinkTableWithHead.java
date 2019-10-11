@@ -13,8 +13,9 @@ public class SingleLinkTableWithHead<T> extends AbstractLinkTable<SingleLinkTabl
     public SingleLinkTableNodeImpl<T> head = new SingleLinkTableNodeImpl<>();
 
     @Override
-    public void setFirst(SingleLinkTableNodeImpl<T> datum) {
+    public SingleLinkTableWithHead<T> setFirst(SingleLinkTableNodeImpl<T> datum) {
         head.setNext(datum);
+        return this;
     }
 
     @Override

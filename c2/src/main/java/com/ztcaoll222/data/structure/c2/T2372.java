@@ -1,8 +1,8 @@
 package com.ztcaoll222.data.structure.c2;
 
 import com.ztcaoll222.data.structure.c2.func.FunctionTwoOne;
-import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
 import com.ztcaoll222.data.structure.c2.impl.node.SingleLinkTableNodeImpl;
+import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
 import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
 
 import java.util.Objects;
@@ -388,7 +388,7 @@ public class T2372 {
             count++;
         }
 
-        return Pair.of(a,b);
+        return Pair.of(a, b);
     }
 
 
@@ -444,5 +444,54 @@ public class T2372 {
                 current = current.getNext();
             }
         }
+    }
+
+    /**
+     * 合并两个递增单链表, 使其递减
+     *
+     * @param a 递增单链表
+     * @param b 递增单链表
+     * @return 递减单链表
+     */
+    public static SingleLinkTable<Integer> t13(SingleLinkTable<Integer> a, SingleLinkTable<Integer> b) {
+        var aNode = a.getFirst();
+        var bNode = b.getFirst();
+        SingleLinkTableNodeImpl<Integer> res = null;
+        while (aNode != null && bNode != null) {
+            SingleLinkTableNodeImpl<Integer> current;
+            if (aNode.getValue() < bNode.getValue()) {
+                current = aNode;
+                aNode = aNode.getNext();
+                current.setNext(null);
+            } else {
+                current = bNode;
+                bNode = bNode.getNext();
+                current.setNext(null);
+            }
+            if (res == null) {
+                res = current;
+            } else {
+                current.setNext(res);
+                res = current;
+            }
+        }
+
+        if (aNode != null) {
+            while (aNode != null) {
+                var current = aNode;
+                aNode = aNode.getNext();
+                current.setNext(res);
+                res = current;
+            }
+        }
+        if (bNode != null) {
+            while (bNode != null) {
+                var current = bNode;
+                bNode = bNode.getNext();
+                current.setNext(res);
+                res = current;
+            }
+        }
+        return new SingleLinkTable<Integer>().setFirst(res);
     }
 }

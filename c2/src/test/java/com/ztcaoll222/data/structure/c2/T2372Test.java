@@ -114,4 +114,12 @@ class T2372Test {
         T2372.t12(table);
         assertEquals("1, 2, 3, 4, 5", table.printList());
     }
+
+    @Test
+    void t13() {
+        var table0 = SingleLinkTable.of(1, 3, 5, 7);
+        var table1 = SingleLinkTable.of(2, 4, 6);
+        var table = T2372.t13(table0, table1);
+        assertEquals("7, 6, 5, 4, 3, 2, 1", table.printList());
+    }
 }

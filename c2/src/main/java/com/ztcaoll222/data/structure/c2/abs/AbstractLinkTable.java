@@ -19,8 +19,9 @@ public abstract class AbstractLinkTable<B extends SingleLinkTableNode<T>, T> imp
      * 设置第一个节点
      *
      * @param datum 节点
+     * @return 当前表
      */
-    public abstract void setFirst(B datum);
+    public abstract AbstractLinkTable<B, T> setFirst(B datum);
 
     /**
      * 获得第一个节点

@@ -13,8 +13,9 @@ public class SingleLinkTable<T> extends AbstractLinkTable<SingleLinkTableNodeImp
     public SingleLinkTableNodeImpl<T> node;
 
     @Override
-    public void setFirst(SingleLinkTableNodeImpl<T> datum) {
+    public SingleLinkTable<T> setFirst(SingleLinkTableNodeImpl<T> datum) {
         node = datum;
+        return this;
     }
 
     @Override
