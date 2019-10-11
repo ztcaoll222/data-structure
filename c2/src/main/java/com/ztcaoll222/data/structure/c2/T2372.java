@@ -555,4 +555,33 @@ public class T2372 {
             aPre.setNext(null);
         }
     }
+
+    /**
+     * 判断 @param b 是否是 @param a 的连续子序列
+     *
+     * @param a 单链表 a
+     * @param b 单链表 b
+     */
+    public static <T> boolean t16(SingleLinkTable<T> a, SingleLinkTable<T> b) {
+        var aNode = a.getFirst();
+        var bNode = b.getFirst();
+
+        while (aNode != null && !Objects.equals(aNode.getValue(), bNode.getValue())) {
+            aNode = aNode.getNext();
+        }
+
+        if (aNode == null) {
+            return false;
+        }
+
+        while (aNode != null && bNode != null) {
+            if (!Objects.equals(aNode.getValue(), bNode.getValue())) {
+                return false;
+            }
+            aNode = aNode.getNext();
+            bNode = bNode.getNext();
+        }
+
+        return bNode == null;
+    }
 }

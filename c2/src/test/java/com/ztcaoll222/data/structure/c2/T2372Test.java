@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 第二章链表综合题单元测试
@@ -139,5 +138,18 @@ class T2372Test {
         var table1 = SingleLinkTableWithHead.of(2, 3, 5, 8);
         T2372.t15(table0, table1);
         assertEquals("3, 8", table0.printList());
+    }
+
+    @Test
+    void t16() {
+        var table0 = SingleLinkTable.of(1, 3, 4, 7, 8, 9);
+        var table1 = SingleLinkTable.of(0);
+        assertFalse(T2372.t16(table0, table1));
+
+        table1 = SingleLinkTable.of(3, 4);
+        assertTrue(T2372.t16(table0, table1));
+
+        table0 = SingleLinkTable.of(3);
+        assertFalse(T2372.t16(table0, table1));
     }
 }
