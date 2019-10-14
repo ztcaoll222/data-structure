@@ -1,5 +1,6 @@
 package com.ztcaoll222.data.structure.c2;
 
+import com.ztcaoll222.data.structure.c2.impl.table.DoubleLinkTableLoopWithHead;
 import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
 import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
 import lombok.extern.flogger.Flogger;
@@ -151,5 +152,17 @@ class T2372Test {
 
         table0 = SingleLinkTable.of(3);
         assertFalse(T2372.t16(table0, table1));
+    }
+
+    @Test
+    void t17() {
+        var table = DoubleLinkTableLoopWithHead.of(1, 2, 3, 2, 1);
+        assertTrue(T2372.t17(table));
+
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 2, 1);
+        assertTrue(T2372.t17(table));
+
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 2, 2);
+        assertFalse(T2372.t17(table));
     }
 }

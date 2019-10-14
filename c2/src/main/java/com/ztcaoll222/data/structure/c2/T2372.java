@@ -2,6 +2,7 @@ package com.ztcaoll222.data.structure.c2;
 
 import com.ztcaoll222.data.structure.c2.func.FunctionTwoOne;
 import com.ztcaoll222.data.structure.c2.impl.node.SingleLinkTableNodeImpl;
+import com.ztcaoll222.data.structure.c2.impl.table.DoubleLinkTableLoopWithHead;
 import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
 import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
 import com.ztcaoll222.data.structure.c2.interfaces.node.SingleLinkTableNode;
@@ -584,5 +585,27 @@ public class T2372 {
         }
 
         return bNode == null;
+    }
+
+    /**
+     * 判断循环双链表是否对称
+     *
+     * @param table 循环双链表
+     */
+    public static <T> boolean t17(DoubleLinkTableLoopWithHead<T> table) {
+        var head = table.head;
+        var left = head.getPre();
+        var right = head.getNext();
+
+        while (!Objects.equals(left, right) && !Objects.equals(left.getPre(), right)) {
+            if (!Objects.equals(left.getValue(), right.getValue())) {
+                return false;
+            }
+
+            left = left.getPre();
+            right = right.getNext();
+        }
+
+        return true;
     }
 }
