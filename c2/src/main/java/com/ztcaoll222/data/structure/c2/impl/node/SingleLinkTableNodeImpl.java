@@ -14,18 +14,12 @@ public class SingleLinkTableNodeImpl<T> implements SingleLinkTableNode<T> {
     private static final long serialVersionUID = 2661177743848625492L;
 
     private T value;
-
-    private SingleLinkTableNodeImpl<T> next;
+    private SingleLinkTableNode<T> next;
 
     public SingleLinkTableNodeImpl(T value) {
         this.value = value;
     }
 
     public SingleLinkTableNodeImpl() {
-    }
-
-    @Override
-    public void setNext(SingleLinkTableNode<T> next) {
-        this.next = (SingleLinkTableNodeImpl<T>) next;
     }
 }

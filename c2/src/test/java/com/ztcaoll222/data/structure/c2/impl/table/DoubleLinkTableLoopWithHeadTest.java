@@ -1,23 +1,22 @@
 package com.ztcaoll222.data.structure.c2.impl.table;
 
-import com.ztcaoll222.data.structure.c2.impl.node.SingleLinkTableNodeImpl;
-import lombok.extern.flogger.Flogger;
+import com.ztcaoll222.data.structure.c2.exceptions.SizeException;
+import com.ztcaoll222.data.structure.c2.impl.node.DoubleLinkTableNodeImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 单链表单元测试
+ * 循环双链表单元测试
  */
-@Flogger
-class SingleLinkTableTest {
+class DoubleLinkTableLoopWithHeadTest {
 
     @Test
     void locateElem() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertTrue(table.locateElem(0).isEmpty());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         assertTrue(table.locateElem(0).isEmpty());
         var res = table.locateElem(3);
         assertTrue(res.isPresent());
@@ -26,21 +25,25 @@ class SingleLinkTableTest {
 
     @Test
     void findElem() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertTrue(table.findElem(0).isEmpty());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         var elem = table.findElem(3);
         assertTrue(elem.isPresent());
         assertEquals(3, elem.get().getValue());
 
         elem = table.findElem(4);
         assertTrue(elem.isEmpty());
+
+        table.head.setNext(null);
+        DoubleLinkTableLoopWithHead<Integer> finalTable = table;
+        assertThrows(SizeException.class, () -> finalTable.findElem(3));
     }
 
     @Test
     void listInsert() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertTrue(table.listInsert(1, 1));
         assertEquals("1", table.printList());
 
@@ -60,11 +63,11 @@ class SingleLinkTableTest {
 
     @Test
     void listDeleteLast() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         var elem = table.listDeleteLast();
         assertTrue(elem.isEmpty());
 
-        table = SingleLinkTable.of(1, 2);
+        table = DoubleLinkTableLoopWithHead.of(1, 2);
         elem = table.listDeleteLast();
         assertTrue(elem.isPresent());
         assertEquals(2, elem.get().getValue());
@@ -77,11 +80,11 @@ class SingleLinkTableTest {
 
     @Test
     void listDelete() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         var elem = table.listDelete(1);
         assertTrue(elem.isEmpty());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         elem = table.listDelete(2);
         assertTrue(elem.isPresent());
         assertEquals(2, elem.get().getValue());
@@ -97,19 +100,19 @@ class SingleLinkTableTest {
 
     @Test
     void printList() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertEquals("", table.printList());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
     }
 
     @Test
     void getElem() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertTrue(table.getElem(0).isEmpty());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         var elem = table.getElem(3);
         assertTrue(elem.isPresent());
         assertEquals(3, elem.get());
@@ -120,7 +123,7 @@ class SingleLinkTableTest {
 
     @Test
     void listInsertLast() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         table.listInsertLast(1);
         assertEquals("1", table.printList());
 
@@ -130,51 +133,51 @@ class SingleLinkTableTest {
 
     @Test
     void empty() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertTrue(table.empty());
     }
 
     @Test
     void destroyList() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         table.destroyList();
         assertTrue(table.empty());
     }
 
     @Test
     void length() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertEquals(0, table.length());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         assertEquals(3, table.length());
     }
 
     @Test
     void setFirst() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         table.setFirst(null);
         assertTrue(table.empty());
 
-        table.setFirst(new SingleLinkTableNodeImpl<>(2));
+        table.setFirst(new DoubleLinkTableNodeImpl<>(2));
         assertEquals("2", table.printList());
 
-        table.setFirst(new SingleLinkTableNodeImpl<>(1));
+        table.setFirst(new DoubleLinkTableNodeImpl<>(1));
         assertEquals("1, 2", table.printList());
     }
 
     @Test
     void getFirst() {
-        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        DoubleLinkTableLoopWithHead<Integer> table = DoubleLinkTableLoopWithHead.of();
         assertNull(table.getFirst());
 
-        table = SingleLinkTable.of(1, 2, 3);
+        table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         assertEquals(1, table.getFirst().getValue());
     }
 
     @Test
     void of() {
-        var table = SingleLinkTable.of(1, 2, 3);
+        var table = DoubleLinkTableLoopWithHead.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
     }
 }

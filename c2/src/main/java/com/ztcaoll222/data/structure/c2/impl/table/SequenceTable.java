@@ -107,9 +107,9 @@ public class SequenceTable<T> implements LinearTable<SequenceTableElem<T>, T> {
     }
 
     @Override
-    public boolean listInsertLast(T value) {
+    public void listInsertLast(T value) {
         SequenceTableElem<T> datum = new SequenceTableElem<>(value);
-        return listInsert(size, datum);
+        listInsert(size, datum);
     }
 
     @Override

@@ -55,9 +55,8 @@ public interface LinearTable<B extends Elem<T>, T> {
      * 在末尾插入元素
      *
      * @param value 元素的值
-     * @return 插入成功则返回 true, 否则返回 false
      */
-    boolean listInsertLast(T value);
+    void listInsertLast(T value);
 
     /**
      * 删除最后的元素
