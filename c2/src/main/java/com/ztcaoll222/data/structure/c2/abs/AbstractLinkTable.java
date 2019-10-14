@@ -1,121 +1,184 @@
 package com.ztcaoll222.data.structure.c2.abs;
 
-import com.ztcaoll222.data.structure.c2.interfaces.node.Elem;
-import com.ztcaoll222.data.structure.c2.interfaces.table.LinearTable;
+import com.ztcaoll222.data.structure.c2.entity.Pair;
+import com.ztcaoll222.data.structure.c2.interfaces.Elem;
+import com.ztcaoll222.data.structure.c2.interfaces.LinearTable;
 
-import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
- * 链表的抽象类
+ * 链表抽象类
  *
  * @author ztcaoll222
- * Create time: 2019/10/6 21:25
+ * Create time: 2019/10/18 18:07
  */
 public abstract class AbstractLinkTable<B extends Elem<T>, T> implements LinearTable<B, T> {
-    /**
-     * 设置第一个节点
-     *
-     * @param datum 节点
-     * @return 当前表
-     */
-    public abstract AbstractLinkTable<B, T> setFirst(B datum);
 
     /**
      * 获得第一个节点
      *
      * @return 第一个节点
      */
-    public abstract B getFirst();
+    protected abstract B getFirst();
+
+    /**
+     * 判断是否是最后一个节点
+     *
+     * @param node 某个节点
+     * @return 是则返回 true, 否则 false
+     */
+    protected abstract boolean isEnd(B node);
+
+    /**
+     * 获得下一个节点
+     *
+     * @param node 某个节点
+     * @return 某个节点的下一个节点
+     */
+    protected abstract B getNext(B node);
 
     @Override
-    public Optional<T> getElem(int i) {
-        return findElem(i).map(B::getValue);
+    public int length() {
+        if (empty()) {
+            return 0;
+        }
+
+        int count = 0;
+        var tNode = getFirst();
+        do {
+            tNode = getNext(tNode);
+            count++;
+        } while (!isEnd(tNode));
+        return count;
+    }
+
+    @Override
+    public Optional<B> locateElem(T value) {
+        if (empty()) {
+            return Optional.empty();
+        }
+
+        var tNode = getFirst();
+        do {
+            tNode = getNext(tNode);
+        } while (!isEnd(tNode) && !Objects.equals(value, tNode.getValue()));
+
+        if (isEnd(tNode)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(tNode);
+        }
+    }
+
+    @Override
+    public Optional<B> findElem(int i) {
+        if (empty() && i <= 0) {
+            return Optional.empty();
+        }
+
+        if (i == 1) {
+            return Optional.ofNullable(getFirst());
+        }
+
+        var tNode = getFirst();
+        int j = 1;
+        do {
+            tNode = getNext(tNode);
+            j++;
+        } while (j < i && !isEnd(tNode));
+
+        if (isEnd(tNode)) {
+            return Optional.empty();
+        } else {
+            return Optional.of(tNode);
+        }
     }
 
     /**
-     * 在末尾插入元素的操作
+     * 根据元素的值创建节点
      *
-     * @param last  当前表最后一个元素
-     * @param datum 元素
+     * @param values 元素的值
+     * @return key: first value: tail
      */
-    protected abstract void listInsertLastOpt(B last, B datum);
+    protected abstract Optional<Pair<B, B>> createNode(T[] values);
 
     /**
-     * 在链表中的某一位插入一个节点的操作
+     * 在最前面插入元素
      *
-     * @param current 当前的节点
-     * @param datum   待插入的节点
-     * @param next    当前节点的下一个节点, 一定不为空
+     * @param pair 待插入的节点链, key: first, value: tail
+     * @return 成功返回 true, 否则返回 false
      */
-    protected abstract void listInsertOpt(B current, B datum, B next);
+    protected abstract boolean listInsertFirst(Pair<B, B> pair);
+
+    @SafeVarargs
+    @Override
+    public final boolean listInsertFirst(T... values) {
+        return createNode(values).map(this::listInsertFirst).orElse(false);
+    }
 
     /**
-     * 删除链表的最后一个节点的操作
+     * 插入
+     * 从 1 开始数
      *
-     * @param last 当前表最后一个元素
-     * @return 被删掉的元素
-     */
-    protected abstract B listDeleteLastOpt(B last);
-
-    /**
-     * 删除链表的某一个节点的操作
-     *
-     * @param current 被删除的节点, 一定不是最后一个节点
-     */
-    protected abstract void listDeleteOpt(B current);
-
-    /**
-     * 找到最后一个节点
-     *
-     * @return 最后一个节点
-     */
-    protected abstract Optional<B> finLast();
-
-    /**
-     * 在链表中的某一位插入一个节点
-     *
-     * @param limit 位置
-     * @param datum 待插入的某一个节点
+     * @param i    位置
+     * @param pair 待插入的节点链, key: first, value: tail
      * @return 插入成功则返回 true, 否则返回 false
      */
-    public abstract boolean listInsert(int limit, B datum);
+    protected abstract boolean listInsert(int i, Pair<B, B> pair);
+
+    @SafeVarargs
+    @Override
+    public final boolean listInsert(int i, T... values) {
+        return createNode(values).map(first -> listInsert(i, first)).orElse(false);
+    }
 
     /**
      * 在末尾插入元素
      *
-     * @param datum 元素
+     * @param pair 待插入的节点链, key: first, value: tail
+     * @return 成功返回 true, 否则返回 false
      */
-    public void listInsertLast(B datum) {
+    protected abstract boolean listInsertLast(Pair<B, B> pair);
+
+    @SafeVarargs
+    @Override
+    public final boolean listInsertLast(T... values) {
+        return createNode(values).map(this::listInsertLast).orElse(false);
+    }
+
+    @Override
+    public String printList() {
         if (empty()) {
-            setFirst(datum);
-            return;
+            return "";
         }
 
-        finLast().ifPresent(last -> listInsertLastOpt(last, datum));
+        var sb = new StringBuilder();
+        var tNode = getFirst();
+        while (!isEnd(getNext(tNode))) {
+            sb.append(tNode.getValue());
+            sb.append(", ");
+            tNode = getNext(tNode);
+        }
+        sb.append(tNode.getValue());
+        return sb.toString();
     }
 
     @Override
     public boolean empty() {
-        return getFirst() == null;
-    }
-
-    @Override
-    public void destroyList() {
-        setFirst(null);
+        return isEnd(getFirst());
     }
 
     /**
-     * 创建链表
-     * 如果 @param args 的长度为 0, 那么返回的类型不建议简写成 var
+     * 初始化链表
+     *
+     * @param table  链表
+     * @param values 元素的值
      */
-    @SafeVarargs
-    protected static <C extends AbstractLinkTable<B, T>, B extends Elem<T>, T> C of(C table, T... objs) {
-        if (objs.length == 0) {
-            return table;
+    protected static <B extends AbstractLinkTable<C, T>, C extends Elem<T>, T> B of(B table, T[] values) {
+        if (values.length != 0) {
+            table.listInsertLast(values);
         }
-
-        Arrays.stream(objs).forEach(table::listInsertLast);
         return table;
     }
 }

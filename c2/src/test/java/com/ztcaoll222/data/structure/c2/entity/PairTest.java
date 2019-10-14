@@ -1,8 +1,8 @@
-package com.ztcaoll222.data.structure.c2;
+package com.ztcaoll222.data.structure.c2.entity;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PairTest {
 

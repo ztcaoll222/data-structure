@@ -1,8 +1,8 @@
 package com.ztcaoll222.data.structure.c2;
 
-import com.ztcaoll222.data.structure.c2.impl.table.DoubleLinkTableLoopWithHead;
-import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
-import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
+import com.ztcaoll222.data.structure.c2.table.DoubleHeadLoopLinkTable;
+import com.ztcaoll222.data.structure.c2.table.SingleHeadLinkTable;
+import com.ztcaoll222.data.structure.c2.table.SingleLinkTable;
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 
@@ -25,20 +25,20 @@ class T2372Test {
 
     @Test
     void t2() {
-        var table = SingleLinkTableWithHead.of(1, 2, 3, 3, 3, 5, 6, 6, 7);
+        var table = SingleHeadLinkTable.of(1, 2, 3, 3, 3, 5, 6, 6, 7);
         T2372.t2(table, 3);
         assertEquals("1, 2, 5, 6, 6, 7", table.printList());
     }
 
     @Test
     void t3() {
-        var table = SingleLinkTableWithHead.of(1, 2, 3, 3, 3, 5, 6, 6, 7);
+        var table = SingleHeadLinkTable.of(1, 2, 3, 3, 3, 5, 6, 6, 7);
         assertEquals("7, 6, 6, 5, 3, 3, 3, 2, 1", T2372.t3(table));
     }
 
     @Test
     void t4() {
-        var table = SingleLinkTableWithHead.of(3, 5, 1, 6, 9, 2);
+        var table = SingleHeadLinkTable.of(3, 5, 1, 6, 9, 2);
         Optional<Integer> min = T2372.t4(table);
         assertTrue(min.isPresent());
         assertEquals(1, min.get());
@@ -46,21 +46,21 @@ class T2372Test {
 
     @Test
     void t5() {
-        var table = SingleLinkTableWithHead.of(1, 2, 3, 4, 5);
+        var table = SingleHeadLinkTable.of(1, 2, 3, 4, 5);
         T2372.t5(table);
         assertEquals("5, 4, 3, 2, 1", table.printList());
     }
 
     @Test
     void t6() {
-        var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
+        var table = SingleHeadLinkTable.of(5, 1, 3, 6, 6, 9, 8, 1);
         T2372.t6(table);
         assertEquals("1, 1, 3, 5, 6, 6, 8, 9", table.printList());
     }
 
     @Test
     void t7() {
-        var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
+        var table = SingleHeadLinkTable.of(5, 1, 3, 6, 6, 9, 8, 1);
         int sum = T2372.t7(table, 4, 7);
         assertEquals(3, sum);
         assertEquals("1, 3, 9, 8, 1", table.printList());
@@ -71,12 +71,12 @@ class T2372Test {
         var table0 = SingleLinkTable.of(1);
         var table1 = SingleLinkTable.of(4, 5);
         var table3 = SingleLinkTable.of(7, 8, 9);
-        table0.listInsertLast(table3.node);
-        table1.listInsertLast(table3.node);
+        table0.findElem(table0.length()).ifPresent(node -> node.setNext(table3.first));
+        table1.findElem(table1.length()).ifPresent(node -> node.setNext(table3.first));
         var res = T2372.t8(table0, table1);
         var table4 = new SingleLinkTable<Integer>();
         assertTrue(res.isPresent());
-        table4.node = res.get();
+        table4.first = res.get();
         assertEquals("7, 8, 9", table4.printList());
 
         table0 = SingleLinkTable.of(1);
@@ -87,14 +87,14 @@ class T2372Test {
 
     @Test
     void t9() {
-        var table = SingleLinkTableWithHead.of(5, 1, 3, 6, 6, 9, 8, 1);
+        var table = SingleHeadLinkTable.of(5, 1, 3, 6, 6, 9, 8, 1);
         String res = T2372.t9(table);
         assertEquals("1, 1, 3, 5, 6, 6, 8, 9", res);
     }
 
     @Test
     void t10() {
-        var table = SingleLinkTableWithHead.of(1, 2, 3, 4, 5);
+        var table = SingleHeadLinkTable.of(1, 2, 3, 4, 5);
         var res = T2372.t10(table);
         assertEquals("1, 3, 5", res.getK().printList());
         assertEquals("2, 4", res.getV().printList());
@@ -102,7 +102,7 @@ class T2372Test {
 
     @Test
     void t11() {
-        var table = SingleLinkTableWithHead.of(1, 2, 3, 4, 5);
+        var table = SingleHeadLinkTable.of(1, 2, 3, 4, 5);
         var res = T2372.t11(table);
         assertEquals("1, 3, 5", res.getK().printList());
         assertEquals("2, 4", res.getV().printList());
@@ -125,8 +125,8 @@ class T2372Test {
 
     @Test
     void t14() {
-        var table0 = SingleLinkTableWithHead.of(1, 3, 4, 7);
-        var table1 = SingleLinkTableWithHead.of(2, 3, 4);
+        var table0 = SingleHeadLinkTable.of(1, 3, 4, 7);
+        var table1 = SingleHeadLinkTable.of(2, 3, 4);
         var table = T2372.t14(table0, table1);
         assertEquals("3, 4", table.printList());
         assertEquals("1, 3, 4, 7", table0.printList());
@@ -135,8 +135,8 @@ class T2372Test {
 
     @Test
     void t15() {
-        var table0 = SingleLinkTableWithHead.of(1, 3, 4, 7, 8, 9);
-        var table1 = SingleLinkTableWithHead.of(2, 3, 5, 8);
+        var table0 = SingleHeadLinkTable.of(1, 3, 4, 7, 8, 9);
+        var table1 = SingleHeadLinkTable.of(2, 3, 5, 8);
         T2372.t15(table0, table1);
         assertEquals("3, 8", table0.printList());
     }
@@ -156,13 +156,13 @@ class T2372Test {
 
     @Test
     void t17() {
-        var table = DoubleLinkTableLoopWithHead.of(1, 2, 3, 2, 1);
+        var table = DoubleHeadLoopLinkTable.of(1, 2, 3, 2, 1);
         assertTrue(T2372.t17(table));
 
-        table = DoubleLinkTableLoopWithHead.of(1, 2, 2, 1);
+        table = DoubleHeadLoopLinkTable.of(1, 2, 2, 1);
         assertTrue(T2372.t17(table));
 
-        table = DoubleLinkTableLoopWithHead.of(1, 2, 2, 2);
+        table = DoubleHeadLoopLinkTable.of(1, 2, 2, 2);
         assertFalse(T2372.t17(table));
     }
 }

@@ -1,11 +1,11 @@
 package com.ztcaoll222.data.structure.c2;
 
+import com.ztcaoll222.data.structure.c2.entity.Pair;
+import com.ztcaoll222.data.structure.c2.entity.SingleNode;
 import com.ztcaoll222.data.structure.c2.func.FunctionTwoOne;
-import com.ztcaoll222.data.structure.c2.impl.node.SingleLinkTableNodeImpl;
-import com.ztcaoll222.data.structure.c2.impl.table.DoubleLinkTableLoopWithHead;
-import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTable;
-import com.ztcaoll222.data.structure.c2.impl.table.SingleLinkTableWithHead;
-import com.ztcaoll222.data.structure.c2.interfaces.node.SingleLinkTableNode;
+import com.ztcaoll222.data.structure.c2.table.DoubleHeadLoopLinkTable;
+import com.ztcaoll222.data.structure.c2.table.SingleHeadLinkTable;
+import com.ztcaoll222.data.structure.c2.table.SingleLinkTable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class T2372 {
      * @param node 结点
      * @param x    值
      */
-    private static <T> SingleLinkTableNode<T> deleteAllX(SingleLinkTableNode<T> node, T x) {
+    private static <T> SingleNode<T> deleteAllX(SingleNode<T> node, T x) {
         if (node == null) {
             return null;
         }
@@ -47,7 +47,7 @@ public class T2372 {
      * @param x     值
      */
     public static <T> void t1(SingleLinkTable<T> table, T x) {
-        deleteAllX(table.node, x);
+        deleteAllX(table.first, x);
     }
 
     /**
@@ -56,15 +56,15 @@ public class T2372 {
      * @param table 表
      * @param x     值
      */
-    public static <T> void t2(SingleLinkTableWithHead<T> table, T x) {
+    public static <T> void t2(SingleHeadLinkTable<T> table, T x) {
         deleteAllX(table.head.getNext(), x);
     }
 
     /**
      * 逆置输出获得带头结点的单链表
      */
-    private static <T> SingleLinkTableNode<T> reversePrint(SingleLinkTableNode<T> node,
-                                                           StringBuilder stringBuilder) {
+    private static <T> SingleNode<T> reversePrint(SingleNode<T> node,
+                                                  StringBuilder stringBuilder) {
         if (node == null) {
             return null;
         }
@@ -83,7 +83,7 @@ public class T2372 {
      *
      * @param table 带头结点的单链表
      */
-    public static <T> String t3(SingleLinkTableWithHead<T> table) {
+    public static <T> String t3(SingleHeadLinkTable<T> table) {
         StringBuilder stringBuilder = new StringBuilder();
         reversePrint(table.head, stringBuilder);
         stringBuilder.setLength(stringBuilder.length() - 2);
@@ -95,7 +95,7 @@ public class T2372 {
      *
      * @param table 表
      */
-    public static Optional<Integer> t4(SingleLinkTableWithHead<Integer> table) {
+    public static Optional<Integer> t4(SingleHeadLinkTable<Integer> table) {
         if (table.empty()) {
             return Optional.empty();
         }
@@ -126,7 +126,7 @@ public class T2372 {
      *
      * @param node 头结点
      */
-    private static <T> SingleLinkTableNode<T> reverse(SingleLinkTableNode<T> node) {
+    private static <T> SingleNode<T> reverse(SingleNode<T> node) {
         if (node == null) {
             return null;
         }
@@ -147,7 +147,7 @@ public class T2372 {
      *
      * @param table 表
      */
-    public static <T> void t5(SingleLinkTableWithHead<T> table) {
+    public static <T> void t5(SingleHeadLinkTable<T> table) {
         var node = reverse(table.head.getNext());
         table.head.setNext(node);
     }
@@ -158,8 +158,8 @@ public class T2372 {
      * @param left  左节点
      * @param right 右节点
      */
-    private static SingleLinkTableNode<Integer> merge(SingleLinkTableNode<Integer> left,
-                                                      SingleLinkTableNode<Integer> right) {
+    private static SingleNode<Integer> merge(SingleNode<Integer> left,
+                                             SingleNode<Integer> right) {
         if (left == null && right == null) {
             return null;
         }
@@ -170,7 +170,7 @@ public class T2372 {
             return left;
         }
 
-        SingleLinkTableNode<Integer> res = new SingleLinkTableNodeImpl<Integer>();
+        var res = new SingleNode<Integer>();
         var tNode = res;
         while (left != null && right != null) {
             if (left.getValue() < right.getValue()) {
@@ -198,8 +198,8 @@ public class T2372 {
      * @param left  左节点
      * @param right 右节点
      */
-    private static SingleLinkTableNode<Integer> mergeInSitu(SingleLinkTableNode<Integer> left,
-                                                            SingleLinkTableNode<Integer> right) {
+    private static SingleNode<Integer> mergeInSitu(SingleNode<Integer> left,
+                                                   SingleNode<Integer> right) {
         if (left == null && right == null) {
             return null;
         }
@@ -210,7 +210,7 @@ public class T2372 {
             return left;
         }
 
-        SingleLinkTableNode<Integer> res = null, tNode = null;
+        SingleNode<Integer> res = null, tNode = null;
         while (left != null && right != null) {
             if (left.getValue() < right.getValue()) {
                 if (res == null) {
@@ -246,15 +246,15 @@ public class T2372 {
      *
      * @param node 节点
      */
-    private static SingleLinkTableNode<Integer> sort(SingleLinkTableNode<Integer> node,
-                                                     FunctionTwoOne<SingleLinkTableNode<Integer>,
-                                                             SingleLinkTableNode<Integer>,
-                                                             SingleLinkTableNode<Integer>> func) {
+    private static SingleNode<Integer> sort(SingleNode<Integer> node,
+                                            FunctionTwoOne<SingleNode<Integer>,
+                                                    SingleNode<Integer>,
+                                                    SingleNode<Integer>> func) {
         if (node == null || node.getNext() == null) {
             return node;
         }
 
-        SingleLinkTableNode<Integer> walker = node, walkerPre = node, runner = node;
+        SingleNode<Integer> walker = node, walkerPre = node, runner = node;
         while (runner != null && runner.getNext() != null) {
             runner = runner.getNext().getNext();
             walkerPre = walker;
@@ -273,7 +273,7 @@ public class T2372 {
      *
      * @param table 表
      */
-    public static void t6(SingleLinkTableWithHead<Integer> table) {
+    public static void t6(SingleHeadLinkTable<Integer> table) {
         var node = sort(table.head.getNext(), T2372::merge);
         table.head.setNext(node);
     }
@@ -283,7 +283,7 @@ public class T2372 {
      *
      * @return 被删掉的个数
      */
-    public static int t7(SingleLinkTableWithHead<Integer> table, int a, int b) {
+    public static int t7(SingleHeadLinkTable<Integer> table, int a, int b) {
         int count = 0;
         var pre = table.head;
         var current = pre.getNext();
@@ -308,10 +308,10 @@ public class T2372 {
      * @param b          b 链表的第一个节点, 长的那条
      * @param difference 两条链表长度的差数
      */
-    private static <T> Optional<SingleLinkTableNode<T>> findCommonNode(SingleLinkTableNode<T> a,
-                                                                       SingleLinkTableNode<T> b,
-                                                                       int difference) {
-        SingleLinkTableNode<T> res = null;
+    private static <T> Optional<SingleNode<T>> findCommonNode(SingleNode<T> a,
+                                                              SingleNode<T> b,
+                                                              int difference) {
+        SingleNode<T> res = null;
         var aCurrent = a;
         var bCurrent = b;
         int count = 0;
@@ -338,14 +338,14 @@ public class T2372 {
      * @param a a 链表
      * @param b b 链表
      */
-    public static <T> Optional<SingleLinkTableNode<T>> t8(SingleLinkTable<T> a, SingleLinkTable<T> b) {
+    public static <T> Optional<SingleNode<T>> t8(SingleLinkTable<T> a, SingleLinkTable<T> b) {
         int aLen = a.length();
         int bLen = b.length();
         int difference = Math.abs(aLen - bLen);
         if (aLen > bLen) {
-            return findCommonNode(b.node, a.node, difference);
+            return findCommonNode(b.first, a.first, difference);
         } else {
-            return findCommonNode(a.node, b.node, difference);
+            return findCommonNode(a.first, b.first, difference);
         }
     }
 
@@ -354,7 +354,7 @@ public class T2372 {
      *
      * @param table 单链表
      */
-    public static String t9(SingleLinkTableWithHead<Integer> table) {
+    public static String t9(SingleHeadLinkTable<Integer> table) {
         if (table.empty()) {
             return "";
         }
@@ -371,21 +371,21 @@ public class T2372 {
      * @param table 被分解的带头结点的单链表
      * @return <序号为奇数的带头结点的单链表, 序号为偶数的带头结点的单链表>
      */
-    public static <T> Pair<SingleLinkTableWithHead<T>, SingleLinkTableWithHead<T>> t10(SingleLinkTableWithHead<T> table) {
-        var a = new SingleLinkTableWithHead<T>();
-        var b = new SingleLinkTableWithHead<T>();
+    public static <T> Pair<SingleHeadLinkTable<T>, SingleHeadLinkTable<T>> t10(SingleHeadLinkTable<T> table) {
+        var a = new SingleHeadLinkTable<T>();
+        var b = new SingleHeadLinkTable<T>();
 
         int count = 1;
-        var tNode = table.getFirst();
+        var tNode = table.head.getNext();
         while (tNode != null) {
             var pre = tNode;
             tNode = tNode.getNext();
             pre.setNext(null);
 
             if ((count & 1) == 1) {
-                a.listInsertLast(pre);
+                a.listInsertLast(pre.getValue());
             } else {
-                b.listInsertLast(pre);
+                b.listInsertLast(pre.getValue());
             }
             count++;
         }
@@ -402,11 +402,11 @@ public class T2372 {
      * @param table 被分解的带头结点的单链表
      * @return <序号为奇数的带头结点的单链表, 序号为偶数的带头结点的单链表>
      */
-    public static <T> Pair<SingleLinkTable<T>, SingleLinkTable<T>> t11(SingleLinkTableWithHead<T> table) {
+    public static <T> Pair<SingleLinkTable<T>, SingleLinkTable<T>> t11(SingleHeadLinkTable<T> table) {
         var a = new SingleLinkTable<T>();
         var b = new SingleLinkTable<T>();
 
-        var tNode = table.getFirst();
+        var tNode = table.head.getNext();
         while (tNode != null && tNode.getNext() != null) {
             var pre0 = tNode;
             var pre1 = tNode.getNext();
@@ -414,12 +414,12 @@ public class T2372 {
             pre0.setNext(null);
             pre1.setNext(null);
 
-            a.listInsertLast(pre0);
-            b.listInsertLast(pre1);
+            a.listInsertLast(pre0.getValue());
+            b.listInsertLast(pre1.getValue());
         }
 
         if (tNode != null) {
-            a.listInsertLast(tNode);
+            a.listInsertLast(tNode.getValue());
         }
 
         return Pair.of(a, b);
@@ -435,7 +435,7 @@ public class T2372 {
             return;
         }
 
-        var pre = table.getFirst();
+        var pre = table.first;
         var current = pre.getNext();
         while (pre != null && current != null) {
             if (Objects.equals(pre.getValue(), current.getValue())) {
@@ -456,11 +456,11 @@ public class T2372 {
      * @return 递减单链表
      */
     public static SingleLinkTable<Integer> t13(SingleLinkTable<Integer> a, SingleLinkTable<Integer> b) {
-        var aNode = a.getFirst();
-        var bNode = b.getFirst();
-        SingleLinkTableNode<Integer> res = null;
+        var aNode = a.first;
+        var bNode = b.first;
+        SingleNode<Integer> res = null;
         while (aNode != null && bNode != null) {
-            SingleLinkTableNode<Integer> current;
+            SingleNode<Integer> current;
             if (aNode.getValue() < bNode.getValue()) {
                 current = aNode;
                 aNode = aNode.getNext();
@@ -494,7 +494,10 @@ public class T2372 {
                 res = current;
             }
         }
-        return new SingleLinkTable<Integer>().setFirst(res);
+
+        var table = new SingleLinkTable<Integer>();
+        table.first = res;
+        return table;
     }
 
     /**
@@ -504,19 +507,19 @@ public class T2372 {
      * @param b 带头结点的单链表
      * @return a 和 b 从重复节点组成的带头结点的单链表
      */
-    public static SingleLinkTableWithHead<Integer> t14(SingleLinkTableWithHead<Integer> a, SingleLinkTableWithHead<Integer> b) {
-        var aNode = a.getFirst();
-        var bNode = b.getFirst();
+    public static SingleHeadLinkTable<Integer> t14(SingleHeadLinkTable<Integer> a, SingleHeadLinkTable<Integer> b) {
+        var aNode = a.head.getNext();
+        var bNode = b.head.getNext();
 
-        SingleLinkTableWithHead<Integer> res = new SingleLinkTableWithHead<>();
-        var tNode = res.getFirst();
+        var res = new SingleHeadLinkTable<Integer>();
+        var tNode = res.head.getNext();
         while (aNode != null && bNode != null) {
             if (Objects.equals(aNode.getValue(), bNode.getValue())) {
                 if (tNode == null) {
-                    res.setFirst(new SingleLinkTableNodeImpl<>(aNode.getValue()));
-                    tNode = res.getFirst();
+                    res.listInsertFirst(aNode.getValue());
+                    tNode = res.head.getNext();
                 } else {
-                    tNode.setNext(new SingleLinkTableNodeImpl<>(aNode.getValue()));
+                    tNode.setNext(new SingleNode<>(aNode.getValue()));
                     tNode = tNode.getNext();
                 }
             }
@@ -534,7 +537,7 @@ public class T2372 {
      * @param a 集合
      * @param b 集合
      */
-    public static void t15(SingleLinkTableWithHead<Integer> a, SingleLinkTableWithHead<Integer> b) {
+    public static void t15(SingleHeadLinkTable<Integer> a, SingleHeadLinkTable<Integer> b) {
         var aPre = a.head;
         var aNode = aPre.getNext();
         var bPre = b.head;
@@ -565,8 +568,8 @@ public class T2372 {
      * @param b 单链表 b
      */
     public static <T> boolean t16(SingleLinkTable<T> a, SingleLinkTable<T> b) {
-        var aNode = a.getFirst();
-        var bNode = b.getFirst();
+        var aNode = a.first;
+        var bNode = b.first;
 
         while (aNode != null && !Objects.equals(aNode.getValue(), bNode.getValue())) {
             aNode = aNode.getNext();
@@ -592,7 +595,7 @@ public class T2372 {
      *
      * @param table 循环双链表
      */
-    public static <T> boolean t17(DoubleLinkTableLoopWithHead<T> table) {
+    public static <T> boolean t17(DoubleHeadLoopLinkTable<T> table) {
         var head = table.head;
         var left = head.getPre();
         var right = head.getNext();

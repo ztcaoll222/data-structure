@@ -1,12 +1,12 @@
-package com.ztcaoll222.data.structure.c2.interfaces.node;
+package com.ztcaoll222.data.structure.c2.interfaces;
 
 import java.io.Serializable;
 
 /**
- * 数据元素
+ * 元素接口
  *
  * @author ztcaoll222
- * Create time: 2019/9/28 20:32
+ * Create time: 2019/10/14 17:24
  */
 public interface Elem<T> extends Serializable {
     /**

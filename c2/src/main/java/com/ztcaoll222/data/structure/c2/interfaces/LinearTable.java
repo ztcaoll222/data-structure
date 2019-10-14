@@ -1,14 +1,10 @@
-package com.ztcaoll222.data.structure.c2.interfaces.table;
-
-import com.ztcaoll222.data.structure.c2.interfaces.node.Elem;
+package com.ztcaoll222.data.structure.c2.interfaces;
 
 import java.util.Optional;
 
 /**
- * 线性表
- *
  * @author ztcaoll222
- * Create time: 2019/9/28 20:26
+ * Create time: 2019/10/15 22:03
  */
 public interface LinearTable<B extends Elem<T>, T> {
     /**
@@ -28,6 +24,7 @@ public interface LinearTable<B extends Elem<T>, T> {
 
     /**
      * 按位查找
+     * 从 1 开始数
      *
      * @param i 位置
      * @return 返回第 i 个位置的元素
@@ -35,28 +32,46 @@ public interface LinearTable<B extends Elem<T>, T> {
     Optional<B> findElem(int i);
 
     /**
-     * 按位查找
+     * 在最前面插入元素
      *
-     * @param i 位置
-     * @return 返回第 i 个位置的元素的值
+     * @param values 元素的值
+     * @return 成功返回 true, 否则 false
      */
-    Optional<T> getElem(int i);
+    boolean listInsertFirst(T[] values);
 
     /**
      * 插入
+     * 从 1 开始数
      *
-     * @param i     位置
-     * @param value 元素的值
+     * @param i      位置
+     * @param values 元素的值
      * @return 插入成功则返回 true, 否则返回 false
      */
-    boolean listInsert(int i, T value);
+    boolean listInsert(int i, T[] values);
 
     /**
      * 在末尾插入元素
      *
-     * @param value 元素的值
+     * @param values 元素的值
+     * @return 成功返回 true, 否则 false
      */
-    void listInsertLast(T value);
+    boolean listInsertLast(T[] values);
+
+    /**
+     * 删除第一个的元素
+     *
+     * @return 返回被删除的元素
+     */
+    Optional<B> listDeleteFirst();
+
+    /**
+     * 删除
+     * 从 1 开始数
+     *
+     * @param i 位置
+     * @return 返回被删除的元素
+     */
+    Optional<B> listDelete(int i);
 
     /**
      * 删除最后的元素
@@ -64,14 +79,6 @@ public interface LinearTable<B extends Elem<T>, T> {
      * @return 返回被删除的元素
      */
     Optional<B> listDeleteLast();
-
-    /**
-     * 删除
-     *
-     * @param i 位置
-     * @return 返回被删除的元素
-     */
-    Optional<B> listDelete(int i);
 
     /**
      * 输出

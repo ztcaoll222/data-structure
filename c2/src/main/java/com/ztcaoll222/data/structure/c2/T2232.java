@@ -1,7 +1,7 @@
 package com.ztcaoll222.data.structure.c2;
 
-import com.ztcaoll222.data.structure.c2.impl.table.SequenceTable;
-import com.ztcaoll222.data.structure.c2.impl.node.SequenceTableElem;
+import com.ztcaoll222.data.structure.c2.entity.SeqElem;
+import com.ztcaoll222.data.structure.c2.table.SequenceTable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class T2232 {
             return Optional.empty();
         }
 
-        SequenceTableElem<Integer> datum = table.data[0];
+        SeqElem<Integer> datum = table.data[0];
         int minIndex = 0;
         for (int i = 1; i < table.size; i++) {
             if (table.data[i].getValue() < datum.getValue()) {
@@ -44,7 +44,7 @@ public class T2232 {
      * 逆置, 要求空间复杂度为 o(1)
      */
     public static <T> void t2(SequenceTable<T> table) {
-        SequenceTableElem<T> tElem;
+        SeqElem<T> tElem;
         for (int i = 0; i < table.size / 2; i++) {
             tElem = table.data[i];
             table.data[i] = table.data[table.size - 1 - i];
@@ -56,11 +56,11 @@ public class T2232 {
      * 删除所有值为 @param value 的元素
      * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
      */
-    public static <T> int t3(SequenceTable<T> table, SequenceTableElem<T> elem) {
+    public static <T> int t3(SequenceTable<T> table, SeqElem<T> elem) {
         int sum = 0;
 
         for (int i = 0; i < table.size; i++) {
-            SequenceTableElem<T> tElem = table.data[i];
+            SeqElem<T> tElem = table.data[i];
 
             if (Objects.equals(elem, tElem)) {
                 sum++;
@@ -79,7 +79,7 @@ public class T2232 {
      * 要求时间复杂度为 o(n), 空间复杂度为 o(1)
      */
     public static <T> int t3(SequenceTable<T> table, T value) {
-        return t3(table, new SequenceTableElem<>(value));
+        return t3(table, new SeqElem<>(value));
     }
 
     /**
@@ -93,7 +93,7 @@ public class T2232 {
         }
 
         for (int i = 0; i < table.size; i++) {
-            SequenceTableElem<Integer> tElem = table.data[i];
+            SeqElem<Integer> tElem = table.data[i];
             int tValue = tElem.getValue();
             if (tValue >= s && tValue <= t) {
                 sum++;
@@ -120,7 +120,7 @@ public class T2232 {
     public static <T> int t6(SequenceTable<T> table) {
         int sum = 0;
 
-        SequenceTableElem<T> tElem = table.data[0];
+        SeqElem<T> tElem = table.data[0];
         for (int i = 1; i < table.size; i++) {
             if (Objects.equals(table.data[i], tElem)) {
                 sum++;
@@ -248,7 +248,7 @@ public class T2232 {
     public static void t9(SequenceTable<Integer> table, Integer x) {
         var at = binarySearch(table, x);
         if (at.isPresent()) {
-            SequenceTableElem<Integer> tDatum = table.data[at.get()];
+            SeqElem<Integer> tDatum = table.data[at.get()];
             if (at.get() != table.size - 1) {
                 table.data[at.get()] = table.data[at.get() + 1];
                 table.data[at.get() + 1] = tDatum;
@@ -260,7 +260,7 @@ public class T2232 {
                     break;
                 }
             }
-            table.listInsert(i, x);
+            table.listInsert(i + 1, x);
         }
     }
 
@@ -284,7 +284,7 @@ public class T2232 {
     /**
      * 在数组中获取中位数
      */
-    private static double getMedian(SequenceTableElem<Integer>[] data, int size) {
+    private static double getMedian(SeqElem<Integer>[] data, int size) {
         if (size <= 0) {
             return -1.0;
         }
@@ -365,7 +365,7 @@ public class T2232 {
         }
 
         int count = 0;
-        SequenceTableElem<T> tDatum = table.data[0];
+        SeqElem<T> tDatum = table.data[0];
         for (int i = 1; i < table.size; i++) {
             if (count > table.size / 2) {
                 return Optional.of(tDatum.getValue());
