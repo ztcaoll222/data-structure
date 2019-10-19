@@ -109,6 +109,16 @@ class SingleHeadLoopLinkTableTest {
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());
         assertEquals(1, node.get().getValue());
+
+        node = table.listDeleteFirst();
+        assertTrue(node.isPresent());
+        assertEquals(2, node.get().getValue());
+
+        node = table.listDeleteFirst();
+        assertTrue(node.isPresent());
+        assertEquals(3, node.get().getValue());
+
+        assertTrue(table.empty());
     }
 
     @Test
@@ -139,6 +149,8 @@ class SingleHeadLoopLinkTableTest {
         elem = table.listDelete(1);
         assertTrue(elem.isPresent());
         assertEquals(1, elem.get().getValue());
+
+        assertTrue(table.empty());
     }
 
     @Test
@@ -159,6 +171,7 @@ class SingleHeadLoopLinkTableTest {
         elem = table.listDeleteLast();
         assertTrue(elem.isPresent());
         assertEquals(1, elem.get().getValue());
+
         assertTrue(table.empty());
     }
 

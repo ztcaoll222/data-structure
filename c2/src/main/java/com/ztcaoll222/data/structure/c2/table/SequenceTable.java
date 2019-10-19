@@ -182,8 +182,16 @@ public class SequenceTable<T> implements LinearTable<SeqElem<T>, T> {
             return Optional.empty();
         }
 
+        if (size == 1) {
+            var res = data[0];
+            data[0] = null;
+            size--;
+            return Optional.of(res);
+        }
+
         var elem = data[0];
         System.arraycopy(data, 1, data, 0, size - 1);
+        size--;
         return Optional.of(elem);
     }
 
@@ -214,6 +222,14 @@ public class SequenceTable<T> implements LinearTable<SeqElem<T>, T> {
         if (size == 0) {
             return Optional.empty();
         }
+
+        if (size == 1) {
+            var res = data[0];
+            data[0] = null;
+            size--;
+            return Optional.of(res);
+        }
+
         SeqElem<T> lastDatum = data[size - 1];
         data[size - 1] = null;
         size--;

@@ -6,26 +6,26 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * 顺序表的单元测试
+ * 循环单链表的单链表
  */
 @Flogger
-class SequenceTableTest {
+class SingleLoopLinkTableTest {
 
     @Test
     void length() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertEquals(0, table.length());
 
-        table = SequenceTable.of(1, 2, 3);
+        table = SingleLoopLinkTable.of(1, 2, 3);
         assertEquals(3, table.length());
     }
 
     @Test
     void locateElem() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertTrue(table.locateElem(0).isEmpty());
 
-        table = SequenceTable.of(1, 2, 3);
+        table = SingleLoopLinkTable.of(1, 2, 3);
         assertTrue(table.locateElem(0).isEmpty());
         var res = table.locateElem(3);
         assertTrue(res.isPresent());
@@ -34,11 +34,11 @@ class SequenceTableTest {
 
     @Test
     void findElem() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertTrue(table.findElem(0).isEmpty());
         assertTrue(table.findElem(-1).isEmpty());
 
-        table = SequenceTable.of(1, 2, 3);
+        table = SingleLoopLinkTable.of(1, 2, 3);
         var elem = table.findElem(3);
         assertTrue(elem.isPresent());
         assertEquals(3, elem.get().getValue());
@@ -49,7 +49,7 @@ class SequenceTableTest {
 
     @Test
     void listInsertFirst() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertTrue(table.listInsertFirst(3));
         assertEquals("3", table.printList());
 
@@ -61,7 +61,7 @@ class SequenceTableTest {
 
     @Test
     void listInsert() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertTrue(table.listInsert(1, 1));
         assertEquals("1", table.printList());
 
@@ -89,7 +89,7 @@ class SequenceTableTest {
 
     @Test
     void listInsertLast() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertTrue(table.listInsertLast(1, 2));
         assertEquals("1, 2", table.printList());
 
@@ -101,11 +101,11 @@ class SequenceTableTest {
 
     @Test
     void listDeleteFirst() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         var node = table.listDeleteFirst();
         assertTrue(node.isEmpty());
 
-        table = SequenceTable.of(1, 2, 3);
+        table = SingleLoopLinkTable.of(1, 2, 3);
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());
         assertEquals(1, node.get().getValue());
@@ -123,14 +123,14 @@ class SequenceTableTest {
 
     @Test
     void listDelete() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         var elem = table.listDelete(-1);
         assertTrue(elem.isEmpty());
 
         elem = table.listDelete(1);
         assertTrue(elem.isEmpty());
 
-        table = SequenceTable.of(1, 2, 3, 4);
+        table = SingleLoopLinkTable.of(1, 2, 3, 4);
         elem = table.listDelete(5);
         assertTrue(elem.isEmpty());
 
@@ -155,11 +155,11 @@ class SequenceTableTest {
 
     @Test
     void listDeleteLast() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         var elem = table.listDeleteLast();
         assertTrue(elem.isEmpty());
 
-        table = SequenceTable.of(1, 2, 3);
+        table = SingleLoopLinkTable.of(1, 2, 3);
         elem = table.listDeleteLast();
         assertTrue(elem.isPresent());
         assertEquals(3, elem.get().getValue());
@@ -177,29 +177,29 @@ class SequenceTableTest {
 
     @Test
     void printList() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertEquals("", table.printList());
 
-        table = SequenceTable.of(1, 2, 3);
+        table = SingleLoopLinkTable.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
     }
 
     @Test
     void empty() {
-        SequenceTable<Integer> table = SequenceTable.of();
+        SingleLoopLinkTable<Integer> table = SingleLoopLinkTable.of();
         assertTrue(table.empty());
     }
 
     @Test
     void destroyList() {
-        var table = SequenceTable.of(1, 2, 3);
+        var table = SingleLoopLinkTable.of(1, 2, 3);
         table.destroyList();
         assertTrue(table.empty());
     }
 
     @Test
     void of() {
-        var table = SequenceTable.of(1, 2, 3);
+        var table = SingleLoopLinkTable.of(1, 2, 3);
         assertEquals("1, 2, 3", table.printList());
     }
 }

@@ -1,79 +1,71 @@
 package com.ztcaoll222.data.structure.c2.table;
 
 import com.ztcaoll222.data.structure.c2.abs.AbstractLinkTable;
-import com.ztcaoll222.data.structure.c2.entity.DoubleNode;
 import com.ztcaoll222.data.structure.c2.entity.Pair;
+import com.ztcaoll222.data.structure.c2.entity.SingleNode;
 
 import java.util.Optional;
 
 /**
- * 循环双链表
+ * 循环单链表
  *
  * @author ztcaoll222
- * Create time: 2019/10/19 12:19
+ * Create time: 2019/10/19 20:43
  */
-public class DoubleLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
-    public DoubleNode<T> first;
+public class SingleLoopLinkTable<T> extends AbstractLinkTable<SingleNode<T>, T> {
+    public SingleNode<T> tail;
 
     @Override
-    protected DoubleNode<T> getFirst() {
-        return first;
+    protected SingleNode<T> getFirst() {
+        return tail.getNext();
     }
 
     @Override
-    protected boolean isEnd(DoubleNode<T> node) {
-        return node == first;
+    protected boolean isEnd(SingleNode<T> node) {
+        return node == tail.getNext();
     }
 
     @Override
-    protected DoubleNode<T> getNext(DoubleNode<T> node) {
+    protected SingleNode<T> getNext(SingleNode<T> node) {
         return node.getNext();
     }
 
     @SafeVarargs
     @Override
-    protected final Optional<Pair<DoubleNode<T>, DoubleNode<T>>> createNode(T... values) {
+    protected final Optional<Pair<SingleNode<T>, SingleNode<T>>> createNode(T... values) {
         if (values.length == 0) {
             return Optional.empty();
         }
 
-        var first = new DoubleNode<>(values[0]);
+        var first = new SingleNode<T>(values[0]);
         var current = first;
         for (int i = 1; i < values.length; i++) {
-            var tNode = new DoubleNode<>(values[i]);
-            current.setNext(tNode);
-            tNode.setPre(current);
-            current = current.getNext();
+            current.setNext(new SingleNode<>(values[i]));
+            current = getNext(current);
         }
 
         current.setNext(first);
-        first.setPre(current);
 
         return Optional.of(Pair.of(first, current));
     }
 
     @Override
-    protected boolean listInsertFirst(Pair<DoubleNode<T>, DoubleNode<T>> pair) {
+    protected boolean listInsertFirst(Pair<SingleNode<T>, SingleNode<T>> pair) {
         var datumFirst = pair.getK();
         var datumTail = pair.getV();
 
         if (empty()) {
-            first = datumFirst;
-            first.setPre(datumTail);
+            tail = datumTail;
         } else {
-            var tail = first.getPre();
+            var first = getFirst();
             datumTail.setNext(first);
-            first.setPre(datumTail);
             tail.setNext(datumFirst);
-            datumFirst.setPre(tail);
-
-            first = datumFirst;
         }
         return true;
     }
 
     @Override
-    protected boolean listInsert(int i, Pair<DoubleNode<T>, DoubleNode<T>> pair) {
+    protected boolean listInsert(int i, Pair<SingleNode<T>, SingleNode<T>> pair) {
         if (i <= 1 || empty()) {
             return listInsertFirst(pair);
         }
@@ -81,7 +73,7 @@ public class DoubleLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> 
         var datumFirst = pair.getK();
         var datumTail = pair.getV();
 
-        DoubleNode<T> pre;
+        SingleNode<T> pre;
         var current = getFirst();
         int j = 1;
         do {
@@ -92,22 +84,18 @@ public class DoubleLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> 
 
         if (i == j && !isEnd(current)) {
             pre.setNext(datumFirst);
-            datumFirst.setPre(pre);
-
             datumTail.setNext(current);
-            current.setPre(datumTail);
         } else {
-            pre.setNext(datumFirst);
-            datumFirst.setPre(pre);
+            var first = getFirst();
+            tail.setNext(datumFirst);
             datumTail.setNext(first);
-            first.setPre(datumTail);
+            tail = datumTail;
         }
-
         return true;
     }
 
     @Override
-    protected boolean listInsertLast(Pair<DoubleNode<T>, DoubleNode<T>> pair) {
+    protected boolean listInsertLast(Pair<SingleNode<T>, SingleNode<T>> pair) {
         if (empty()) {
             return listInsertFirst(pair);
         }
@@ -115,37 +103,33 @@ public class DoubleLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> 
         var datumFirst = pair.getK();
         var datumTail = pair.getV();
 
-        var tail = first.getPre();
+        var first = getFirst();
         tail.setNext(datumFirst);
-        datumFirst.setPre(tail);
         datumTail.setNext(first);
-        first.setPre(datumTail);
+        tail = datumTail;
         return true;
     }
 
     @Override
-    public Optional<DoubleNode<T>> listDeleteFirst() {
+    public Optional<SingleNode<T>> listDeleteFirst() {
         if (empty()) {
             return Optional.empty();
         }
 
-        if (first.getPre() == first) {
-            var res = first;
-            first = null;
+        if (tail == getFirst()) {
+            var res = tail;
+            tail = null;
             return Optional.of(res);
         }
 
-        var current = first;
-        var tail = first.getPre();
-        var next = first.getNext();
-        tail.setNext(next);
-        next.setPre(tail);
-        first = next;
-        return Optional.of(current);
+        var first = getFirst();
+        tail.setNext(first.getNext());
+
+        return Optional.of(first);
     }
 
     @Override
-    public Optional<DoubleNode<T>> listDelete(int i) {
+    public Optional<SingleNode<T>> listDelete(int i) {
         if (i < 0) {
             return Optional.empty();
         }
@@ -155,7 +139,7 @@ public class DoubleLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> 
         }
 
         var current = getFirst();
-        DoubleNode<T> pre;
+        SingleNode<T> pre;
         int j = 1;
         do {
             pre = current;
@@ -169,46 +153,54 @@ public class DoubleLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> 
 
         var next = getNext(current);
         pre.setNext(next);
-        next.setPre(pre);
+
+        if (current == tail) {
+            tail = pre;
+        }
 
         return Optional.of(current);
     }
 
     @Override
-    public Optional<DoubleNode<T>> listDeleteLast() {
+    public Optional<SingleNode<T>> listDeleteLast() {
         if (empty()) {
             return Optional.empty();
         }
 
-        if (first.getPre() == first) {
-            var res = first;
-            first = null;
+        var tNode = getFirst();
+        while (tNode.getNext() != tail) {
+            tNode = getNext(tNode);
+        }
+
+        if (tail == getFirst()) {
+            var res = tail;
+            tail = null;
             return Optional.of(res);
         }
 
-        var tail = first.getPre();
-        var pre = tail.getPre();
-        pre.setNext(first);
-        first.setPre(pre);
-        return Optional.of(tail);
+        var res = tail;
+        var first = getFirst();
+        tNode.setNext(first);
+        tail = tNode;
+        return Optional.of(res);
     }
 
     @Override
     public boolean empty() {
-        return first == null;
+        return tail == null;
     }
 
     @Override
     public void destroyList() {
-        first = null;
+        tail = null;
     }
 
     /**
-     * 创建循环双链表
+     * 创建循环单链表
      */
     @SafeVarargs
-    public static <T> DoubleLoopLinkTable<T> of(T... objs) {
-        var table = new DoubleLoopLinkTable<T>();
-        return of(table, objs);
+    public static <T> SingleLoopLinkTable<T> of(T... args) {
+        var table = new SingleLoopLinkTable<T>();
+        return of(table, args);
     }
 }
