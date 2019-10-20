@@ -15,6 +15,11 @@ import java.util.Optional;
 public class DoubleLinkTableX<T> extends AbstractLinkTable<DoubleNodeX<T>, T> {
     public DoubleNodeX<T> first;
 
+    /**
+     * 设置第一个节点
+     *
+     * @param first 节点
+     */
     private void setFirst(DoubleNodeX<T> first) {
         this.first = first;
     }
