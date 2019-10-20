@@ -6,6 +6,7 @@ import com.ztcaoll222.data.structure.c2.entity.SingleNode;
 import com.ztcaoll222.data.structure.c2.table.*;
 import com.ztcaoll222.data.structure.c2.tools.Sorts;
 
+import java.util.BitSet;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -588,7 +589,7 @@ public class T2372 {
             return;
         }
 
-        int log = 0;
+        var log = new BitSet(n);
 
         SingleNode<Integer> tNode = table.first;
         SingleNode<Integer> pre = null;
@@ -597,8 +598,8 @@ public class T2372 {
             if (value >= n) {
                 throw new RuntimeException(String.format("value: %d is bigger than n: %d", value, n));
             }
-            if (((log >> value) & 1) == 0) {
-                log = (log | (1 << value));
+            if (!log.get(value)) {
+                log.set(value);
                 pre = tNode;
                 tNode = tNode.getNext();
             } else {
