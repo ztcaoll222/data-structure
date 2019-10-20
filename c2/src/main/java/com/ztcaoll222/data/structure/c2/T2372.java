@@ -566,4 +566,14 @@ public class T2372 {
 
         return Optional.of(walker);
     }
+
+    /**
+     * 找到两个单链表的公共节点
+     *
+     * @param a a 链表
+     * @param b b 链表
+     */
+    public static <T> Optional<SingleNode<T>> t22(SingleLinkTable<T> a, SingleLinkTable<T> b) {
+        return t8(a, b);
+    }
 }

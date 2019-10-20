@@ -201,4 +201,23 @@ class T2372Test {
         assertTrue(node.isPresent());
         assertEquals(2, node.get().getValue());
     }
+
+    @Test
+    void t22() {
+        var table0 = SingleLinkTable.of(1);
+        var table1 = SingleLinkTable.of(4, 5);
+        var table3 = SingleLinkTable.of(7, 8, 9);
+        table0.findElem(table0.length()).ifPresent(node -> node.setNext(table3.first));
+        table1.findElem(table1.length()).ifPresent(node -> node.setNext(table3.first));
+        var res = T2372.t22(table0, table1);
+        var table4 = new SingleLinkTable<Integer>();
+        assertTrue(res.isPresent());
+        table4.first = res.get();
+        assertEquals("7, 8, 9", table4.printList());
+
+        table0 = SingleLinkTable.of(1);
+        table1 = SingleLinkTable.of(4, 5);
+        res = T2372.t22(table0, table1);
+        assertTrue(res.isEmpty());
+    }
 }
