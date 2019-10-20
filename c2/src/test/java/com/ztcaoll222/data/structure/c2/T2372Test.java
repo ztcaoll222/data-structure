@@ -220,4 +220,16 @@ class T2372Test {
         res = T2372.t22(table0, table1);
         assertTrue(res.isEmpty());
     }
+
+    @Test
+    void t23() {
+        SingleLinkTable<Integer> table = SingleLinkTable.of();
+        T2372.t23(table, 10);
+
+        assertThrows(RuntimeException.class, () -> T2372.t23(SingleLinkTable.of(15), 10));
+
+        table = SingleLinkTable.of(2, -9, -2, 5, 9);
+        T2372.t23(table, 10);
+        assertEquals("2, -9, 5", table.printList());
+    }
 }

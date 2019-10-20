@@ -576,4 +576,35 @@ public class T2372 {
     public static <T> Optional<SingleNode<T>> t22(SingleLinkTable<T> a, SingleLinkTable<T> b) {
         return t8(a, b);
     }
+
+    /**
+     * 删除在单链表中绝对值相等的节点, 节点中的值的绝对值不超过 @param n
+     *
+     * @param table 单链表
+     * @param n     节点中的绝对值最大的大小
+     */
+    public static void t23(SingleLinkTable<Integer> table, int n) {
+        if (table.empty()) {
+            return;
+        }
+
+        int log = 0;
+
+        SingleNode<Integer> tNode = table.first;
+        SingleNode<Integer> pre = null;
+        do {
+            var value = Math.abs(tNode.getValue());
+            if (value >= n) {
+                throw new RuntimeException(String.format("value: %d is bigger than n: %d", value, n));
+            }
+            if (((log >> value) & 1) == 0) {
+                log = (log | (1 << value));
+                pre = tNode;
+                tNode = tNode.getNext();
+            } else {
+                pre.setNext(tNode.getNext());
+                tNode = tNode.getNext();
+            }
+        } while (tNode != null);
+    }
 }
