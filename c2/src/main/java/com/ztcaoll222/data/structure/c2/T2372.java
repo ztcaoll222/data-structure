@@ -536,4 +536,34 @@ public class T2372 {
     public static <T> Optional<DoubleNodeX<T>> t20(DoubleLinkTableX<T> table, T value) {
         return table.locateElem(value);
     }
+
+    /**
+     * 获得带头结点的单链表的倒数 @param k 位的节点
+     *
+     * @param table 带头结点的单链表
+     * @param k     倒数第几位
+     */
+    public static <T> Optional<SingleNode<T>> t21(SingleHeadLinkTable<T> table, int k) {
+        if (k <= 1 || table.empty()) {
+            return Optional.empty();
+        }
+
+        SingleNode<T> runner, walker;
+        walker = runner = table.head.getNext();
+
+        try {
+            for (int i = 0; i < k; i++) {
+                runner = runner.getNext();
+            }
+        } catch (NullPointerException ignore) {
+            return Optional.empty();
+        }
+
+        while (runner != null) {
+            walker = walker.getNext();
+            runner = runner.getNext();
+        }
+
+        return Optional.of(walker);
+    }
 }

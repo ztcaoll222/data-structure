@@ -187,4 +187,18 @@ class T2372Test {
         assertEquals(3, elem.get().getValue());
         assertEquals("1, 3, 2", table.printList());
     }
+
+    @Test
+    void t21() {
+        SingleHeadLinkTable<Integer> table = SingleHeadLinkTable.of();
+        assertTrue(T2372.t21(table, 1).isEmpty());
+
+        table = SingleHeadLinkTable.of(1, 2, 3);
+        assertTrue(T2372.t21(table, 0).isEmpty());
+        assertTrue(T2372.t21(table, 4).isEmpty());
+
+        var node = T2372.t21(table, 2);
+        assertTrue(node.isPresent());
+        assertEquals(2, node.get().getValue());
+    }
 }
