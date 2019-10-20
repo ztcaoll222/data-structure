@@ -109,6 +109,7 @@ class DoubleLinkTableTest {
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());
         assertEquals(1, node.get().getValue());
+        assertNull(table.first.getPre());
 
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());

@@ -137,7 +137,9 @@ public class DoubleHeadLoopLinkTable<T> extends AbstractLinkTable<DoubleNode<T>,
         }
 
         var tNode = head.getNext();
-        head.setNext(tNode.getNext());
+        var next = tNode.getNext();
+        head.setNext(next);
+        next.setPre(head);
         return Optional.of(tNode);
     }
 

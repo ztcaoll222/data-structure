@@ -178,4 +178,13 @@ class T2372Test {
         var table = SingleHeadLoopLinkTable.of(1, 2, 3, 2, 1);
         assertEquals("11223", T2372.t19(table));
     }
+
+    @Test
+    void t20() {
+        var table = DoubleLinkTableX.of(1, 2, 3);
+        var elem = table.findElem(3);
+        assertTrue(elem.isPresent());
+        assertEquals(3, elem.get().getValue());
+        assertEquals("1, 3, 2", table.printList());
+    }
 }

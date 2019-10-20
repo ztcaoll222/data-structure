@@ -109,6 +109,7 @@ class DoubleHeadLoopLinkTableTest {
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());
         assertEquals(1, node.get().getValue());
+        assertEquals(table.head, table.getFirst().getPre());
 
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());

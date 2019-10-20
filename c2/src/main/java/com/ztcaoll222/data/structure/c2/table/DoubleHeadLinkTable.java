@@ -122,7 +122,11 @@ public class DoubleHeadLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> 
         }
 
         var tNode = head.getNext();
-        head.setNext(tNode.getNext());
+        var next = tNode.getNext();
+        head.setNext(next);
+        if (next != null) {
+            next.setPre(head);
+        }
         return Optional.of(tNode);
     }
 

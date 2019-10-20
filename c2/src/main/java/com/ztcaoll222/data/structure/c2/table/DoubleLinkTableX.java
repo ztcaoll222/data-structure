@@ -1,56 +1,103 @@
 package com.ztcaoll222.data.structure.c2.table;
 
 import com.ztcaoll222.data.structure.c2.abs.AbstractLinkTable;
-import com.ztcaoll222.data.structure.c2.entity.DoubleNode;
+import com.ztcaoll222.data.structure.c2.entity.DoubleNodeX;
 import com.ztcaoll222.data.structure.c2.entity.Pair;
 
 import java.util.Optional;
 
 /**
- * 双链表
+ * 带访问频度的双链表
  *
  * @author ztcaoll222
  * Create time: 2019/10/15 20:28
  */
-public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
-    public DoubleNode<T> first;
+public class DoubleLinkTableX<T> extends AbstractLinkTable<DoubleNodeX<T>, T> {
+    public DoubleNodeX<T> first;
+
+    private void setFirst(DoubleNodeX<T> first) {
+        this.first = first;
+    }
 
     @Override
-    protected DoubleNode<T> getFirst() {
+    protected DoubleNodeX<T> getFirst() {
         return first;
     }
 
     @Override
-    protected boolean isEnd(DoubleNode<T> node) {
+    protected boolean isEnd(DoubleNodeX<T> node) {
         return node == null;
     }
 
     @Override
-    protected DoubleNode<T> getNext(DoubleNode<T> node) {
-        return node.getNext();
+    protected DoubleNodeX<T> getNext(DoubleNodeX<T> node) {
+        return (DoubleNodeX<T>) node.getNext();
+    }
+
+    /**
+     * 处理频度
+     * 如果当前节点的频度大于前导节点, 那么向前移一位
+     *
+     * @param elem 当前节点
+     * @return 处理过后的当前节点
+     */
+    private DoubleNodeX<T> handleFreq(DoubleNodeX<T> elem) {
+        elem.setFreq(elem.getFreq() + 1);
+        var pre = (DoubleNodeX<T>) elem.getPre();
+        var next = (DoubleNodeX<T>) elem.getNext();
+        if (pre != null && pre.getFreq() < elem.getFreq()) {
+            var prePre = pre.getPre();
+
+            if (prePre != null) {
+                prePre.setNext(elem);
+                elem.setPre(prePre);
+            } else {
+                setFirst(elem);
+                elem.setPre(null);
+            }
+
+            elem.setNext(pre);
+            pre.setPre(elem);
+
+            pre.setNext(next);
+            if (next != null) {
+                next.setPre(pre);
+            }
+        }
+        return elem;
+    }
+
+    @Override
+    public Optional<DoubleNodeX<T>> locateElem(T value) {
+        return super.locateElem(value).map(this::handleFreq);
+    }
+
+    @Override
+    public Optional<DoubleNodeX<T>> findElem(int i) {
+        return super.findElem(i).map(this::handleFreq);
     }
 
     @SafeVarargs
     @Override
-    protected final Optional<Pair<DoubleNode<T>, DoubleNode<T>>> createNode(T... values) {
+    protected final Optional<Pair<DoubleNodeX<T>, DoubleNodeX<T>>> createNode(T... values) {
         if (values.length == 0) {
             return Optional.empty();
         }
 
-        var first = new DoubleNode<>(values[0]);
+        var first = new DoubleNodeX<>(values[0]);
         var current = first;
         for (int i = 1; i < values.length; i++) {
-            var tNode = new DoubleNode<>(values[i]);
+            var tNode = new DoubleNodeX<>(values[i]);
             current.setNext(tNode);
             tNode.setPre(current);
-            current = current.getNext();
+            current = getNext(current);
         }
 
         return Optional.of(Pair.of(first, current));
     }
 
     @Override
-    protected boolean listInsertFirst(Pair<DoubleNode<T>, DoubleNode<T>> pair) {
+    protected boolean listInsertFirst(Pair<DoubleNodeX<T>, DoubleNodeX<T>> pair) {
         var datumFirst = pair.getK();
         var tail = pair.getV();
 
@@ -67,7 +114,7 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
     }
 
     @Override
-    protected boolean listInsert(int i, Pair<DoubleNode<T>, DoubleNode<T>> pair) {
+    protected boolean listInsert(int i, Pair<DoubleNodeX<T>, DoubleNodeX<T>> pair) {
         if (i <= 1 || empty()) {
             listInsertFirst(pair);
             return true;
@@ -76,13 +123,13 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
         var datum = pair.getK();
         var datumLast = pair.getV();
 
-        DoubleNode<T> pre;
+        DoubleNodeX<T> pre;
         var current = first;
         int j = 1;
 
         do {
             pre = current;
-            current = current.getNext();
+            current = getNext(current);
             j++;
         } while (current != null && j < i);
 
@@ -101,7 +148,7 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
     }
 
     @Override
-    protected boolean listInsertLast(Pair<DoubleNode<T>, DoubleNode<T>> pair) {
+    protected boolean listInsertLast(Pair<DoubleNodeX<T>, DoubleNodeX<T>> pair) {
         if (empty()) {
             return listInsertFirst(pair);
         }
@@ -109,7 +156,7 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
         var datum = pair.getK();
         var tNode = first;
         while (tNode.getNext() != null) {
-            tNode = tNode.getNext();
+            tNode = getNext(tNode);
         }
         tNode.setNext(datum);
         datum.setPre(tNode);
@@ -117,13 +164,13 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
     }
 
     @Override
-    public Optional<DoubleNode<T>> listDeleteFirst() {
+    public Optional<DoubleNodeX<T>> listDeleteFirst() {
         if (empty()) {
             return Optional.empty();
         }
 
         var tNode = first;
-        first = first.getNext();
+        first = getNext(first);
         if (first != null) {
             first.setPre(null);
         }
@@ -131,7 +178,7 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
     }
 
     @Override
-    public Optional<DoubleNode<T>> listDelete(int i) {
+    public Optional<DoubleNodeX<T>> listDelete(int i) {
         if (i < 0) {
             return Optional.empty();
         }
@@ -141,11 +188,11 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
         }
 
         var current = first;
-        DoubleNode<T> pre;
+        DoubleNodeX<T> pre;
         int j = 1;
         do {
             pre = current;
-            current = current.getNext();
+            current = getNext(current);
             j++;
         } while (current != null && j < i);
 
@@ -165,7 +212,7 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
     }
 
     @Override
-    public Optional<DoubleNode<T>> listDeleteLast() {
+    public Optional<DoubleNodeX<T>> listDeleteLast() {
         if (empty()) {
             return Optional.empty();
         }
@@ -178,7 +225,7 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
 
         var tNode = first;
         while (tNode.getNext() != null) {
-            tNode = tNode.getNext();
+            tNode = getNext(tNode);
         }
 
         var pre = tNode.getPre();
@@ -192,11 +239,11 @@ public class DoubleLinkTable<T> extends AbstractLinkTable<DoubleNode<T>, T> {
     }
 
     /**
-     * 创建双链表
+     * 创建带访问频度的双链表
      */
     @SafeVarargs
-    public static <T> DoubleLinkTable<T> of(T... args) {
-        var table = new DoubleLinkTable<T>();
+    public static <T> DoubleLinkTableX<T> of(T... args) {
+        var table = new DoubleLinkTableX<T>();
         return of(table, args);
     }
 }

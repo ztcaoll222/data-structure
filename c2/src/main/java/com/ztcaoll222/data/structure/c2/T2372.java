@@ -1,5 +1,6 @@
 package com.ztcaoll222.data.structure.c2;
 
+import com.ztcaoll222.data.structure.c2.entity.DoubleNodeX;
 import com.ztcaoll222.data.structure.c2.entity.Pair;
 import com.ztcaoll222.data.structure.c2.entity.SingleNode;
 import com.ztcaoll222.data.structure.c2.table.*;
@@ -524,5 +525,15 @@ public class T2372 {
             sb.append(tNode.get().getValue());
         }
         return sb.toString();
+    }
+
+    /**
+     * 实现一个基于双链表的 LRU cache
+     *
+     * @param table 双链表
+     * @param value 元素的值
+     */
+    public static <T> Optional<DoubleNodeX<T>> t20(DoubleLinkTableX<T> table, T value) {
+        return table.locateElem(value);
     }
 }

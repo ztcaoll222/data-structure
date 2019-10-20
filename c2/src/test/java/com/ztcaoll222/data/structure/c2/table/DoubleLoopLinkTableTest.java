@@ -109,6 +109,7 @@ class DoubleLoopLinkTableTest {
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());
         assertEquals(1, node.get().getValue());
+        assertNotEquals(node.get(), table.getFirst().getPre());
 
         node = table.listDeleteFirst();
         assertTrue(node.isPresent());
