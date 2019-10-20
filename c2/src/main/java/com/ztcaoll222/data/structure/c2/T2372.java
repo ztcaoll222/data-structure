@@ -6,6 +6,7 @@ import com.ztcaoll222.data.structure.c2.func.FunctionTwoOne;
 import com.ztcaoll222.data.structure.c2.table.DoubleHeadLoopLinkTable;
 import com.ztcaoll222.data.structure.c2.table.SingleHeadLinkTable;
 import com.ztcaoll222.data.structure.c2.table.SingleLinkTable;
+import com.ztcaoll222.data.structure.c2.table.SingleLoopLinkTable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -610,5 +611,20 @@ public class T2372 {
         }
 
         return true;
+    }
+
+    /**
+     * 将 @param b 链接到 @param a 之后
+     *
+     * @param a 循环单链表 a
+     * @param b 循环单链表 b
+     */
+    public static <T> void t18(SingleLoopLinkTable<T> a, SingleLoopLinkTable<T> b) {
+        var aFirst = a.tail.getNext();
+        var bFirst = b.tail.getNext();
+
+        a.tail.setNext(bFirst);
+        b.tail.setNext(aFirst);
+        a.tail = b.tail;
     }
 }

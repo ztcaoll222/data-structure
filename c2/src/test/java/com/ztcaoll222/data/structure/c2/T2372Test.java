@@ -3,6 +3,7 @@ package com.ztcaoll222.data.structure.c2;
 import com.ztcaoll222.data.structure.c2.table.DoubleHeadLoopLinkTable;
 import com.ztcaoll222.data.structure.c2.table.SingleHeadLinkTable;
 import com.ztcaoll222.data.structure.c2.table.SingleLinkTable;
+import com.ztcaoll222.data.structure.c2.table.SingleLoopLinkTable;
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 
@@ -164,5 +165,14 @@ class T2372Test {
 
         table = DoubleHeadLoopLinkTable.of(1, 2, 2, 2);
         assertFalse(T2372.t17(table));
+    }
+
+    @Test
+    void t18() {
+        var table0 = SingleLoopLinkTable.of(1);
+        var table1 = SingleLoopLinkTable.of(4, 5);
+
+        T2372.t18(table0, table1);
+        assertEquals("1, 4, 5", table0.printList());
     }
 }
