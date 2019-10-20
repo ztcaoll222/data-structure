@@ -2,11 +2,8 @@ package com.ztcaoll222.data.structure.c2;
 
 import com.ztcaoll222.data.structure.c2.entity.Pair;
 import com.ztcaoll222.data.structure.c2.entity.SingleNode;
-import com.ztcaoll222.data.structure.c2.func.FunctionTwoOne;
-import com.ztcaoll222.data.structure.c2.table.DoubleHeadLoopLinkTable;
-import com.ztcaoll222.data.structure.c2.table.SingleHeadLinkTable;
-import com.ztcaoll222.data.structure.c2.table.SingleLinkTable;
-import com.ztcaoll222.data.structure.c2.table.SingleLoopLinkTable;
+import com.ztcaoll222.data.structure.c2.table.*;
+import com.ztcaoll222.data.structure.c2.tools.Sorts;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -154,128 +151,12 @@ public class T2372 {
     }
 
     /**
-     * 合并两个节点
-     *
-     * @param left  左节点
-     * @param right 右节点
-     */
-    private static SingleNode<Integer> merge(SingleNode<Integer> left,
-                                             SingleNode<Integer> right) {
-        if (left == null && right == null) {
-            return null;
-        }
-        if (left == null) {
-            return right;
-        }
-        if (right == null) {
-            return left;
-        }
-
-        var res = new SingleNode<Integer>();
-        var tNode = res;
-        while (left != null && right != null) {
-            if (left.getValue() < right.getValue()) {
-                tNode.setNext(left);
-                left = left.getNext();
-            } else {
-                tNode.setNext(right);
-                right = right.getNext();
-            }
-            tNode = tNode.getNext();
-        }
-
-        if (left != null) {
-            tNode.setNext(left);
-        }
-        if (right != null) {
-            tNode.setNext(right);
-        }
-        return res.getNext();
-    }
-
-    /**
-     * 原地合并
-     *
-     * @param left  左节点
-     * @param right 右节点
-     */
-    private static SingleNode<Integer> mergeInSitu(SingleNode<Integer> left,
-                                                   SingleNode<Integer> right) {
-        if (left == null && right == null) {
-            return null;
-        }
-        if (left == null) {
-            return right;
-        }
-        if (right == null) {
-            return left;
-        }
-
-        SingleNode<Integer> res = null, tNode = null;
-        while (left != null && right != null) {
-            if (left.getValue() < right.getValue()) {
-                if (res == null) {
-                    tNode = res = left;
-                } else {
-                    tNode.setNext(left);
-                    tNode = tNode.getNext();
-                }
-                left = left.getNext();
-            } else {
-                if (res == null) {
-                    tNode = res = right;
-                } else {
-                    tNode.setNext(right);
-                    tNode = tNode.getNext();
-                }
-                right = right.getNext();
-            }
-        }
-
-        if (left != null) {
-            tNode.setNext(left);
-        }
-        if (right != null) {
-            tNode.setNext(right);
-        }
-
-        return res;
-    }
-
-    /**
-     * 归并排序
-     *
-     * @param node 节点
-     */
-    private static SingleNode<Integer> sort(SingleNode<Integer> node,
-                                            FunctionTwoOne<SingleNode<Integer>,
-                                                    SingleNode<Integer>,
-                                                    SingleNode<Integer>> func) {
-        if (node == null || node.getNext() == null) {
-            return node;
-        }
-
-        SingleNode<Integer> walker = node, walkerPre = node, runner = node;
-        while (runner != null && runner.getNext() != null) {
-            runner = runner.getNext().getNext();
-            walkerPre = walker;
-            walker = walker.getNext();
-        }
-        walkerPre.setNext(null);
-
-        var left = sort(node, func);
-        var right = sort(walker, func);
-
-        return func.execute(left, right);
-    }
-
-    /**
      * 使带头结点的单链表单调递增
      *
      * @param table 表
      */
     public static void t6(SingleHeadLinkTable<Integer> table) {
-        var node = sort(table.head.getNext(), T2372::merge);
+        var node = Sorts.mergeSort(table.head.getNext(), Sorts::merge, null);
         table.head.setNext(node);
     }
 
@@ -360,7 +241,7 @@ public class T2372 {
             return "";
         }
 
-        var node = sort(table.head.getNext(), T2372::mergeInSitu);
+        var node = Sorts.mergeSort(table.head.getNext(), Sorts::mergeInSitu, null);
         table.head.setNext(node);
         return table.printList();
     }
@@ -626,5 +507,22 @@ public class T2372 {
         a.tail.setNext(bFirst);
         b.tail.setNext(aFirst);
         a.tail = b.tail;
+    }
+
+    /**
+     * 从小到大输出某个带头结点的循环单链表, 并删除
+     *
+     * @param table 循环单链表
+     */
+    public static String t19(SingleHeadLoopLinkTable<Integer> table) {
+        var node = Sorts.mergeSort(table.head.getNext(), Sorts::merge, table.head);
+        table.head.setNext(node);
+
+        var sb = new StringBuilder();
+        while (!table.empty()) {
+            var tNode = table.listDeleteFirst();
+            sb.append(tNode.get().getValue());
+        }
+        return sb.toString();
     }
 }
