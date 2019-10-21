@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.c2.interfaces;
+package com.ztcaoll222.data.structure.base.interfaces;
 
 import java.io.Serializable;
 

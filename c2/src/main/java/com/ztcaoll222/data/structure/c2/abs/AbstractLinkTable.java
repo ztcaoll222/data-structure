@@ -1,7 +1,7 @@
 package com.ztcaoll222.data.structure.c2.abs;
 
+import com.ztcaoll222.data.structure.base.interfaces.Elem;
 import com.ztcaoll222.data.structure.c2.entity.Pair;
-import com.ztcaoll222.data.structure.c2.interfaces.Elem;
 import com.ztcaoll222.data.structure.c2.interfaces.LinearTable;
 
 import java.util.Objects;

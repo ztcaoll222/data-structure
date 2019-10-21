@@ -1,5 +1,7 @@
 package com.ztcaoll222.data.structure.c2.interfaces;
 
+import com.ztcaoll222.data.structure.base.interfaces.Elem;
+
 import java.util.Optional;
 
 /**
