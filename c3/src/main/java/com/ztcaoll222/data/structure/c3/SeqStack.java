@@ -1,6 +1,6 @@
 package com.ztcaoll222.data.structure.c3;
 
-import com.ztcaoll222.data.structure.base.interfaces.Config;
+import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.c3.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.Stack;
 

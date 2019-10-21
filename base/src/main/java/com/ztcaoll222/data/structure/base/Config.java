@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.base.interfaces;
+package com.ztcaoll222.data.structure.base;
 
 /**
  * @author ztcaoll222

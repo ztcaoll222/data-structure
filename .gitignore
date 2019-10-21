@@ -1,5 +1,5 @@
 # Project exclude paths
-/c2/target/
+**/target/
 /.idea/
 *.iml
 .coveralls.yml
