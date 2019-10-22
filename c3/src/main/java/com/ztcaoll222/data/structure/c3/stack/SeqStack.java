@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.c3;
+package com.ztcaoll222.data.structure.c3.stack;
 
 import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.c3.entity.SeqElem;

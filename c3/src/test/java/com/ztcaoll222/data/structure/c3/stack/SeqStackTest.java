@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.c3;
+package com.ztcaoll222.data.structure.c3.stack;
 
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
