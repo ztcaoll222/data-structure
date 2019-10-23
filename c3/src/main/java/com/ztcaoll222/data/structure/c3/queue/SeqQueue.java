@@ -69,7 +69,7 @@ public class SeqQueue<T> implements Queue<SeqElem<T>, T> {
 
     @Override
     public String toString() {
-        if (queueEmpty() || front == tail) {
+        if (queueEmpty()) {
             return "";
         }
 
