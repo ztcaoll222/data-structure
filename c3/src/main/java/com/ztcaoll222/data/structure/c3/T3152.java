@@ -1,5 +1,10 @@
 package com.ztcaoll222.data.structure.c3;
 
+import com.ztcaoll222.data.structure.c2.table.SingleLinkTable;
+import com.ztcaoll222.data.structure.c3.stack.SeqStack;
+
+import java.util.Objects;
+
 /**
  * 第三章栈综合题
  *
@@ -33,5 +38,35 @@ public class T3152 {
             }
         }
         return count == 0;
+    }
+
+    /**
+     * 判断一个单链表是否对称
+     *
+     * @param table 单链表
+     */
+    public static <T> boolean t4(SingleLinkTable<T> table) {
+        var first = table.first;
+        int length = table.length();
+        var stack = new SeqStack<T>(length);
+        int mid = length / 2;
+        for (int i = 0; i < mid; i++) {
+            stack.push(first.getValue());
+            first = first.getNext();
+        }
+
+        if ((length & 1) == 1) {
+            first = first.getNext();
+        }
+
+        while (first != null) {
+            var elem = stack.pop().get();
+            if (!Objects.equals(elem.getValue(), first.getValue())) {
+                return false;
+            }
+            first = first.getNext();
+        }
+
+        return true;
     }
 }
