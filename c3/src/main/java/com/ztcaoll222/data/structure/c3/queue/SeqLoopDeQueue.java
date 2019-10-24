@@ -2,31 +2,72 @@ package com.ztcaoll222.data.structure.c3.queue;
 
 import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
-import com.ztcaoll222.data.structure.c3.interfaces.Queue;
+import com.ztcaoll222.data.structure.c3.interfaces.DeQueue;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * 循环顺序队列
+ * 循环顺序双端队列
  *
  * @author ztcaoll222
- * Create time: 2019/10/24 9:29
+ * Create time: 2019/10/24 15:39
  */
-public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T> {
+public class SeqLoopDeQueue<T> implements DeQueue<SeqElem<T>, T> {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
     private int tail = 0;
 
-    public SeqLoopQueue(int maxSize) {
+    public SeqLoopDeQueue(int maxSize) {
         this.maxSize = maxSize;
         data = new SeqElem[this.maxSize];
     }
 
-    public SeqLoopQueue() {
+    public SeqLoopDeQueue() {
         this.maxSize = Config.DEFAULT_COLLECTION_SIZE;
         data = new SeqElem[this.maxSize];
+    }
+
+    @Override
+    public Optional<SeqElem<T>> getTail() {
+        if (queueEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(data[(tail + maxSize - 1) % maxSize]);
+    }
+
+    /**
+     * 将一个元素添加到双端队列尾部
+     *
+     * @param elem 元素
+     * @return 成功返回 true, 否则 false
+     */
+    private boolean enQueueHead(SeqElem<T> elem) {
+        if ((front + maxSize - 1) % maxSize == tail) {
+            return false;
+        }
+
+        front = (front + maxSize - 1) % maxSize;
+        data[front] = elem;
+        return true;
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean enQueueHead(T... values) {
+        return Arrays.stream(values).allMatch(value -> enQueueHead(new SeqElem<>(value)));
+    }
+
+    @Override
+    public Optional<SeqElem<T>> deQueueTail() {
+        if (queueEmpty()) {
+            return Optional.empty();
+        }
+
+        tail = (tail + maxSize - 1) % maxSize;
+        var res = data[tail];
+        return Optional.of(res);
     }
 
     @Override
