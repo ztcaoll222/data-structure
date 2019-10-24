@@ -4,26 +4,27 @@ import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.c3.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.Queue;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * 顺序队列
+ * 循环顺序队列
  *
  * @author ztcaoll222
- * Create time: 2019/10/23 22:01
+ * Create time: 2019/10/24 9:29
  */
-public class SeqQueue<T> implements Queue<SeqElem<T>, T> {
+public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T> {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
     private int tail = 0;
 
-    public SeqQueue(int maxSize) {
+    public SeqLoopQueue(int maxSize) {
         this.maxSize = maxSize;
         data = new SeqElem[this.maxSize];
     }
 
-    public SeqQueue() {
+    public SeqLoopQueue() {
         this.maxSize = Config.DEFAULT_COLLECTION_SIZE;
         data = new SeqElem[this.maxSize];
     }
@@ -33,37 +34,38 @@ public class SeqQueue<T> implements Queue<SeqElem<T>, T> {
         return front == tail;
     }
 
-    @SafeVarargs
-    @Override
-    public final boolean enQueue(T... values) {
-        if (tail + values.length > maxSize) {
+    private boolean enQueue(SeqElem<T> elem) {
+        if ((tail + 1) % maxSize == front) {
             return false;
         }
 
-        for (T value : values) {
-            data[tail] = new SeqElem<>(value);
-            tail++;
-        }
+        data[tail] = elem;
+        tail = (tail + 1) % maxSize;
         return true;
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean enQueue(T... values) {
+        return Arrays.stream(values).allMatch(value -> enQueue(new SeqElem<>(value)));
     }
 
     @Override
     public Optional<SeqElem<T>> deQueue() {
-        if (front == tail) {
+        if (queueEmpty()) {
             return Optional.empty();
         }
 
         var res = data[front];
-        front++;
+        front = (front + 1) % maxSize;
         return Optional.of(res);
     }
 
     @Override
     public Optional<SeqElem<T>> getHead() {
-        if (front == tail) {
+        if (queueEmpty()) {
             return Optional.empty();
         }
-
         return Optional.of(data[front]);
     }
 
@@ -74,12 +76,13 @@ public class SeqQueue<T> implements Queue<SeqElem<T>, T> {
         }
 
         var sb = new StringBuilder();
-        for (int i = front; i < tail - 1; i++) {
+        int i = front;
+        while (i < tail) {
             sb.append(data[i].getValue());
             sb.append(", ");
+            i = (i + 1) % maxSize;
         }
-        sb.append(data[tail - 1].getValue());
-
+        sb.setLength(sb.length() - 2);
         return sb.toString();
     }
 }
