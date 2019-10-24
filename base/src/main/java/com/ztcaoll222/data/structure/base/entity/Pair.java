@@ -1,4 +1,4 @@
-package com.ztcaoll222.data.structure.c2.entity;
+package com.ztcaoll222.data.structure.base.entity;
 
 import lombok.Data;
 

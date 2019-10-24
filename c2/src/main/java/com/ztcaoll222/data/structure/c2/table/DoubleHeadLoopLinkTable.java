@@ -2,7 +2,7 @@ package com.ztcaoll222.data.structure.c2.table;
 
 import com.ztcaoll222.data.structure.c2.abs.AbstractLinkTable;
 import com.ztcaoll222.data.structure.c2.entity.DoubleNode;
-import com.ztcaoll222.data.structure.c2.entity.Pair;
+import com.ztcaoll222.data.structure.base.entity.Pair;
 
 import java.util.Optional;
 

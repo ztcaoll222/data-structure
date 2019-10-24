@@ -1,7 +1,7 @@
 package com.ztcaoll222.data.structure.c2.tools;
 
 import com.ztcaoll222.data.structure.c2.entity.SingleNode;
-import com.ztcaoll222.data.structure.c2.func.FunctionThreeOne;
+import com.ztcaoll222.data.structure.base.func.FunctionThreeOne;
 import lombok.extern.flogger.Flogger;
 
 /**

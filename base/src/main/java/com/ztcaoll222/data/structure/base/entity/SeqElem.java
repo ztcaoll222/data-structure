@@ -1,10 +1,10 @@
-package com.ztcaoll222.data.structure.c2.entity;
+package com.ztcaoll222.data.structure.base.entity;
 
 import com.ztcaoll222.data.structure.base.interfaces.Elem;
 import lombok.Data;
 
 /**
- * 顺序表元素
+ * 基础元素
  *
  * @author ztcaoll222
  * Create time: 2019/9/28 20:52

@@ -1,8 +1,8 @@
 package com.ztcaoll222.data.structure.c3.stack;
 
 import com.ztcaoll222.data.structure.base.Config;
+import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.emuns.SeqShareStackType;
-import com.ztcaoll222.data.structure.c3.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.Stack;
 
 import java.util.Optional;

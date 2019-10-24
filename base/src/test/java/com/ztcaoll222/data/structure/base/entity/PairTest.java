@@ -1,9 +1,11 @@
-package com.ztcaoll222.data.structure.c2.entity;
+package com.ztcaoll222.data.structure.base.entity;
 
+import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Flogger
 class PairTest {
 
     @Test

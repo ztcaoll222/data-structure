@@ -1,6 +1,6 @@
 package com.ztcaoll222.data.structure.c2;
 
-import com.ztcaoll222.data.structure.c2.entity.SeqElem;
+import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c2.table.SequenceTable;
 
 import java.util.Objects;
