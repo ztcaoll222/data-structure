@@ -34,6 +34,12 @@ public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T> {
         return front == tail;
     }
 
+    /**
+     * 入队
+     *
+     * @param elem 元素
+     * @return 成功返回 true, 否则 false
+     */
     private boolean enQueue(SeqElem<T> elem) {
         if ((tail + 1) % maxSize == front) {
             return false;
