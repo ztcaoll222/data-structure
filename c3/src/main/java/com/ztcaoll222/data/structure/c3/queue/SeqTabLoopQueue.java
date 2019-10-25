@@ -45,7 +45,7 @@ public class SeqTabLoopQueue<T> implements Queue<SeqElem<T>, T> {
             return 0;
         }
 
-        int count = 1;
+        int count = 0;
         int i = front;
         do {
             count++;

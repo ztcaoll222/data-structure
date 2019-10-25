@@ -19,7 +19,7 @@ class SeqQueueTest {
 
     @Test
     void length() {
-        var queue = new SingleHeadLinkQueue<Integer>();
+        var queue = new SeqQueue<Integer>();
         assertEquals(0, queue.length());
 
         queue.enQueue(1, 2);
