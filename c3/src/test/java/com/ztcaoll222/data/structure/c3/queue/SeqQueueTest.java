@@ -19,10 +19,14 @@ class SeqQueueTest {
 
     @Test
     void length() {
-        var queue = new SeqQueue<Integer>();
+        var queue = new SeqQueue<Integer>(3);
         assertEquals(0, queue.length());
 
         queue.enQueue(1, 2);
+        assertEquals(2, queue.length());
+
+        assertTrue(queue.deQueue().isPresent());
+        queue.enQueue(3);
         assertEquals(2, queue.length());
     }
 

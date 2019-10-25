@@ -40,13 +40,11 @@ public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T> {
             return 0;
         }
 
-        int count = 0;
-        int i = front;
-        do {
-            count++;
-            i = (i + 1) % maxSize;
-        } while (i != tail);
-        return count;
+        if (tail > front) {
+            return tail - front;
+        } else {
+            return maxSize - front + tail;
+        }
     }
 
     /**
