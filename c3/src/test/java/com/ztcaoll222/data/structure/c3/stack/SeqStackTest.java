@@ -27,6 +27,15 @@ class SeqStackTest {
     }
 
     @Test
+    void length() {
+        SeqStack<Integer> stack = new SeqStack<>();
+        assertEquals(0, stack.length());
+
+        stack.push(1, 2, 3);
+        assertEquals(3, stack.length());
+    }
+
+    @Test
     void push() {
         SeqStack<Integer> stack = new SeqStack<>(2);
         assertFalse(stack.push());

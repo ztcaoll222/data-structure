@@ -37,6 +37,11 @@ public class SeqStack<T> implements Stack<SeqElem<T>, T> {
         return maxSize <= (top + 1);
     }
 
+    @Override
+    public int length() {
+        return top + 1;
+    }
+
     @SafeVarargs
     @Override
     public final boolean push(T... values) {

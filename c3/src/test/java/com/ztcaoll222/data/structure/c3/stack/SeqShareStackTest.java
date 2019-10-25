@@ -27,6 +27,18 @@ class SeqShareStackTest {
     }
 
     @Test
+    void length() {
+        SeqShareStack<Integer> stack = new SeqShareStack<>();
+        assertEquals(0, stack.getA().length());
+        assertEquals(0, stack.getB().length());
+
+        stack.getA().push(1, 2);
+        stack.getB().push(3);
+        assertEquals(2, stack.getA().length());
+        assertEquals(1, stack.getB().length());
+    }
+
+    @Test
     void push() {
         SeqShareStack<Integer> stack = new SeqShareStack<>(2);
         assertTrue(stack.getA().push(1));

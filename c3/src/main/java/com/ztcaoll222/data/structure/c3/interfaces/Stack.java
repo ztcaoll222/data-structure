@@ -24,6 +24,13 @@ public interface Stack<B extends Elem<T>, T> {
     boolean stackOverFlow();
 
     /**
+     * 获得栈已使用容量
+     *
+     * @return 已使用容量
+     */
+    int length();
+
+    /**
      * 进栈
      *
      * @param values 值数组

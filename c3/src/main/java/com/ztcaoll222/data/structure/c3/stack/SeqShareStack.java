@@ -66,6 +66,22 @@ public class SeqShareStack<T> {
     }
 
     /**
+     * 获得栈已使用容量
+     *
+     * @param type 共享栈类型
+     * @return 已使用容量
+     */
+    private int length(SeqShareStackType type) {
+        switch (type) {
+            case A:
+                return a.top + 1;
+            case B:
+            default:
+                return b.top + 1;
+        }
+    }
+
+    /**
      * 进栈
      *
      * @param type   共享栈类型
@@ -198,6 +214,11 @@ public class SeqShareStack<T> {
         @Override
         public boolean stackOverFlow() {
             return SeqShareStack.this.stackOverFlow();
+        }
+
+        @Override
+        public int length() {
+            return SeqShareStack.this.length(type);
         }
 
         @SafeVarargs
