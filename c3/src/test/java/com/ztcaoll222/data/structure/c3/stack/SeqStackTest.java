@@ -18,8 +18,18 @@ class SeqStackTest {
     }
 
     @Test
+    void stackOverFlow() {
+        SeqStack<Integer> stack = new SeqStack<>();
+        assertFalse(stack.stackOverFlow());
+
+        stack = new SeqStack<>(0);
+        assertTrue(stack.stackOverFlow());
+    }
+
+    @Test
     void push() {
         SeqStack<Integer> stack = new SeqStack<>(2);
+        assertFalse(stack.push());
         assertTrue(stack.push(1, 2));
         assertFalse(stack.push(3));
         assertEquals("1, 2", stack.toString());

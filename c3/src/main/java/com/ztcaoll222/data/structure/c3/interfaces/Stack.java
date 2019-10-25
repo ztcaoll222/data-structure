@@ -17,6 +17,13 @@ public interface Stack<B extends Elem<T>, T> {
     boolean stackEmpty();
 
     /**
+     * 判断栈是否满
+     *
+     * @return 是返回 true, 否则 false
+     */
+    boolean stackOverFlow();
+
+    /**
      * 进栈
      *
      * @param values 值数组

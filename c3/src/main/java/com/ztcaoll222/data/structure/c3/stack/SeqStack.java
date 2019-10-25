@@ -22,15 +22,25 @@ public class SeqStack<T> implements Stack<SeqElem<T>, T> {
         data = new SeqElem[maxSize];
     }
 
+    public SeqStack() {
+        this.maxSize = Config.DEFAULT_COLLECTION_SIZE;
+        data = new SeqElem[this.maxSize];
+    }
+
     @Override
     public boolean stackEmpty() {
         return top == -1;
     }
 
+    @Override
+    public boolean stackOverFlow() {
+        return maxSize <= (top + 1);
+    }
+
     @SafeVarargs
     @Override
     public final boolean push(T... values) {
-        if (maxSize < (top + 1 + values.length)) {
+        if (values.length == 0 || maxSize < (top + 1 + values.length)) {
             return false;
         }
 
@@ -43,7 +53,7 @@ public class SeqStack<T> implements Stack<SeqElem<T>, T> {
 
     @Override
     public Optional<SeqElem<T>> pop() {
-        if (top == -1) {
+        if (stackEmpty()) {
             return Optional.empty();
         }
 
@@ -54,7 +64,7 @@ public class SeqStack<T> implements Stack<SeqElem<T>, T> {
 
     @Override
     public Optional<SeqElem<T>> getTop() {
-        if (top == -1) {
+        if (stackEmpty()) {
             return Optional.empty();
         }
 

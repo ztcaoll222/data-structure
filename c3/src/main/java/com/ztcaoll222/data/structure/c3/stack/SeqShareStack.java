@@ -26,7 +26,7 @@ public class SeqShareStack<T> {
 
     public SeqShareStack() {
         this.maxSize = Config.DEFAULT_COLLECTION_SIZE;
-        data = new SeqElem[maxSize];
+        data = new SeqElem[this.maxSize];
     }
 
     /**
@@ -57,6 +57,15 @@ public class SeqShareStack<T> {
     }
 
     /**
+     * 判断栈是否满
+     *
+     * @return 是返回 true, 否则 false
+     */
+    private boolean stackOverFlow() {
+        return maxSize <= ((a.top + 1) + (b.top + 1));
+    }
+
+    /**
      * 进栈
      *
      * @param type   共享栈类型
@@ -64,7 +73,7 @@ public class SeqShareStack<T> {
      * @return 成功返回 true, 否则 false
      */
     private boolean push(SeqShareStackType type, T[] values) {
-        if (maxSize < ((a.top + 1) + (b.top + 1)) + values.length) {
+        if (values.length == 0 || maxSize < ((a.top + 1) + (b.top + 1)) + values.length) {
             return false;
         }
 
@@ -184,6 +193,11 @@ public class SeqShareStack<T> {
         @Override
         public boolean stackEmpty() {
             return top == -1;
+        }
+
+        @Override
+        public boolean stackOverFlow() {
+            return SeqShareStack.this.stackOverFlow();
         }
 
         @SafeVarargs

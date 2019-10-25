@@ -18,9 +18,19 @@ class SeqShareStackTest {
     }
 
     @Test
+    void stackOverFlow() {
+        SeqShareStack<Integer> stack = new SeqShareStack<>();
+        assertFalse(stack.getA().stackOverFlow());
+
+        stack = new SeqShareStack<>(0);
+        assertTrue(stack.getA().stackOverFlow());
+    }
+
+    @Test
     void push() {
         SeqShareStack<Integer> stack = new SeqShareStack<>(2);
         assertTrue(stack.getA().push(1));
+        assertFalse(stack.getA().push());
         assertTrue(stack.getB().push(2));
         assertFalse(stack.getA().push(3));
         assertEquals("{a: {1}, b: {2}}", stack.toString());
