@@ -62,6 +62,15 @@ class SeqLoopDeQueueTest {
     }
 
     @Test
+    void length() {
+        var queue = new SingleHeadLinkQueue<Integer>();
+        assertEquals(0, queue.length());
+
+        queue.enQueue(1, 2);
+        assertEquals(2, queue.length());
+    }
+
+    @Test
     void enQueue() {
         var queue = new SeqLoopDeQueue<Integer>(4);
         assertTrue(queue.enQueue(1, 2));

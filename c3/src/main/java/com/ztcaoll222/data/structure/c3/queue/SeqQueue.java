@@ -33,6 +33,21 @@ public class SeqQueue<T> implements Queue<SeqElem<T>, T> {
         return front == tail;
     }
 
+    @Override
+    public int length() {
+        if (queueEmpty()) {
+            return 0;
+        }
+
+        int count = 1;
+        int i = front;
+        do {
+            count++;
+            i = (i + 1) % maxSize;
+        } while (i != tail);
+        return count;
+    }
+
     @SafeVarargs
     @Override
     public final boolean enQueue(T... values) {

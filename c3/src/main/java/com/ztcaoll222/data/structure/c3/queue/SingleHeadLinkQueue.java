@@ -24,6 +24,21 @@ public class SingleHeadLinkQueue<T> implements Queue<SingleNode<T>, T> {
         return head == tail;
     }
 
+    @Override
+    public int length() {
+        if (queueEmpty()) {
+            return 0;
+        }
+
+        int count = 1;
+        var tNode = head.getNext();
+        while (tNode.getNext() != null) {
+            count++;
+            tNode = tNode.getNext();
+        }
+        return count;
+    }
+
     @SafeVarargs
     @Override
     public final boolean enQueue(T... values) {

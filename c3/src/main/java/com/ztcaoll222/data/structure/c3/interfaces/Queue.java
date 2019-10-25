@@ -17,6 +17,13 @@ public interface Queue<B extends Elem<T>, T> {
     boolean queueEmpty();
 
     /**
+     * 队列长度
+     *
+     * @return 长度
+     */
+    int length();
+
+    /**
      * 入队
      *
      * @param values 值数组
