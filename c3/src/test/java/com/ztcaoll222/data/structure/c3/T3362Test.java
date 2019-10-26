@@ -19,4 +19,11 @@ class T3362Test {
         assertFalse(T3362.t1("([(})"));
         assertFalse(T3362.t1("({)]"));
     }
+
+    @Test
+    void t2() {
+        var res = T3362.t2("HSHSHHSHSSSH");
+        assertEquals("IIOIIOIIIOIIOIOIOIOOOOOO", res.getK());
+        assertEquals("SSSSSSHHHHHH", res.getV());
+    }
 }

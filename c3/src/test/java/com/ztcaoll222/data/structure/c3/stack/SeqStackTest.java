@@ -3,6 +3,8 @@ package com.ztcaoll222.data.structure.c3.stack;
 import lombok.extern.flogger.Flogger;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -61,6 +63,14 @@ class SeqStackTest {
 
         elem = stack.pop();
         assertTrue(elem.isEmpty());
+    }
+
+    @Test
+    void pops() {
+        var stack = SeqStack.of(1, 2, 3);
+
+        var res = stack.pops().map(elem -> elem.getValue().toString()).collect(Collectors.joining(", "));
+        assertEquals("3, 2, 1", res);
     }
 
     @Test

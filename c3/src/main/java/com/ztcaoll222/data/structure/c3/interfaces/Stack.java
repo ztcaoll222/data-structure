@@ -3,6 +3,7 @@ package com.ztcaoll222.data.structure.c3.interfaces;
 import com.ztcaoll222.data.structure.base.interfaces.Elem;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * @author ztcaoll222
@@ -44,6 +45,15 @@ public interface Stack<B extends Elem<T>, T> {
      * @return 栈顶元素
      */
     Optional<B> pop();
+
+    /**
+     * 出栈
+     *
+     * @return 连续
+     */
+    default Stream<B> pops() {
+        return Stream.generate(this::pop).takeWhile(Optional::isPresent).map(Optional::get);
+    }
 
     /**
      * 读取栈顶元素

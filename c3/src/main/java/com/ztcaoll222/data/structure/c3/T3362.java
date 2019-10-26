@@ -1,5 +1,6 @@
 package com.ztcaoll222.data.structure.c3;
 
+import com.ztcaoll222.data.structure.base.entity.Pair;
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
@@ -22,7 +23,7 @@ public class T3362 {
      * @return 是返回 true, 否则 false
      */
     public static boolean t1(String str) {
-        SeqStack<Character> stack = new SeqStack<>(str.length());
+        var stack = new SeqStack<Character>(str.length());
         for (char c : str.toCharArray()) {
             Optional<SeqElem<Character>> elem;
             switch (c) {
@@ -54,5 +55,38 @@ public class T3362 {
             }
         }
         return stack.stackEmpty();
+    }
+
+    /**
+     * 重新排序 str 中的 'H', 'S'
+     * 使 'S' 全部排到 'H' 前面
+     *
+     * @param str 字符串
+     * @return <操作记录, 结果>
+     */
+    public static Pair<String, String> t2(String str) {
+        var stack = new SeqStack<Character>(str.length());
+        var optLog = new StringBuilder();
+        var res = new StringBuilder();
+        str.chars().filter(i -> {
+            char c = (char) i;
+            if ('S' == c) {
+                optLog.append("IO");
+                res.append(c);
+                return false;
+            }
+            return true;
+        }).forEach(i -> {
+            char c = (char) i;
+            optLog.append('I');
+            stack.push(c);
+        });
+
+        stack.pops().forEach(elem -> {
+            optLog.append('O');
+            res.append(elem.getValue());
+        });
+
+        return Pair.of(optLog.toString(), res.toString());
     }
 }
