@@ -27,7 +27,7 @@ public class T3252 {
         }
 
         for (int i = 0; i < length; i++) {
-            stack.pop().map(SeqElem::getValue).ifPresent(queue::enQueue);
+            stack.pop().ifPresent(queue::enQueue);
         }
     }
 }

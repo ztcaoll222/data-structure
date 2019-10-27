@@ -1,7 +1,6 @@
 package com.ztcaoll222.data.structure.c3;
 
 import com.ztcaoll222.data.structure.base.entity.Pair;
-import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class T3362 {
     public static boolean t1(String str) {
         var stack = new SeqStack<Character>(str.length());
         for (char c : str.toCharArray()) {
-            Optional<SeqElem<Character>> elem;
+            Optional<Character> value;
             switch (c) {
                 case '(':
                 case '[':
@@ -34,20 +33,20 @@ public class T3362 {
                     stack.push(c);
                     break;
                 case ')':
-                    elem = stack.pop();
-                    if (elem.isEmpty() || !elem.get().getValue().equals('(')) {
+                    value = stack.pop();
+                    if (value.isEmpty() || !value.get().equals('(')) {
                         return false;
                     }
                     break;
                 case ']':
-                    elem = stack.pop();
-                    if (elem.isEmpty() || !elem.get().getValue().equals('[')) {
+                    value = stack.pop();
+                    if (value.isEmpty() || !value.get().equals('[')) {
                         return false;
                     }
                     break;
                 case '}':
-                    elem = stack.pop();
-                    if (elem.isEmpty() || !elem.get().getValue().equals('{')) {
+                    value = stack.pop();
+                    if (value.isEmpty() || !value.get().equals('{')) {
                         return false;
                     }
                     break;
@@ -83,9 +82,9 @@ public class T3362 {
             stack.push(c);
         });
 
-        stack.pops().forEach(elem -> {
+        stack.pops().forEach(value -> {
             optLog.append('O');
-            res.append(elem.getValue());
+            res.append(value);
         });
 
         return Pair.of(optLog.toString(), res.toString());
@@ -105,7 +104,7 @@ public class T3362 {
 
         AtomicReference<Double> t0 = new AtomicReference<>((double) 1);
         AtomicReference<Double> t1 = new AtomicReference<>(2 * x);
-        stack.pops().map(SeqElem::getValue).forEach(i -> {
+        stack.pops().forEach(i -> {
             double value = 2 * x * t1.get() - 2 * (i - 1) * t0.get();
             t0.set(t1.get());
             t1.set(value);
@@ -116,4 +115,22 @@ public class T3362 {
         }
         return t1.get();
     }
+
+
+    /**
+     * 重排客车(K)与货车(H)
+     * 使其每 10 辆分为 1 组, 客车有限度比货车优先度, 每 4 辆客车才会上 1 辆货车, 如果客车不足 4 辆, 这用货车补齐
+     *
+     * @param str 客车和货车的排队顺序
+     * @return 重排后的结果, 组与组之间用 "; " 分割, 辆与辆之间用 ", " 分割
+     */
+//    public static String t4(String str) {
+//        int length = str.length();
+//        var hQueue = new SeqLoopQueue<Character>(length + 1);
+//        var res = new SeqLoopQueue<SeqLoopQueue<Character>>(length / 10 + 1);
+//        var resItem = new SeqLoopQueue<Character>(10 + 1);
+//        for (int i = 0; i < length; i++) {
+//            if (resItem)
+//        }
+//    }
 }

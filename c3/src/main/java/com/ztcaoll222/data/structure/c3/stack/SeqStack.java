@@ -57,23 +57,23 @@ public class SeqStack<T> implements Stack<SeqElem<T>, T> {
     }
 
     @Override
-    public Optional<SeqElem<T>> pop() {
+    public Optional<T> pop() {
         if (stackEmpty()) {
             return Optional.empty();
         }
 
-        var res = data[top];
+        var res = data[top].getValue();
         top--;
         return Optional.of(res);
     }
 
     @Override
-    public Optional<SeqElem<T>> getTop() {
+    public Optional<T> getTop() {
         if (stackEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(data[top]);
+        return Optional.of(data[top].getValue());
     }
 
     @Override

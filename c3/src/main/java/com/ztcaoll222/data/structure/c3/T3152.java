@@ -60,8 +60,8 @@ public class T3152 {
         }
 
         while (first != null) {
-            var elem = stack.pop().get();
-            if (!Objects.equals(elem.getValue(), first.getValue())) {
+            var value = stack.pop().get();
+            if (!Objects.equals(value, first.getValue())) {
                 return false;
             }
             first = first.getNext();

@@ -114,16 +114,16 @@ public class SeqShareStack<T> {
      * 出栈
      *
      * @param type 共享栈类型
-     * @return 栈顶元素
+     * @return 栈顶元素的值
      */
-    private Optional<SeqElem<T>> pop(SeqShareStackType type) {
-        SeqElem<T> res;
+    private Optional<T> pop(SeqShareStackType type) {
+        T res;
         switch (type) {
             case A:
                 if (a.stackEmpty()) {
                     return Optional.empty();
                 }
-                res = data[a.top];
+                res = data[a.top].getValue();
                 a.top--;
                 return Optional.of(res);
             case B:
@@ -131,7 +131,7 @@ public class SeqShareStack<T> {
                 if (b.stackEmpty()) {
                     return Optional.empty();
                 }
-                res = data[(maxSize - 1) - b.top];
+                res = data[(maxSize - 1) - b.top].getValue();
                 b.top--;
                 return Optional.of(res);
         }
@@ -141,21 +141,21 @@ public class SeqShareStack<T> {
      * 读取栈顶元素
      *
      * @param type 共享栈类型
-     * @return 栈顶元素
+     * @return 栈顶元素的值
      */
-    private Optional<SeqElem<T>> getTop(SeqShareStackType type) {
+    private Optional<T> getTop(SeqShareStackType type) {
         switch (type) {
             case A:
                 if (a.stackEmpty()) {
                     return Optional.empty();
                 }
-                return Optional.of(data[a.top]);
+                return Optional.of(data[a.top].getValue());
             case B:
             default:
                 if (b.stackEmpty()) {
                     return Optional.empty();
                 }
-                return Optional.of(data[(maxSize - 1) - b.top]);
+                return Optional.of(data[(maxSize - 1) - b.top].getValue());
         }
     }
 
@@ -228,12 +228,12 @@ public class SeqShareStack<T> {
         }
 
         @Override
-        public Optional<SeqElem<T>> pop() {
+        public Optional<T> pop() {
             return SeqShareStack.this.pop(type);
         }
 
         @Override
-        public Optional<SeqElem<T>> getTop() {
+        public Optional<T> getTop() {
             return SeqShareStack.this.getTop(type);
         }
 

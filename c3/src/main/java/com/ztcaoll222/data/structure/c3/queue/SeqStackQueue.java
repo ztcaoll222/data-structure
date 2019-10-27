@@ -50,7 +50,7 @@ public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
         if (a.stackOverFlow() && b.stackEmpty()) {
             int length = a.length();
             for (int i = 0; i < length; i++) {
-                a.pop().map(SeqElem::getValue).ifPresent(b::push);
+                a.pop().ifPresent(b::push);
             }
             return a.push(values);
         } else {
@@ -61,15 +61,15 @@ public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
     @Override
     public Optional<SeqElem<T>> deQueue() {
         if (!b.stackEmpty()) {
-            return b.pop();
+            return b.pop().map(SeqElem::new);
         }
 
         if (!a.stackEmpty()) {
             int length = a.length();
             for (int i = 0; i < length; i++) {
-                a.pop().map(SeqElem::getValue).ifPresent(b::push);
+                a.pop().ifPresent(b::push);
             }
-            return b.pop();
+            return b.pop().map(SeqElem::new);
         }
 
         return Optional.empty();
@@ -78,15 +78,15 @@ public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
     @Override
     public Optional<SeqElem<T>> getHead() {
         if (!b.stackEmpty()) {
-            return b.getTop();
+            return b.getTop().map(SeqElem::new);
         }
 
         if (!a.stackEmpty() && b.stackEmpty()) {
             int length = a.length();
             for (int i = 0; i < length; i++) {
-                a.pop().map(SeqElem::getValue).ifPresent(b::push);
+                a.pop().ifPresent(b::push);
             }
-            return b.getTop();
+            return b.getTop().map(SeqElem::new);
         }
 
         return Optional.empty();

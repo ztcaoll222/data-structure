@@ -42,25 +42,25 @@ public interface Stack<B extends Elem<T>, T> {
     /**
      * 出栈
      *
-     * @return 栈顶元素
+     * @return 栈顶元素的值
      */
-    Optional<B> pop();
+    Optional<T> pop();
 
     /**
      * 出栈
      *
      * @return 连续
      */
-    default Stream<B> pops() {
+    default Stream<T> pops() {
         return Stream.generate(this::pop).takeWhile(Optional::isPresent).map(Optional::get);
     }
 
     /**
      * 读取栈顶元素
      *
-     * @return 栈顶元素
+     * @return 栈顶元素的值
      */
-    Optional<B> getTop();
+    Optional<T> getTop();
 
     /**
      * 销毁栈

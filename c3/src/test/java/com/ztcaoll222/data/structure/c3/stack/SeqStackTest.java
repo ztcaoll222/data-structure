@@ -49,27 +49,27 @@ class SeqStackTest {
     @Test
     void pop() {
         var stack = SeqStack.of(1, 2, 3);
-        var elem = stack.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(3, elem.get().getValue());
+        var value = stack.pop();
+        assertTrue(value.isPresent());
+        assertEquals(3, value.get());
 
-        elem = stack.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = stack.pop();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
-        elem = stack.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        value = stack.pop();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
-        elem = stack.pop();
-        assertTrue(elem.isEmpty());
+        value = stack.pop();
+        assertTrue(value.isEmpty());
     }
 
     @Test
     void pops() {
         var stack = SeqStack.of(1, 2, 3);
 
-        var res = stack.pops().map(elem -> elem.getValue().toString()).collect(Collectors.joining(", "));
+        var res = stack.pops().map(Object::toString).collect(Collectors.joining(", "));
         assertEquals("3, 2, 1", res);
     }
 
@@ -79,9 +79,9 @@ class SeqStackTest {
         assertTrue(stack.getTop().isEmpty());
 
         assertTrue(stack.push(1, 2));
-        var elem = stack.getTop();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        var value = stack.getTop();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
         assertEquals("1, 2", stack.toString());
     }
 

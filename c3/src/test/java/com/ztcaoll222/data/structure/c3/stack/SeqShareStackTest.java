@@ -56,37 +56,37 @@ class SeqShareStackTest {
 
         var a = stack.getA();
         a.push(1, 2, 3);
-        var elem = a.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(3, elem.get().getValue());
+        var value = a.pop();
+        assertTrue(value.isPresent());
+        assertEquals(3, value.get());
 
-        elem = a.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = a.pop();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
-        elem = a.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        value = a.pop();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
-        elem = a.pop();
-        assertTrue(elem.isEmpty());
+        value = a.pop();
+        assertTrue(value.isEmpty());
 
         var b = stack.getB();
         b.push(1, 2, 3);
-        elem = b.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(3, elem.get().getValue());
+        value = b.pop();
+        assertTrue(value.isPresent());
+        assertEquals(3, value.get());
 
-        elem = b.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = b.pop();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
-        elem = b.pop();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        value = b.pop();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
-        elem = b.pop();
-        assertTrue(elem.isEmpty());
+        value = b.pop();
+        assertTrue(value.isEmpty());
     }
 
     @Test
@@ -99,10 +99,10 @@ class SeqShareStackTest {
         var b = stack.getB();
         b.push(4, 5, 6);
 
-        var res = a.pops().map(elem -> elem.getValue().toString()).collect(Collectors.joining(", "));
+        var res = a.pops().map(Object::toString).collect(Collectors.joining(", "));
         assertEquals("3, 2, 1", res);
 
-        res = b.pops().map(elem -> elem.getValue().toString()).collect(Collectors.joining(", "));
+        res = b.pops().map(Object::toString).collect(Collectors.joining(", "));
         assertEquals("6, 5, 4", res);
     }
 
@@ -113,16 +113,16 @@ class SeqShareStackTest {
         var a = stack.getA();
         assertTrue(a.getTop().isEmpty());
         assertTrue(a.push(1, 2));
-        var elem = a.getTop();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        var value = a.getTop();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
         var b = stack.getB();
         assertTrue(b.getTop().isEmpty());
         assertTrue(b.push(1, 2));
-        elem = b.getTop();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = b.getTop();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
         assertEquals("{a: {1, 2}, b: {1, 2}}", stack.toString());
     }
 
