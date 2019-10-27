@@ -5,6 +5,7 @@ import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 第三章栈和队列综合题
@@ -88,5 +89,31 @@ public class T3362 {
         });
 
         return Pair.of(optLog.toString(), res.toString());
+    }
+
+    /**
+     * 使用栈实现:
+     * 1,                           n=0
+     * 2x,                          n=1
+     * 2xP(n-1)(x)-2(n-1)P(n-2)(x), x > 1
+     */
+    public static double t3(int n, double x) {
+        var stack = new SeqStack<Integer>(n);
+        for (int i = n; i >= 2; i--) {
+            stack.push(i);
+        }
+
+        AtomicReference<Double> t0 = new AtomicReference<>((double) 1);
+        AtomicReference<Double> t1 = new AtomicReference<>(2 * x);
+        stack.pops().map(SeqElem::getValue).forEach(i -> {
+            double value = 2 * x * t1.get() - 2 * (i - 1) * t0.get();
+            t0.set(t1.get());
+            t1.set(value);
+        });
+
+        if (n == 0) {
+            return 1;
+        }
+        return t1.get();
     }
 }

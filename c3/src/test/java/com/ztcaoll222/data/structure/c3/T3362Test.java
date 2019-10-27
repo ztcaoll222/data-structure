@@ -26,4 +26,11 @@ class T3362Test {
         assertEquals("IIOIIOIIIOIIOIOIOIOOOOOO", res.getK());
         assertEquals("SSSSSSHHHHHH", res.getV());
     }
+
+    @Test
+    void t3() {
+        assertEquals(1, T3362.t3(0, 1));
+        assertEquals(2, T3362.t3(1, 1));
+        assertEquals(-20, T3362.t3(4, 1));
+    }
 }
