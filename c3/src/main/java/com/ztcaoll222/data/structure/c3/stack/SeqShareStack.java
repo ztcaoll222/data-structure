@@ -5,7 +5,9 @@ import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.emuns.SeqShareStackType;
 import com.ztcaoll222.data.structure.c3.interfaces.Stack;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * 共享栈
@@ -84,30 +86,54 @@ public class SeqShareStack<T> {
     /**
      * 进栈
      *
-     * @param type   共享栈类型
-     * @param values 值数组
+     * @param type 共享栈类型
+     * @param elem 元素
      * @return 成功返回 true, 否则 false
      */
-    private boolean push(SeqShareStackType type, T[] values) {
-        if (values.length == 0 || maxSize < ((a.top + 1) + (b.top + 1)) + values.length) {
+    private boolean push(SeqShareStackType type, SeqElem<T> elem) {
+        if (stackOverFlow()) {
             return false;
         }
 
         switch (type) {
             case A:
-                for (T value : values) {
-                    a.top++;
-                    data[a.top] = new SeqElem<>(value);
-                }
-                return true;
+                a.top++;
+                data[a.top] = elem;
+                break;
             case B:
             default:
-                for (T value : values) {
-                    b.top++;
-                    data[(maxSize - 1) - b.top] = new SeqElem<>(value);
-                }
-                return true;
+                b.top++;
+                data[(maxSize - 1) - b.top] = elem;
+                break;
         }
+
+        return true;
+    }
+
+    /**
+     * 进栈
+     *
+     * @param type   共享栈类型
+     * @param values 值数组
+     * @return 成功返回 true, 否则 false
+     */
+    private boolean push(SeqShareStackType type, T[] values) {
+        if (values.length == 0) {
+            return false;
+        }
+
+        return Arrays.stream(values).map(SeqElem::new).allMatch(elem -> push(type, elem));
+    }
+
+    /**
+     * 进栈
+     *
+     * @param type   共享栈类型
+     * @param stream 连续
+     * @return 成功返回 true, 否则 false
+     */
+    private boolean pushs(SeqShareStackType type, Stream<T> stream) {
+        return stream.map(SeqElem::new).allMatch(elem -> push(type, elem));
     }
 
     /**
@@ -225,6 +251,11 @@ public class SeqShareStack<T> {
         @Override
         public final boolean push(T... values) {
             return SeqShareStack.this.push(type, values);
+        }
+
+        @Override
+        public boolean pushs(Stream<T> stream) {
+            return SeqShareStack.this.pushs(type, stream);
         }
 
         @Override

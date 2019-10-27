@@ -4,7 +4,9 @@ import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.Stack;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * 顺序栈
@@ -42,18 +44,39 @@ public class SeqStack<T> implements Stack<SeqElem<T>, T> {
         return top + 1;
     }
 
-    @SafeVarargs
-    @Override
-    public final boolean push(T... values) {
-        if (values.length == 0 || maxSize < (top + 1 + values.length)) {
+    /**
+     * 进栈
+     *
+     * @param elem 元素
+     * @return 成功返回 true, 否则 false
+     */
+    private boolean push(SeqElem<T> elem) {
+        if (stackOverFlow()) {
             return false;
         }
 
-        for (T value : values) {
-            top++;
-            data[top] = new SeqElem<T>(value);
-        }
+        top++;
+        data[top] = elem;
         return true;
+    }
+
+    @SafeVarargs
+    @Override
+    public final boolean push(T... values) {
+        if (values.length == 0) {
+            return false;
+        }
+
+        return Arrays.stream(values).map(SeqElem::new).allMatch(this::push);
+    }
+
+    @Override
+    public boolean pushs(Stream<T> stream) {
+        if (stackOverFlow()) {
+            return false;
+        }
+
+        return stream.map(SeqElem::new).allMatch(this::push);
     }
 
     @Override

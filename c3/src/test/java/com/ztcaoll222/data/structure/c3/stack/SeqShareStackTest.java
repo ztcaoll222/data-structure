@@ -51,6 +51,16 @@ class SeqShareStackTest {
     }
 
     @Test
+    void pushs() {
+        SeqShareStack<Integer> stack = new SeqShareStack<>(5);
+        assertTrue(stack.getA().push(1, 2, 3, 4, 5));
+        assertTrue(stack.getB().pushs(stack.getA().pops()));
+
+        assertTrue(stack.getA().stackEmpty());
+        assertEquals("{a: {}, b: {5, 4, 3, 2, 1}}", stack.toString());
+    }
+
+    @Test
     void pop() {
         SeqShareStack<Integer> stack = new SeqShareStack<>();
 

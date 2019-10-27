@@ -47,6 +47,20 @@ class SeqStackTest {
     }
 
     @Test
+    void pushs() {
+        SeqStack<Integer> stack0 = new SeqStack<>();
+        assertTrue(stack0.push(1, 2, 3, 4, 5));
+
+        SeqStack<Integer> stack1 = new SeqStack<>(0);
+        assertFalse(stack1.pushs(stack0.pops()));
+
+        stack1 = new SeqStack<>(stack0.length());
+        assertTrue(stack1.pushs(stack0.pops()));
+        assertTrue(stack0.stackEmpty());
+        assertEquals("5, 4, 3, 2, 1", stack1.toString());
+    }
+
+    @Test
     void pop() {
         var stack = SeqStack.of(1, 2, 3);
         var value = stack.pop();

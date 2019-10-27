@@ -40,6 +40,14 @@ public interface Stack<B extends Elem<T>, T> {
     boolean push(T[] values);
 
     /**
+     * 进栈
+     *
+     * @param stream 连续
+     * @return 成功返回 true, 否则 false
+     */
+    boolean pushs(Stream<T> stream);
+
+    /**
      * 出栈
      *
      * @return 栈顶元素的值
