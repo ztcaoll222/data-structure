@@ -8,7 +8,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/23 22:02
  */
-public interface DeQueue<B extends Elem<T>, T> extends Queue<B, T> {
+public interface DeQueue<B extends Elem<T>, T> {
     /**
      * 获得双端队列的最后一个元素
      *

@@ -3,6 +3,7 @@ package com.ztcaoll222.data.structure.c3.queue;
 import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.DeQueue;
+import com.ztcaoll222.data.structure.c3.interfaces.Queue;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/24 15:39
  */
-public class SeqLoopDeQueue<T> implements DeQueue<SeqElem<T>, T> {
+public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<T>, T> {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
