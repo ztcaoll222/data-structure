@@ -9,17 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * 顺序队列的单元测试
  */
 @Flogger
-class SeqQueueTest {
+class SeqDoNotUseQueueTest {
 
     @Test
     void queueEmpty() {
-        var queue = new SeqQueue<Integer>();
+        var queue = new SeqDoNotUseQueue<Integer>();
         assertTrue(queue.queueEmpty());
     }
 
     @Test
     void length() {
-        var queue = new SeqQueue<Integer>(3);
+        var queue = new SeqDoNotUseQueue<Integer>(3);
         assertEquals(0, queue.length());
 
         queue.enQueue(1, 2);
@@ -32,7 +32,7 @@ class SeqQueueTest {
 
     @Test
     void enQueue() {
-        var queue = new SeqQueue<Integer>(2);
+        var queue = new SeqDoNotUseQueue<Integer>(2);
         assertTrue(queue.enQueue(1, 2));
         assertFalse(queue.enQueue(3));
         assertEquals("1, 2", queue.toString());
@@ -40,7 +40,7 @@ class SeqQueueTest {
 
     @Test
     void deQueue() {
-        var queue = new SeqQueue<Integer>();
+        var queue = new SeqDoNotUseQueue<Integer>();
         queue.enQueue(1, 2);
 
         var elem = queue.deQueue();
@@ -59,21 +59,21 @@ class SeqQueueTest {
 
     @Test
     void getHead() {
-        var queue = new SeqQueue<Integer>();
+        var queue = new SeqDoNotUseQueue<Integer>();
         queue.enQueue(1, 2);
 
         var elem = queue.getHead();
         assertTrue(elem.isPresent());
         assertEquals(1, elem.get().getValue());
 
-        queue = new SeqQueue<>();
+        queue = new SeqDoNotUseQueue<>();
         elem = queue.getHead();
         assertTrue(elem.isEmpty());
     }
 
     @Test
     void testToString() {
-        var queue = new SeqQueue<Integer>();
+        var queue = new SeqDoNotUseQueue<Integer>();
         assertEquals("", queue.toString());
 
         queue.enQueue(1, 2);

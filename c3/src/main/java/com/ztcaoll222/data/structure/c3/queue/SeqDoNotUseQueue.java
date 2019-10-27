@@ -12,18 +12,18 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/23 22:01
  */
-public class SeqQueue<T> implements Queue<SeqElem<T>, T> {
+public class SeqDoNotUseQueue<T> implements Queue<SeqElem<T>, T> {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
     private int tail = 0;
 
-    public SeqQueue(int maxSize) {
+    public SeqDoNotUseQueue(int maxSize) {
         this.maxSize = maxSize;
         data = new SeqElem[this.maxSize];
     }
 
-    public SeqQueue() {
+    public SeqDoNotUseQueue() {
         this.maxSize = Config.DEFAULT_COLLECTION_SIZE;
         data = new SeqElem[this.maxSize];
     }
