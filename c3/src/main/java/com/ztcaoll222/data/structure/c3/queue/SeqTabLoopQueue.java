@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/25 15:14
  */
-public class SeqTabLoopQueue<T> implements Queue<SeqElem<T>, T>, SeqQueue {
+public class SeqTabLoopQueue<T> implements Queue<T>, SeqQueue {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
@@ -90,24 +90,24 @@ public class SeqTabLoopQueue<T> implements Queue<SeqElem<T>, T>, SeqQueue {
     }
 
     @Override
-    public Optional<SeqElem<T>> deQueue() {
+    public Optional<T> deQueue() {
         if (queueEmpty()) {
             return Optional.empty();
         }
 
-        var res = data[front];
+        var res = data[front].getValue();
         front = (front + 1) % maxSize;
         tab = 0;
         return Optional.of(res);
     }
 
     @Override
-    public Optional<SeqElem<T>> getHead() {
+    public Optional<T> getHead() {
         if (queueEmpty()) {
             return Optional.empty();
         }
 
-        return Optional.of(data[front]);
+        return Optional.of(data[front].getValue());
     }
 
     @Override

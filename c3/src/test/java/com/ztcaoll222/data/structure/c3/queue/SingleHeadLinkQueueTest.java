@@ -43,16 +43,16 @@ class SingleHeadLinkQueueTest {
         var queue = new SingleHeadLinkQueue<Integer>();
         queue.enQueue(1, 2);
 
-        var elem = queue.deQueue();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        var value = queue.deQueue();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
-        elem = queue.deQueue();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = queue.deQueue();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
-        elem = queue.deQueue();
-        assertTrue(elem.isEmpty());
+        value = queue.deQueue();
+        assertTrue(value.isEmpty());
 
         assertTrue(queue.queueEmpty());
     }
@@ -62,13 +62,13 @@ class SingleHeadLinkQueueTest {
         var queue = new SingleHeadLinkQueue<Integer>();
         queue.enQueue(1, 2);
 
-        var elem = queue.getHead();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        var value = queue.getHead();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
         queue = new SingleHeadLinkQueue<>();
-        elem = queue.getHead();
-        assertTrue(elem.isEmpty());
+        value = queue.getHead();
+        assertTrue(value.isEmpty());
     }
 
     @Test

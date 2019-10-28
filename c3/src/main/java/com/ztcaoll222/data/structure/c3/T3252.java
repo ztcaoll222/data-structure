@@ -1,6 +1,5 @@
 package com.ztcaoll222.data.structure.c3;
 
-import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.queue.SeqLoopQueue;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
@@ -23,7 +22,7 @@ public class T3252 {
         int length = queue.length();
         var stack = new SeqStack<T>(length);
         for (int i = 0; i < length; i++) {
-            queue.deQueue().map(SeqElem::getValue).ifPresent(stack::push);
+            queue.deQueue().ifPresent(stack::push);
         }
 
         for (int i = 0; i < length; i++) {

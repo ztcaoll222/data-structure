@@ -11,7 +11,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/24 10:48
  */
-public class SingleHeadLinkQueue<T> implements Queue<SingleNode<T>, T> {
+public class SingleHeadLinkQueue<T> implements Queue<T> {
     private SingleNode<T> head;
     private SingleNode<T> tail;
 
@@ -50,21 +50,21 @@ public class SingleHeadLinkQueue<T> implements Queue<SingleNode<T>, T> {
     }
 
     @Override
-    public Optional<SingleNode<T>> deQueue() {
+    public Optional<T> deQueue() {
         if (queueEmpty()) {
             return Optional.empty();
         }
 
         head = head.getNext();
-        return Optional.of(head);
+        return Optional.of(head.getValue());
     }
 
     @Override
-    public Optional<SingleNode<T>> getHead() {
+    public Optional<T> getHead() {
         if (queueEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(head.getNext());
+        return Optional.of(head.getNext().getValue());
     }
 
     @Override

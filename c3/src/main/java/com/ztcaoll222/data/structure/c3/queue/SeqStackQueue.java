@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/25 21:27
  */
-public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
+public class SeqStackQueue<T> implements Queue<T> {
     private SeqStack<T> a;
     private SeqStack<T> b;
     private int maxSize;
@@ -59,9 +59,9 @@ public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
     }
 
     @Override
-    public Optional<SeqElem<T>> deQueue() {
+    public Optional<T> deQueue() {
         if (!b.stackEmpty()) {
-            return b.pop().map(SeqElem::new);
+            return b.pop();
         }
 
         if (!a.stackEmpty()) {
@@ -69,16 +69,16 @@ public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
             for (int i = 0; i < length; i++) {
                 a.pop().ifPresent(b::push);
             }
-            return b.pop().map(SeqElem::new);
+            return b.pop();
         }
 
         return Optional.empty();
     }
 
     @Override
-    public Optional<SeqElem<T>> getHead() {
+    public Optional<T> getHead() {
         if (!b.stackEmpty()) {
-            return b.getTop().map(SeqElem::new);
+            return b.getTop();
         }
 
         if (!a.stackEmpty() && b.stackEmpty()) {
@@ -86,7 +86,7 @@ public class SeqStackQueue<T> implements Queue<SeqElem<T>, T> {
             for (int i = 0; i < length; i++) {
                 a.pop().ifPresent(b::push);
             }
-            return b.getTop().map(SeqElem::new);
+            return b.getTop();
         }
 
         return Optional.empty();

@@ -15,13 +15,13 @@ class SeqLoopDeQueueTest {
     void getTail() {
         var queue = new SeqLoopDeQueue<Integer>();
 
-        var elem = queue.getTail();
-        assertTrue(elem.isEmpty());
+        var value = queue.getTail();
+        assertTrue(value.isEmpty());
 
         queue.enQueue(1, 2, 3);
-        elem = queue.getTail();
-        assertTrue(elem.isPresent());
-        assertEquals(3, elem.get().getValue());
+        value = queue.getTail();
+        assertTrue(value.isPresent());
+        assertEquals(3, value.get());
     }
 
     @Test
@@ -39,20 +39,20 @@ class SeqLoopDeQueueTest {
         var queue = new SeqLoopDeQueue<Integer>();
         assertTrue(queue.enQueue(1, 2, 3));
 
-        var elem = queue.deQueueTail();
-        assertTrue(elem.isPresent());
-        assertEquals(3, elem.get().getValue());
+        var value = queue.deQueueTail();
+        assertTrue(value.isPresent());
+        assertEquals(3, value.get());
 
-        elem = queue.deQueueTail();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = queue.deQueueTail();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
-        elem = queue.deQueueTail();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        value = queue.deQueueTail();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
-        elem = queue.deQueueTail();
-        assertFalse(elem.isPresent());
+        value = queue.deQueueTail();
+        assertFalse(value.isPresent());
     }
 
     @Test
@@ -105,16 +105,16 @@ class SeqLoopDeQueueTest {
         var queue = new SeqLoopDeQueue<Integer>();
         assertTrue(queue.enQueue(1, 2));
 
-        var elem = queue.deQueue();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        var value = queue.deQueue();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
-        elem = queue.deQueue();
-        assertTrue(elem.isPresent());
-        assertEquals(2, elem.get().getValue());
+        value = queue.deQueue();
+        assertTrue(value.isPresent());
+        assertEquals(2, value.get());
 
-        elem = queue.deQueue();
-        assertTrue(elem.isEmpty());
+        value = queue.deQueue();
+        assertTrue(value.isEmpty());
 
         assertTrue(queue.queueEmpty());
     }
@@ -124,13 +124,13 @@ class SeqLoopDeQueueTest {
         var queue = new SeqLoopDeQueue<Integer>();
         queue.enQueue(1, 2);
 
-        var elem = queue.getHead();
-        assertTrue(elem.isPresent());
-        assertEquals(1, elem.get().getValue());
+        var value = queue.getHead();
+        assertTrue(value.isPresent());
+        assertEquals(1, value.get());
 
         queue = new SeqLoopDeQueue<>();
-        elem = queue.getHead();
-        assertTrue(elem.isEmpty());
+        value = queue.getHead();
+        assertTrue(value.isEmpty());
     }
 
     @Test

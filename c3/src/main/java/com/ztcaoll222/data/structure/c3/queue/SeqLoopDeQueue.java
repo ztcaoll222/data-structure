@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/24 15:39
  */
-public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<T>, T>, SeqQueue {
+public class SeqLoopDeQueue<T> implements Queue<T>, DeQueue<T>, SeqQueue {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
@@ -32,11 +32,11 @@ public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<
     }
 
     @Override
-    public Optional<SeqElem<T>> getTail() {
+    public Optional<T> getTail() {
         if (queueEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(data[(tail + maxSize - 1) % maxSize]);
+        return Optional.of(data[(tail + maxSize - 1) % maxSize].getValue());
     }
 
     /**
@@ -62,13 +62,13 @@ public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<
     }
 
     @Override
-    public Optional<SeqElem<T>> deQueueTail() {
+    public Optional<T> deQueueTail() {
         if (queueEmpty()) {
             return Optional.empty();
         }
 
         tail = (tail + maxSize - 1) % maxSize;
-        var res = data[tail];
+        var res = data[tail].getValue();
         return Optional.of(res);
     }
 
@@ -126,22 +126,22 @@ public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<
     }
 
     @Override
-    public Optional<SeqElem<T>> deQueue() {
+    public Optional<T> deQueue() {
         if (queueEmpty()) {
             return Optional.empty();
         }
 
-        var res = data[front];
+        var res = data[front].getValue();
         front = (front + 1) % maxSize;
         return Optional.of(res);
     }
 
     @Override
-    public Optional<SeqElem<T>> getHead() {
+    public Optional<T> getHead() {
         if (queueEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(data[front]);
+        return Optional.of(data[front].getValue());
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/23 22:01
  */
-public class SeqDoNotUseQueue<T> implements Queue<SeqElem<T>, T>, SeqQueue {
+public class SeqDoNotUseQueue<T> implements Queue<T>, SeqQueue {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
@@ -67,23 +67,23 @@ public class SeqDoNotUseQueue<T> implements Queue<SeqElem<T>, T>, SeqQueue {
     }
 
     @Override
-    public Optional<SeqElem<T>> deQueue() {
+    public Optional<T> deQueue() {
         if (front == tail) {
             return Optional.empty();
         }
 
-        var res = data[front];
+        var res = data[front].getValue();
         front++;
         return Optional.of(res);
     }
 
     @Override
-    public Optional<SeqElem<T>> getHead() {
+    public Optional<T> getHead() {
         if (front == tail) {
             return Optional.empty();
         }
 
-        return Optional.of(data[front]);
+        return Optional.of(data[front].getValue());
     }
 
     @Override

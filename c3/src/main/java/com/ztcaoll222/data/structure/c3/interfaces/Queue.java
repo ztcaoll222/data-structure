@@ -1,14 +1,12 @@
 package com.ztcaoll222.data.structure.c3.interfaces;
 
-import com.ztcaoll222.data.structure.base.interfaces.Elem;
-
 import java.util.Optional;
 
 /**
  * @author ztcaoll222
  * Create time: 2019/10/23 22:02
  */
-public interface Queue<B extends Elem<T>, T> {
+public interface Queue<T> {
     /**
      * 判队列空
      *
@@ -34,14 +32,14 @@ public interface Queue<B extends Elem<T>, T> {
     /**
      * 出队
      *
-     * @return 队头
+     * @return 队头的值
      */
-    Optional<B> deQueue();
+    Optional<T> deQueue();
 
     /**
      * 读队头元素
      *
-     * @return 队头
+     * @return 队头的值
      */
-    Optional<B> getHead();
+    Optional<T> getHead();
 }

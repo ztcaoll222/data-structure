@@ -1,6 +1,7 @@
 package com.ztcaoll222.data.structure.c3;
 
 import com.ztcaoll222.data.structure.base.entity.Pair;
+import com.ztcaoll222.data.structure.c3.queue.SeqLoopQueue;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
 import java.util.Optional;
@@ -126,11 +127,29 @@ public class T3362 {
      */
 //    public static String t4(String str) {
 //        int length = str.length();
+//
 //        var hQueue = new SeqLoopQueue<Character>(length + 1);
-//        var res = new SeqLoopQueue<SeqLoopQueue<Character>>(length / 10 + 1);
+//
+//        var res = new SeqLoopQueue<SeqLoopQueue<Character>>(length / 10 + 2);
 //        var resItem = new SeqLoopQueue<Character>(10 + 1);
 //        for (int i = 0; i < length; i++) {
-//            if (resItem)
+//            if (resItem.queueOverFlow()) {
+//                res.enQueue(resItem);
+//                resItem = new SeqLoopQueue<>(10 + 1);
+//            }
+//
+//            if (i % 5 == 0) {
+//                var t = res.getHead();
+//                hQueue.deQueue().ifPresent(elem -> t.get().getValue().enQueue(elem.getValue()));
+//            }
+//            var c = str.charAt(i);
+//            switch (c) {
+//                case 'H':
+//                    hQueue.enQueue(c);
+//                    break;
+//                default:
+//                    break;
+//            }
 //        }
 //    }
 }
