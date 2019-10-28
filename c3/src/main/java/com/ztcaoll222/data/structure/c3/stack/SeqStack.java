@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * @author ztcaoll222
  * Create time: 2019/10/21 20:28
  */
-public class SeqStack<T> implements Stack<SeqElem<T>, T> {
+public class SeqStack<T> implements Stack<T> {
     private int maxSize;
     private SeqElem<T>[] data;
     private int top = -1;

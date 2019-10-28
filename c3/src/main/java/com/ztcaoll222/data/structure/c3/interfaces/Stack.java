@@ -1,7 +1,5 @@
 package com.ztcaoll222.data.structure.c3.interfaces;
 
-import com.ztcaoll222.data.structure.base.interfaces.Elem;
-
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -9,7 +7,7 @@ import java.util.stream.Stream;
  * @author ztcaoll222
  * Create time: 2019/10/21 9:23
  */
-public interface Stack<B extends Elem<T>, T> {
+public interface Stack<T> {
     /**
      * 判断一个栈是否为空
      *

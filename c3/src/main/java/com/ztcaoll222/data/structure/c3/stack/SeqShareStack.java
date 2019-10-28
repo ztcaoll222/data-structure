@@ -224,7 +224,7 @@ public class SeqShareStack<T> {
         b.clearStack();
     }
 
-    public class SeqShareStackElem implements Stack<SeqElem<T>, T> {
+    public class SeqShareStackElem implements Stack<T> {
         private int top = -1;
         private SeqShareStackType type;
 
