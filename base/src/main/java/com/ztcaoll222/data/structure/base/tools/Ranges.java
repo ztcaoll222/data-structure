@@ -9,6 +9,9 @@ import java.util.stream.Stream;
  * Create time: 2019/10/28 16:28
  */
 public class Ranges {
+    private Ranges() {
+    }
+
     private static final boolean DEFAULT_SYNC = true;
 
     private static final int DEFAULT_STEP = 1;
