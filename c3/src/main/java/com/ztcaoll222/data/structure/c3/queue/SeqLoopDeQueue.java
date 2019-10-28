@@ -4,6 +4,7 @@ import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.DeQueue;
 import com.ztcaoll222.data.structure.c3.interfaces.Queue;
+import com.ztcaoll222.data.structure.c3.interfaces.SeqQueue;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/24 15:39
  */
-public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<T>, T> {
+public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<T>, T>, SeqQueue {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
@@ -73,7 +74,20 @@ public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<
 
     @Override
     public boolean queueEmpty() {
+        if (maxSize == 0) {
+            return false;
+        }
+
         return front == tail;
+    }
+
+    @Override
+    public boolean queueOverFlow() {
+        if (maxSize == 0) {
+            return true;
+        }
+
+        return (tail + 1) % maxSize == front;
     }
 
     @Override
@@ -96,7 +110,7 @@ public class SeqLoopDeQueue<T> implements Queue<SeqElem<T>, T>, DeQueue<SeqElem<
      * @return 成功返回 true, 否则 false
      */
     private boolean enQueue(SeqElem<T> elem) {
-        if ((tail + 1) % maxSize == front) {
+        if (queueOverFlow()) {
             return false;
         }
 

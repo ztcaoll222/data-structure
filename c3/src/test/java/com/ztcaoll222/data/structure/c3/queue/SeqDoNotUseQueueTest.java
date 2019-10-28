@@ -13,8 +13,22 @@ class SeqDoNotUseQueueTest {
 
     @Test
     void queueEmpty() {
-        var queue = new SeqDoNotUseQueue<Integer>();
+        var queue = new SeqDoNotUseQueue<Integer>(0);
+        assertFalse(queue.queueEmpty());
+
+        queue = new SeqDoNotUseQueue<>();
         assertTrue(queue.queueEmpty());
+    }
+
+    @Test
+    void queueOverFlow() {
+        var queue = new SeqDoNotUseQueue<Integer>(0);
+        assertTrue(queue.queueOverFlow());
+
+        queue = new SeqDoNotUseQueue<>(1);
+        assertFalse(queue.queueOverFlow());
+        assertTrue(queue.enQueue(1));
+        assertTrue(queue.queueOverFlow());
     }
 
     @Test

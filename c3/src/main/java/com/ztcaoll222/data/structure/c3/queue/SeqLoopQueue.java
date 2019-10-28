@@ -3,6 +3,7 @@ package com.ztcaoll222.data.structure.c3.queue;
 import com.ztcaoll222.data.structure.base.Config;
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.Queue;
+import com.ztcaoll222.data.structure.c3.interfaces.SeqQueue;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/24 9:29
  */
-public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T> {
+public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T>, SeqQueue {
     private SeqElem<T>[] data;
     private int maxSize;
     private int front = 0;
@@ -31,7 +32,20 @@ public class SeqLoopQueue<T> implements Queue<SeqElem<T>, T> {
 
     @Override
     public boolean queueEmpty() {
+        if (maxSize == 0) {
+            return false;
+        }
+
         return front == tail;
+    }
+
+    @Override
+    public boolean queueOverFlow() {
+        if (maxSize == 0) {
+            return true;
+        }
+
+        return (tail + 1) % maxSize == front;
     }
 
     @Override

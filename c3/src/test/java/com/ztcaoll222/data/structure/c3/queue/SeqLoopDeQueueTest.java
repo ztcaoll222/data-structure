@@ -57,8 +57,22 @@ class SeqLoopDeQueueTest {
 
     @Test
     void queueEmpty() {
-        var queue = new SeqLoopDeQueue<Integer>();
+        var queue = new SeqLoopDeQueue<Integer>(0);
+        assertFalse(queue.queueEmpty());
+
+        queue = new SeqLoopDeQueue<>();
         assertTrue(queue.queueEmpty());
+    }
+
+    @Test
+    void queueOverFlow() {
+        var queue = new SeqLoopDeQueue<Integer>(0);
+        assertTrue(queue.queueOverFlow());
+
+        queue = new SeqLoopDeQueue<>(2);
+        assertFalse(queue.queueOverFlow());
+        assertTrue(queue.enQueue(1));
+        assertTrue(queue.queueOverFlow());
     }
 
     @Test
