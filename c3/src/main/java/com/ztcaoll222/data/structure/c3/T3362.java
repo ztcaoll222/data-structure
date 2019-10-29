@@ -7,7 +7,6 @@ import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 /**
  * 第三章栈和队列综合题
@@ -123,7 +122,7 @@ public class T3362 {
      * 不断向分组中存进车辆
      *
      * @param res 分组
-     * @param h 车辆
+     * @param h   车辆
      */
     private static void pushCar(SeqLoopDeQueue<SeqLoopQueue<Character>> res, Character h) {
         var tail = res.getTail().filter(elem -> !elem.queueOverFlow()).orElseGet(() -> {
@@ -141,7 +140,7 @@ public class T3362 {
      * @param str 客车和货车的排队顺序
      * @return 重排后的结果, 组与组之间用 "; " 分割, 辆与辆之间用 ", " 分割
      */
-    public static SeqLoopDeQueue<SeqLoopQueue<Character>> t4(String str) {
+    public static String t4(String str) {
         int length = str.length();
 
         var hQueue = new SeqLoopQueue<Character>(length + 1);
@@ -167,6 +166,6 @@ public class T3362 {
             hQueue.deQueue().ifPresent(h -> pushCar(res, h));
         }
 
-        return res;
+        return res.toString("; ");
     }
 }
