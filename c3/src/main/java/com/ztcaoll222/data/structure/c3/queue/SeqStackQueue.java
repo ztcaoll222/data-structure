@@ -1,7 +1,6 @@
 package com.ztcaoll222.data.structure.c3.queue;
 
 import com.ztcaoll222.data.structure.base.Config;
-import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.interfaces.Queue;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 

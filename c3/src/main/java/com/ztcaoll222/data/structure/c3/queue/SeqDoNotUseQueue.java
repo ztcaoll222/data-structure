@@ -87,7 +87,7 @@ public class SeqDoNotUseQueue<T> implements Queue<T>, SeqQueue {
     }
 
     @Override
-    public String toString() {
+    public String toString(String delimiter) {
         if (queueEmpty()) {
             return "";
         }
@@ -95,10 +95,15 @@ public class SeqDoNotUseQueue<T> implements Queue<T>, SeqQueue {
         var sb = new StringBuilder();
         for (int i = front; i < tail - 1; i++) {
             sb.append(data[i].getValue());
-            sb.append(", ");
+            sb.append(delimiter);
         }
         sb.append(data[tail - 1].getValue());
 
         return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return toString(", ");
     }
 }

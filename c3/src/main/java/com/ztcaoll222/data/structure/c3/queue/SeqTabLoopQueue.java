@@ -111,7 +111,7 @@ public class SeqTabLoopQueue<T> implements Queue<T>, SeqQueue {
     }
 
     @Override
-    public String toString() {
+    public String toString(String delimiter) {
         if (queueEmpty()) {
             return "";
         }
@@ -125,5 +125,10 @@ public class SeqTabLoopQueue<T> implements Queue<T>, SeqQueue {
         } while (i != tail);
         sb.setLength(sb.length() - 2);
         return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return toString(", ");
     }
 }

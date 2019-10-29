@@ -103,7 +103,7 @@ public class SeqLoopQueue<T> implements Queue<T>, SeqQueue {
     }
 
     @Override
-    public String toString() {
+    public String toString(String delimiter) {
         if (queueEmpty()) {
             return "";
         }
@@ -112,10 +112,15 @@ public class SeqLoopQueue<T> implements Queue<T>, SeqQueue {
         int i = front;
         do {
             sb.append(data[i].getValue());
-            sb.append(", ");
+            sb.append(delimiter);
             i = (i + 1) % maxSize;
         } while (i != tail);
         sb.setLength(sb.length() - 2);
         return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return toString(", ");
     }
 }

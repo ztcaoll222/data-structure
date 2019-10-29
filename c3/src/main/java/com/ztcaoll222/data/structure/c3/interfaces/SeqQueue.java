@@ -11,4 +11,12 @@ public interface SeqQueue {
      * @return 是返回 true, 否则 false
      */
     boolean queueOverFlow();
+
+    /**
+     * 转为字符串
+     *
+     * @param delimiter 分隔符
+     * @return 字符串
+     */
+    String toString(String delimiter);
 }
