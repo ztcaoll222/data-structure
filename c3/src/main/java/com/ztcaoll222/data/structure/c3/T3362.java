@@ -1,11 +1,13 @@
 package com.ztcaoll222.data.structure.c3;
 
 import com.ztcaoll222.data.structure.base.entity.Pair;
+import com.ztcaoll222.data.structure.c3.queue.SeqLoopDeQueue;
 import com.ztcaoll222.data.structure.c3.queue.SeqLoopQueue;
 import com.ztcaoll222.data.structure.c3.stack.SeqStack;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 /**
  * 第三章栈和队列综合题
@@ -117,6 +119,20 @@ public class T3362 {
         return t1.get();
     }
 
+    /**
+     * 不断向分组中存进车辆
+     *
+     * @param res 分组
+     * @param h 车辆
+     */
+    private static void pushCar(SeqLoopDeQueue<SeqLoopQueue<Character>> res, Character h) {
+        var tail = res.getTail().filter(elem -> !elem.queueOverFlow()).orElseGet(() -> {
+            var resItem = new SeqLoopQueue<Character>(11);
+            res.enQueue(resItem);
+            return resItem;
+        });
+        tail.enQueue(h);
+    }
 
     /**
      * 重排客车(K)与货车(H)
@@ -125,31 +141,32 @@ public class T3362 {
      * @param str 客车和货车的排队顺序
      * @return 重排后的结果, 组与组之间用 "; " 分割, 辆与辆之间用 ", " 分割
      */
-//    public static String t4(String str) {
-//        int length = str.length();
-//
-//        var hQueue = new SeqLoopQueue<Character>(length + 1);
-//
-//        var res = new SeqLoopQueue<SeqLoopQueue<Character>>(length / 10 + 2);
-//        var resItem = new SeqLoopQueue<Character>(10 + 1);
-//        for (int i = 0; i < length; i++) {
-//            if (resItem.queueOverFlow()) {
-//                res.enQueue(resItem);
-//                resItem = new SeqLoopQueue<>(10 + 1);
-//            }
-//
-//            if (i % 5 == 0) {
-//                var t = res.getHead();
-//                hQueue.deQueue().ifPresent(elem -> t.get().getValue().enQueue(elem.getValue()));
-//            }
-//            var c = str.charAt(i);
-//            switch (c) {
-//                case 'H':
-//                    hQueue.enQueue(c);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    }
+    public static SeqLoopDeQueue<SeqLoopQueue<Character>> t4(String str) {
+        int length = str.length();
+
+        var hQueue = new SeqLoopQueue<Character>(length + 1);
+        var res = new SeqLoopDeQueue<SeqLoopQueue<Character>>(length / 10 + 1);
+
+        int j = 1;
+        for (int i = 0; i < length; i++) {
+            if (j % 5 == 0) {
+                hQueue.deQueue().ifPresent(h -> pushCar(res, h));
+                j = 1;
+            }
+
+            var c = str.charAt(i);
+            if (c == 'H') {
+                hQueue.enQueue(c);
+            } else {
+                pushCar(res, c);
+                j++;
+            }
+        }
+
+        while (!hQueue.queueEmpty()) {
+            hQueue.deQueue().ifPresent(h -> pushCar(res, h));
+        }
+
+        return res;
+    }
 }

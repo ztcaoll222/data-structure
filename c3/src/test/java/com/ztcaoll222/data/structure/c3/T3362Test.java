@@ -33,4 +33,11 @@ class T3362Test {
         assertEquals(2, T3362.t3(1, 1));
         assertEquals(-20, T3362.t3(4, 1));
     }
+
+    @Test
+    void t4() {
+        var res = T3362.t4("HKHKHKHKHKKKKHHHHHHHHHHK");
+        assertEquals("K, K, K, K, H, K, K, K, K, H; K, H, H, H, H, H, H, H, H, H",
+                res.toString("; "));
+    }
 }
