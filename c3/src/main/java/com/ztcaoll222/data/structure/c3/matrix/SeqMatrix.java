@@ -1,9 +1,10 @@
 package com.ztcaoll222.data.structure.c3.matrix;
 
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
-import com.ztcaoll222.data.structure.base.func.FunctionOneVoid;
-import com.ztcaoll222.data.structure.base.func.FunctionThreeVoid;
+import com.ztcaoll222.data.structure.c3.abs.AbstractMatrix;
 import lombok.Getter;
+
+import java.util.Optional;
 
 /**
  * 矩阵
@@ -11,15 +12,9 @@ import lombok.Getter;
  * @author ztcaoll222
  * Create time: 2019/10/30 21:55
  */
-public class SeqMatrix<T> {
-    /**
-     * 宽
-     */
+public class SeqMatrix<T> extends AbstractMatrix<SeqElem<T>, T> {
     @Getter
     private final int n;
-    /**
-     * 长
-     */
     @Getter
     private final int m;
     private SeqElem<T>[] data;
@@ -30,15 +25,22 @@ public class SeqMatrix<T> {
         this.data = new SeqElem[n * m];
     }
 
-    public int getMaxSize() {
-        return n * m;
-    }
-
     private int getK(int i, int j) {
         return (i - 1) * m + j - 1;
     }
 
-    private boolean put(int i, int j, SeqElem<T> elem) {
+    @Override
+    protected Optional<SeqElem<T>> getElem(int i, int j) {
+        if (m < i || n < j) {
+            return Optional.empty();
+        }
+
+        int k = getK(i, j);
+        return Optional.ofNullable(data[k]);
+    }
+
+    @Override
+    protected boolean put(int i, int j, SeqElem<T> elem) {
         if (m < i || n < j) {
             return false;
         }
@@ -49,44 +51,8 @@ public class SeqMatrix<T> {
         return true;
     }
 
+    @Override
     public boolean put(int i, int j, T value) {
         return put(i, j, new SeqElem<>(value));
-    }
-
-    public void forEach(FunctionThreeVoid<Integer, Integer, SeqElem<T>> funcJ, FunctionOneVoid<Integer> funcI) {
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                int k = getK(i + 1, j + 1);
-                var elem = data[k];
-                if (funcJ != null) {
-                    funcJ.execute(i + 1, j + 1, elem);
-                }
-            }
-            if (funcI != null) {
-                funcI.execute(i);
-            }
-        }
-    }
-
-    public String toString(String delimiter, String branch) {
-        var sb = new StringBuilder();
-        forEach((i, j, elem) -> {
-            if (elem == null) {
-                sb.append(0);
-            } else {
-                sb.append(elem.getValue());
-            }
-            sb.append(delimiter);
-        }, i->{
-            sb.setLength(sb.length() - 2);
-            sb.append(branch);
-        });
-        sb.setLength(sb.length() - 2);
-        return sb.toString();
-    }
-
-    @Override
-    public String toString() {
-        return toString(", ", ";\n");
     }
 }

@@ -6,17 +6,32 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Flogger
-class TridiagonalMatrixTest {
+class TridiagonalSeqMatrixTest {
 
     @Test
     void getN() {
-        var matrix = new TridiagonalMatrix<>(3, 3);
+        var matrix = new TridiagonalSeqMatrix<>(3, 3);
         assertEquals(3, matrix.getN());
     }
 
     @Test
+    void get() {
+        var matrix = new TridiagonalSeqMatrix<>(4, 3);
+        var value = matrix.get(9, 9);
+        assertTrue(value.isEmpty());
+
+        value = matrix.get(1, 1);
+        assertTrue(value.isEmpty());
+
+        assertTrue(matrix.put(1, 1, 5));
+        value = matrix.get(1, 1);
+        assertTrue(value.isPresent());
+        assertEquals(5, value.get());
+    }
+
+    @Test
     void put() {
-        var matrix = new TridiagonalMatrix<>(3, 3);
+        var matrix = new TridiagonalSeqMatrix<>(3, 3);
         assertFalse(matrix.put(1, 4, 2));
         assertFalse(matrix.put(4, 1, 2));
 
@@ -35,7 +50,7 @@ class TridiagonalMatrixTest {
 
     @Test
     void testToString() {
-        var matrix = new TridiagonalMatrix<>(3, 3);
+        var matrix = new TridiagonalSeqMatrix<>(3, 3);
 
         assertTrue(matrix.put(1, 1, 2));
         assertTrue(matrix.put(1, 2, 2));

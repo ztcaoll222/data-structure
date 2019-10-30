@@ -9,9 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class SeqMatrixTest {
 
     @Test
-    void getMaxSize() {
+    void get() {
         var matrix = new SeqMatrix<Integer>(4, 3);
-        assertEquals(12, matrix.getMaxSize());
+        var value = matrix.get(9, 9);
+        assertTrue(value.isEmpty());
+
+        value = matrix.get(1, 1);
+        assertTrue(value.isEmpty());
+
+        assertTrue(matrix.put(1, 1, 5));
+        value = matrix.get(1, 1);
+        assertTrue(value.isPresent());
+        assertEquals(5, value.get());
     }
 
     @Test
