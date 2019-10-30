@@ -1,6 +1,9 @@
 package com.ztcaoll222.data.structure.c3.matrix;
 
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
+import com.ztcaoll222.data.structure.base.func.FunctionOneVoid;
+import com.ztcaoll222.data.structure.base.func.FunctionThreeVoid;
+import lombok.Getter;
 
 /**
  * 矩阵
@@ -12,10 +15,12 @@ public class SeqMatrix<T> {
     /**
      * 宽
      */
+    @Getter
     private final int n;
     /**
      * 长
      */
+    @Getter
     private final int m;
     private SeqElem<T>[] data;
 
@@ -48,22 +53,34 @@ public class SeqMatrix<T> {
         return put(i, j, new SeqElem<>(value));
     }
 
-    public String toString(String delimiter, String branch) {
-        var sb = new StringBuilder();
+    public void forEach(FunctionThreeVoid<Integer, Integer, SeqElem<T>> funcJ, FunctionOneVoid<Integer> funcI) {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 int k = getK(i + 1, j + 1);
                 var elem = data[k];
-                if (elem == null) {
-                    sb.append(0);
-                } else {
-                    sb.append(elem.getValue());
+                if (funcJ != null) {
+                    funcJ.execute(i + 1, j + 1, elem);
                 }
-                sb.append(delimiter);
             }
+            if (funcI != null) {
+                funcI.execute(i);
+            }
+        }
+    }
+
+    public String toString(String delimiter, String branch) {
+        var sb = new StringBuilder();
+        forEach((i, j, elem) -> {
+            if (elem == null) {
+                sb.append(0);
+            } else {
+                sb.append(elem.getValue());
+            }
+            sb.append(delimiter);
+        }, i->{
             sb.setLength(sb.length() - 2);
             sb.append(branch);
-        }
+        });
         sb.setLength(sb.length() - 2);
         return sb.toString();
     }
