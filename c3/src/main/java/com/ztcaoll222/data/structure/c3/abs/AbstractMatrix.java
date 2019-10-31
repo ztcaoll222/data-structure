@@ -12,6 +12,13 @@ import java.util.Optional;
  * Create time: 2019/10/31 20:58
  */
 public abstract class AbstractMatrix<B extends Elem<T>, T> implements Matrix<T> {
+    /**
+     * 获得第 i 行, 第 j 列的元素
+     *
+     * @param i 行号, 从 1 开始数
+     * @param j 列号, 从 1 开始数
+     * @return 元素
+     */
     protected abstract Optional<B> getElem(int i, int j);
 
     @Override
@@ -19,6 +26,14 @@ public abstract class AbstractMatrix<B extends Elem<T>, T> implements Matrix<T> 
         return getElem(i, j).map(B::getValue);
     }
 
+    /**
+     * 在第 i 行, 第 j 列放入元素
+     *
+     * @param i    行号, 从 1 开始数
+     * @param j    列号, 从 1 开始数
+     * @param elem 元素
+     * @return 成功返回 true, 否则 false
+     */
     protected abstract boolean put(int i, int j, B elem);
 
     @Override
@@ -40,6 +55,14 @@ public abstract class AbstractMatrix<B extends Elem<T>, T> implements Matrix<T> 
         }
     }
 
+    /**
+     * 转为字符串
+     *
+     * @param delimiter 列与列之间的分隔符
+     * @param branch    行与行之间的分隔符
+     * @param nullValue 如果某个元素为空, 那么放入的数据
+     * @return 字符串
+     */
     protected String toString(String delimiter, String branch, String nullValue) {
         if (getM() == 0 || getN() == 0) {
             return "";
@@ -53,7 +76,7 @@ public abstract class AbstractMatrix<B extends Elem<T>, T> implements Matrix<T> 
                 sb.append(value);
             }
             sb.append(delimiter);
-        }, i->{
+        }, i -> {
             sb.setLength(sb.length() - 2);
             sb.append(branch);
         });

@@ -11,6 +11,4 @@ public abstract class AbstractSquareMatrix<B extends Elem<T>, T> extends Abstrac
     public int getM() {
         return getN();
     }
-
-    protected abstract int getK(int i, int j);
 }
