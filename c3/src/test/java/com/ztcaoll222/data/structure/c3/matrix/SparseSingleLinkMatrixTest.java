@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Flogger
 class SparseSingleLinkMatrixTest {
-    private SeqMatrix<Integer> matrix = new SeqMatrix<>(4, 3);
+    private SequenceMatrix<Integer> matrix = new SequenceMatrix<>(4, 3);
 
     @BeforeEach
     void setUp() {

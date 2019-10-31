@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Flogger
-class SeqMatrixTest {
+class SequenceMatrixTest {
 
     @Test
     void get() {
-        var matrix = new SeqMatrix<Integer>(4, 3);
+        var matrix = new SequenceMatrix<Integer>(4, 3);
         var value = matrix.get(9, 9);
         assertTrue(value.isEmpty());
 
@@ -25,7 +25,7 @@ class SeqMatrixTest {
 
     @Test
     void put() {
-        var matrix = new SeqMatrix<Integer>(4, 3);
+        var matrix = new SequenceMatrix<Integer>(4, 3);
         assertFalse(matrix.put(1, 5, 2));
         assertFalse(matrix.put(5, 1, 2));
 
@@ -43,7 +43,7 @@ class SeqMatrixTest {
 
     @Test
     void testToString() {
-        var matrix = new SeqMatrix<Integer>(4, 3);
+        var matrix = new SequenceMatrix<Integer>(4, 3);
 
         assertTrue(matrix.put(1, 1, 2));
         assertTrue(matrix.put(2, 1, 2));

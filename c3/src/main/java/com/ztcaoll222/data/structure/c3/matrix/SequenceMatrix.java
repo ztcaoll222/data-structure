@@ -12,14 +12,14 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/30 21:55
  */
-public class SeqMatrix<T> extends AbstractMatrix<SeqElem<T>, T> {
+public class SequenceMatrix<T> extends AbstractMatrix<SeqElem<T>, T> {
     @Getter
     private final int n;
     @Getter
     private final int m;
     private SeqElem<T>[] data;
 
-    public SeqMatrix(int n, int m) {
+    public SequenceMatrix(int n, int m) {
         this.n = n;
         this.m = m;
         this.data = new SeqElem[n * m];
