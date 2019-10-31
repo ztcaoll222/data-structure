@@ -27,7 +27,7 @@ public class TridiagonalSeqMatrix<T> extends AbstractSeqSquareMatrix<SeqElem<T>,
     }
 
     @Override
-    protected int getK(int i, int j) {
+    public int getK(int i, int j) {
         int k;
         if (Math.abs(i - j) > 1) {
             k = this.maxSize;

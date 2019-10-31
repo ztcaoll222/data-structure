@@ -27,7 +27,7 @@ public class TriangularSeqUpMatrix<T> extends AbstractSeqSquareMatrix<SeqElem<T>
     }
 
     @Override
-    protected int getK(int i, int j) {
+    public int getK(int i, int j) {
         int n = getN();
         int k;
         if (i > j) {

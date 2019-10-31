@@ -2,6 +2,7 @@ package com.ztcaoll222.data.structure.c3.matrix;
 
 import com.ztcaoll222.data.structure.base.entity.SeqElem;
 import com.ztcaoll222.data.structure.c3.abs.AbstractMatrix;
+import com.ztcaoll222.data.structure.c3.interfaces.SeqMatrix;
 import lombok.Getter;
 
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.Optional;
  * @author ztcaoll222
  * Create time: 2019/10/30 21:55
  */
-public class SequenceMatrix<T> extends AbstractMatrix<SeqElem<T>, T> {
+public class SequenceMatrix<T> extends AbstractMatrix<SeqElem<T>, T> implements SeqMatrix {
     @Getter
     private final int n;
     @Getter
@@ -25,7 +26,8 @@ public class SequenceMatrix<T> extends AbstractMatrix<SeqElem<T>, T> {
         this.data = new SeqElem[n * m];
     }
 
-    private int getK(int i, int j) {
+    @Override
+    public int getK(int i, int j) {
         return (i - 1) * m + j - 1;
     }
 
