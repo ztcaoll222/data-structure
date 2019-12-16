@@ -1,7 +1,7 @@
 package com.ztcaoll222.data.structure.c2.tools;
 
-import com.ztcaoll222.data.structure.c2.entity.SingleNode;
 import com.ztcaoll222.data.structure.base.func.FunctionThreeOne;
+import com.ztcaoll222.data.structure.c2.entity.SingleNode;
 import lombok.extern.flogger.Flogger;
 
 /**
@@ -135,5 +135,24 @@ public class Sorts {
         var right = mergeSort(walker, func, endSignal);
 
         return func.execute(left, right, endSignal);
+    }
+
+    /**
+     * 冒泡排序
+     *
+     * @param list 数组
+     */
+    public static int[] bubbleSort(int... list) {
+        for (int i = 0; i < list.length - 1; i++) {
+            for (int j = 0; j < list.length - 1 - i; j++) {
+                int current = list[j];
+                int next = list[j + 1];
+                if (current > next) {
+                    list[j + 1] = current;
+                    list[j] = next;
+                }
+            }
+        }
+        return list;
     }
 }
